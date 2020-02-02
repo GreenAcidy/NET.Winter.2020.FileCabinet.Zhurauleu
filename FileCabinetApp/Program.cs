@@ -113,11 +113,19 @@ namespace FileCabinetApp
             var lastName = Console.ReadLine();
             Console.Write("Date of birth: ");
             var dataOfBirth = Console.ReadLine();
+
+            Console.Write("Gender: ");
+            var gender = (char)Console.Read();
+            Console.Write("Expirience: ");
+            var expirience = (short)Console.Read();
+            Console.Write("Account: ");
+            var account = (decimal)Console.Read();
+
             DateTime date;
             CultureInfo iOCultureFormat = new CultureInfo("en-US");
             DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
 
-            var index = fileCabinetService.CreateRecord(firstName, lastName, date);
+            var index = fileCabinetService.CreateRecord(firstName, lastName, date, gender, expirience, account);
             Console.WriteLine($"Record #{index} is created.");
         }
 
@@ -126,7 +134,7 @@ namespace FileCabinetApp
             var records = fileCabinetService.GetRecords();
             foreach (var record in records)
             {
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()},");
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
             }
         }
 
