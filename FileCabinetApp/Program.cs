@@ -107,26 +107,34 @@ namespace FileCabinetApp
 
         private static void Create(string parametrs)
         {
-            Console.Write("First name: ");
-            var firstName = Console.ReadLine();
-            Console.Write("Last name: ");
-            var lastName = Console.ReadLine();
-            Console.Write("Date of birth: ");
-            var dataOfBirth = Console.ReadLine();
+            try
+            {
+                Console.Write("First name: ");
+                var firstName = Console.ReadLine();
+                Console.Write("Last name: ");
+                var lastName = Console.ReadLine();
+                Console.Write("Date of birth: ");
+                var dataOfBirth = Console.ReadLine();
 
-            Console.Write("Gender: ");
-            var gender = Convert.ToChar(Console.ReadLine());
-            Console.Write("Expirience: ");
-            var expirience = Convert.ToInt16(Console.ReadLine());
-            Console.Write("Account: ");
-            var account = Convert.ToDecimal(Console.ReadLine());
+                Console.Write("Gender: ");
+                var gender = Convert.ToChar(Console.ReadLine());
+                Console.Write("Expirience: ");
+                var expirience = Convert.ToInt16(Console.ReadLine());
+                Console.Write("Account: ");
+                var account = Convert.ToDecimal(Console.ReadLine());
 
-            DateTime date;
-            CultureInfo iOCultureFormat = new CultureInfo("en-US");
-            DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+                DateTime date;
+                CultureInfo iOCultureFormat = new CultureInfo("en-US");
+                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
 
-            var index = fileCabinetService.CreateRecord(firstName, lastName, date, gender, expirience, account);
-            Console.WriteLine($"Record #{index} is created.");
+                var index = fileCabinetService.CreateRecord(firstName, lastName, date, gender, expirience, account);
+                Console.WriteLine($"Record #{index} is created.");
+            }
+            catch
+            {
+                Console.WriteLine("Incorrectly entered data. Repeat entry again");
+                Create(parametrs);
+            }
         }
 
         private static void List(string parametrs)
