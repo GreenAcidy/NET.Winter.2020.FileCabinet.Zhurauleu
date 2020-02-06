@@ -19,6 +19,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
+            new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("exit", Exit),
         };
@@ -28,6 +29,7 @@ namespace FileCabinetApp
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
             new string[] { "create", "receive user input and and create new record.", "The 'exit' command receive user input and create new record." },
+            new string[] { "edit", "modifies existing records", "The 'exit' command modifies existing records." },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
@@ -134,6 +136,45 @@ namespace FileCabinetApp
             {
                 Console.WriteLine("Incorrectly entered data. Repeat entry again");
                 Create(parametrs);
+            }
+        }
+
+        private static void Edit(string parametrs)
+        {
+            var id = Convert.ToInt32(Console.ReadLine());
+            if (Program.fileCabinetService.GetStat() < id)
+            {
+                Console.WriteLine("#id record is not found.");
+                Edit(parametrs);
+            }
+
+            try
+            {
+                Console.Write("First name: ");
+                var firstName = Console.ReadLine();
+                Console.Write("Last name: ");
+                var lastName = Console.ReadLine();
+                Console.Write("Date of birth: ");
+                var dataOfBirth = Console.ReadLine();
+
+                Console.Write("Gender: ");
+                var gender = Convert.ToChar(Console.ReadLine());
+                Console.Write("Expirience: ");
+                var expirience = Convert.ToInt16(Console.ReadLine());
+                Console.Write("Account: ");
+                var account = Convert.ToDecimal(Console.ReadLine());
+
+                DateTime date;
+                CultureInfo iOCultureFormat = new CultureInfo("en-US");
+                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+
+                fileCabinetService.EditRecord(id, firstName, lastName, date, gender, expirience, account);
+                Console.WriteLine($"Record #{id} is updated.");
+            }
+            catch
+            {
+                Console.WriteLine("Incorrectly entered data. Repeat entry again");
+                Edit(parametrs);
             }
         }
 
