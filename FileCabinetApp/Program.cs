@@ -115,11 +115,11 @@ namespace FileCabinetApp
             var dataOfBirth = Console.ReadLine();
 
             Console.Write("Gender: ");
-            var gender = (char)Console.Read();
+            var gender = Convert.ToChar(Console.ReadLine());
             Console.Write("Expirience: ");
-            var expirience = (short)Console.Read();
+            var expirience = Convert.ToInt16(Console.ReadLine());
             Console.Write("Account: ");
-            var account = (decimal)Console.Read();
+            var account = Convert.ToDecimal(Console.ReadLine());
 
             DateTime date;
             CultureInfo iOCultureFormat = new CultureInfo("en-US");
