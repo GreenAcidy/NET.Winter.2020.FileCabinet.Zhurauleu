@@ -180,12 +180,21 @@ namespace FileCabinetApp
             }
         }
 
-        private static void Find( string parametrs, string property)
+        private static void Find(string parametrs, string property)
         {
             if (parametrs.ToUpper() == "FIRSTNAME")
             {
                 var firstName = Console.ReadLine();
                 var records = fileCabinetService.FindByFirstName(firstName);
+                foreach (var record in records)
+                {
+                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                }
+            }
+            else if (parametrs.ToUpper() == "LASTNAME")
+            {
+                var lastName = Console.ReadLine();
+                var records = fileCabinetService.FindByLastName(lastName);
 
                 foreach (var record in records)
                 {
@@ -193,25 +202,15 @@ namespace FileCabinetApp
                 }
             }
 
-            /* if (property.ToUpper() == "LASTNAME")
-             {
-                 var records = fileCabinetService.FindByFirstName(parametrs);
+            /*if (property.ToUpper() == "DATEOFBIRTH")
+            {
+                var records = fileCabinetService.FindByFirstName(parametrs);
 
-                 foreach (var record in records)
-                 {
-                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
-                 }
-             }
-
-             if (property.ToUpper() == "DATEOFBIRTH")
-             {
-                 var records = fileCabinetService.FindByFirstName(parametrs);
-
-                 foreach (var record in records)
-                 {
-                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
-                 }
-             }*/
+                foreach (var record in records)
+                {
+                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                }
+            }*/
         }
 
         private static void List(string parametrs, string filler = "")

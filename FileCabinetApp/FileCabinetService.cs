@@ -170,6 +170,20 @@ namespace FileCabinetApp
             return result.ToArray();
         }
 
+        public FileCabinetRecord[] FindByLastName(string lastName)
+        {
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            foreach (var obj in this.list)
+            {
+                if (obj.LastName == lastName)
+                {
+                    result.Add(obj);
+                }
+            }
+
+            return result.ToArray();
+        }
+
         public FileCabinetRecord[] GetRecords()
         {
             return this.list.ToArray();
