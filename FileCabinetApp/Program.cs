@@ -14,14 +14,15 @@ namespace FileCabinetApp
 
         private static bool isRunning = true;
 
-        private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
+        private static Tuple<string, Action<string, string>>[] commands = new Tuple<string, Action<string, string>>[]
         {
-            new Tuple<string, Action<string>>("help", PrintHelp),
-            new Tuple<string, Action<string>>("stat", Stat),
-            new Tuple<string, Action<string>>("create", Create),
-            new Tuple<string, Action<string>>("edit", Edit),
-            new Tuple<string, Action<string>>("list", List),
-            new Tuple<string, Action<string>>("exit", Exit),
+            new Tuple<string, Action<string, string>>("help", PrintHelp),
+            new Tuple<string, Action<string, string>>("stat", Stat),
+            new Tuple<string, Action<string, string>>("create", Create),
+            new Tuple<string, Action<string, string>>("edit", Edit),
+            new Tuple<string, Action<string, string>>("find", Find),
+            new Tuple<string, Action<string, string>>("list", List),
+            new Tuple<string, Action<string, string>>("exit", Exit),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -30,6 +31,7 @@ namespace FileCabinetApp
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
             new string[] { "create", "receive user input and and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "edit", "modifies existing records", "The 'exit' command modifies existing records." },
+            new string[] { "find", "finds records by criterion ", "The 'exit' command finds records by criterion." },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
@@ -58,7 +60,7 @@ namespace FileCabinetApp
                 {
                     const int parametersIndex = 1;
                     var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
-                    commands[index].Item2(parameters);
+                    commands[index].Item2(parameters, " ");
                 }
                 else
                 {
@@ -74,7 +76,7 @@ namespace FileCabinetApp
             Console.WriteLine();
         }
 
-        private static void PrintHelp(string parameters)
+        private static void PrintHelp(string parameters, string filler = "")
         {
             if (!string.IsNullOrEmpty(parameters))
             {
@@ -101,13 +103,13 @@ namespace FileCabinetApp
             Console.WriteLine();
         }
 
-        private static void Stat(string parameters)
+        private static void Stat(string parameters, string filler = "")
         {
             var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
         }
 
-        private static void Create(string parametrs)
+        private static void Create(string parametrs, string filler = "")
         {
             try
             {
@@ -139,7 +141,7 @@ namespace FileCabinetApp
             }
         }
 
-        private static void Edit(string parametrs)
+        private static void Edit(string parametrs, string filler = "")
         {
             var id = Convert.ToInt32(Console.ReadLine());
             if (Program.fileCabinetService.GetStat() < id)
@@ -178,7 +180,41 @@ namespace FileCabinetApp
             }
         }
 
-        private static void List(string parametrs)
+        private static void Find( string parametrs, string property)
+        {
+            if (parametrs.ToUpper() == "FIRSTNAME")
+            {
+                var firstName = Console.ReadLine();
+                var records = fileCabinetService.FindByFirstName(firstName);
+
+                foreach (var record in records)
+                {
+                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                }
+            }
+
+            /* if (property.ToUpper() == "LASTNAME")
+             {
+                 var records = fileCabinetService.FindByFirstName(parametrs);
+
+                 foreach (var record in records)
+                 {
+                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                 }
+             }
+
+             if (property.ToUpper() == "DATEOFBIRTH")
+             {
+                 var records = fileCabinetService.FindByFirstName(parametrs);
+
+                 foreach (var record in records)
+                 {
+                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                 }
+             }*/
+        }
+
+        private static void List(string parametrs, string filler = "")
         {
             var records = fileCabinetService.GetRecords();
             foreach (var record in records)
@@ -187,7 +223,7 @@ namespace FileCabinetApp
             }
         }
 
-        private static void Exit(string parameters)
+        private static void Exit(string parameters, string filler = "")
         {
             Console.WriteLine("Exiting an application...");
             isRunning = false;

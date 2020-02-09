@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FileCabinetApp
 {
@@ -152,8 +153,21 @@ namespace FileCabinetApp
                 Experience = expirience,
                 Account = account,
             };
-            this.list.RemoveAt(id - 1);
-            this.list.Insert(id - 1, record);
+            this.list[id - 1] = record;
+        }
+
+        public FileCabinetRecord[] FindByFirstName(string firstName)
+        {
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            foreach (var obj in this.list)
+            {
+                if (obj.FirstName == firstName)
+                {
+                    result.Add(obj);
+                }
+            }
+
+            return result.ToArray();
         }
 
         public FileCabinetRecord[] GetRecords()
