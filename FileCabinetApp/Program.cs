@@ -195,7 +195,6 @@ namespace FileCabinetApp
             }
             else if (string.Compare(property[0], "lastname", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                var lastName = Console.ReadLine();
                 var records = fileCabinetService.FindByLastName(property[1]);
 
                 foreach (var record in records)

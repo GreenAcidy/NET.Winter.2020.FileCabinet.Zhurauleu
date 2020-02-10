@@ -8,8 +8,10 @@ namespace FileCabinetApp
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
 
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, short expirience, decimal account)
         {
@@ -81,8 +83,10 @@ namespace FileCabinetApp
 
             this.list.Add(record);
             this.listFirstName.Add(record);
+            this.listLastName.Add(record);
 
             this.firstNameDictionary.Add(firstName, this.listFirstName);
+            this.lastNameDictionary.Add(lastName, this.listLastName);
 
             return record.Id;
         }
@@ -160,6 +164,12 @@ namespace FileCabinetApp
                 Account = account,
             };
             this.list[id - 1] = record;
+
+            this.listFirstName.Add(this.list[id - 1]);
+            this.listLastName.Add(this.list[id - 1]);
+
+            this.firstNameDictionary.Add(firstName, this.listFirstName);
+            this.lastNameDictionary.Add(lastName, this.listLastName);
         }
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
@@ -173,13 +183,7 @@ namespace FileCabinetApp
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            foreach (var obj in this.list)
-            {
-                if (obj.LastName == lastName)
-                {
-                    result.Add(obj);
-                }
-            }
+            this.lastNameDictionary.TryGetValue(lastName, out result);
 
             return result.ToArray();
         }
