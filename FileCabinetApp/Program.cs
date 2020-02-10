@@ -14,15 +14,15 @@ namespace FileCabinetApp
 
         private static bool isRunning = true;
 
-        private static Tuple<string, Action<string, string>>[] commands = new Tuple<string, Action<string, string>>[]
+        private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
         {
-            new Tuple<string, Action<string, string>>("help", PrintHelp),
-            new Tuple<string, Action<string, string>>("stat", Stat),
-            new Tuple<string, Action<string, string>>("create", Create),
-            new Tuple<string, Action<string, string>>("edit", Edit),
-            new Tuple<string, Action<string, string>>("find", Find),
-            new Tuple<string, Action<string, string>>("list", List),
-            new Tuple<string, Action<string, string>>("exit", Exit),
+            new Tuple<string, Action<string>>("help", PrintHelp),
+            new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
+            new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("find", Find),
+            new Tuple<string, Action<string>>("list", List),
+            new Tuple<string, Action<string>>("exit", Exit),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -60,7 +60,7 @@ namespace FileCabinetApp
                 {
                     const int parametersIndex = 1;
                     var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
-                    commands[index].Item2(parameters, " ");
+                    commands[index].Item2(parameters);
                 }
                 else
                 {
@@ -76,7 +76,7 @@ namespace FileCabinetApp
             Console.WriteLine();
         }
 
-        private static void PrintHelp(string parameters, string filler = "")
+        private static void PrintHelp(string parameters)
         {
             if (!string.IsNullOrEmpty(parameters))
             {
@@ -103,13 +103,13 @@ namespace FileCabinetApp
             Console.WriteLine();
         }
 
-        private static void Stat(string parameters, string filler = "")
+        private static void Stat(string parameters)
         {
             var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
         }
 
-        private static void Create(string parametrs, string filler = "")
+        private static void Create(string parametrs)
         {
             try
             {
@@ -141,9 +141,9 @@ namespace FileCabinetApp
             }
         }
 
-        private static void Edit(string parametrs, string filler = "")
+        private static void Edit(string parametrs)
         {
-            var id = Convert.ToInt32(Console.ReadLine());
+            var id = Convert.ToInt32(parametrs);
             if (Program.fileCabinetService.GetStat() < id)
             {
                 Console.WriteLine("#id record is not found.");
@@ -180,40 +180,48 @@ namespace FileCabinetApp
             }
         }
 
-        private static void Find(string parametrs, string property)
+        private static void Find(string parametrs)
         {
-            if (parametrs.ToUpper() == "FIRSTNAME")
+            Console.WriteLine(parametrs);
+            string[] property = parametrs.Split(' ');
+
+            if (string.Compare(property[0], "firstname", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                var firstName = Console.ReadLine();
-                var records = fileCabinetService.FindByFirstName(firstName);
+                var records = fileCabinetService.FindByFirstName(property[1]);
                 foreach (var record in records)
                 {
                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
                 }
             }
-            else if (parametrs.ToUpper() == "LASTNAME")
+            else if (string.Compare(property[0], "lastname", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 var lastName = Console.ReadLine();
-                var records = fileCabinetService.FindByLastName(lastName);
+                var records = fileCabinetService.FindByLastName(property[1]);
 
                 foreach (var record in records)
                 {
                     Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
                 }
             }
-
-            /*if (property.ToUpper() == "DATEOFBIRTH")
+            else if (string.Compare(property[0], "DayOfBirth", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                var records = fileCabinetService.FindByFirstName(parametrs);
+                DateTime date;
+                CultureInfo iOCultureFormat = new CultureInfo("en-US");
+                DateTime.TryParse(property[1], iOCultureFormat, DateTimeStyles.None, out date);
+                var records = fileCabinetService.FindByDateOfBirth(date);
 
                 foreach (var record in records)
                 {
-                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                    Console.WriteLine(record.ToString());
                 }
-            }*/
+            }
+            else
+            {
+                Console.WriteLine("Incorrect property. Please, try again");
+            }
         }
 
-        private static void List(string parametrs, string filler = "")
+        private static void List(string parametrs)
         {
             var records = fileCabinetService.GetRecords();
             foreach (var record in records)
@@ -222,7 +230,7 @@ namespace FileCabinetApp
             }
         }
 
-        private static void Exit(string parameters, string filler = "")
+        private static void Exit(string parameters)
         {
             Console.WriteLine("Exiting an application...");
             isRunning = false;
