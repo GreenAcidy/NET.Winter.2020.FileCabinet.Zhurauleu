@@ -190,7 +190,7 @@ namespace FileCabinetApp
                 var records = fileCabinetService.FindByFirstName(property[1]);
                 foreach (var record in records)
                 {
-                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                    Console.WriteLine(record.ToString());
                 }
             }
             else if (string.Compare(property[0], "lastname", StringComparison.OrdinalIgnoreCase) == 0)
@@ -199,7 +199,7 @@ namespace FileCabinetApp
 
                 foreach (var record in records)
                 {
-                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                    Console.WriteLine(record.ToString());
                 }
             }
             else if (string.Compare(property[0], "DayOfBirth", StringComparison.OrdinalIgnoreCase) == 0)

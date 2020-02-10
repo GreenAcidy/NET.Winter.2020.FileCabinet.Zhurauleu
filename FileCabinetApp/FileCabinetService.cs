@@ -9,9 +9,11 @@ namespace FileCabinetApp
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listDateOfBirth = new List<FileCabinetRecord>();
 
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, short expirience, decimal account)
         {
@@ -84,9 +86,11 @@ namespace FileCabinetApp
             this.list.Add(record);
             this.listFirstName.Add(record);
             this.listLastName.Add(record);
+            this.listDateOfBirth.Add(record);
 
             this.firstNameDictionary.Add(firstName, this.listFirstName);
             this.lastNameDictionary.Add(lastName, this.listLastName);
+            this.dateOfBirthDictionary.Add(dateOfBirth, this.listDateOfBirth);
 
             return record.Id;
         }
@@ -167,9 +171,11 @@ namespace FileCabinetApp
 
             this.listFirstName.Add(this.list[id - 1]);
             this.listLastName.Add(this.list[id - 1]);
+            this.listDateOfBirth.Add(this.list[id - 1]);
 
             this.firstNameDictionary.Add(firstName, this.listFirstName);
             this.lastNameDictionary.Add(lastName, this.listLastName);
+            this.dateOfBirthDictionary.Add(dateOfBirth, this.listDateOfBirth);
         }
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
@@ -191,13 +197,7 @@ namespace FileCabinetApp
         public FileCabinetRecord[] FindByDateOfBirth(DateTime dateOfBirth)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            foreach (var obj in this.list)
-            {
-                if (obj.DateOfBirth == dateOfBirth)
-                {
-                    result.Add(obj);
-                }
-            }
+            this.dateOfBirthDictionary.TryGetValue(dateOfBirth, out result);
 
             return result.ToArray();
         }
