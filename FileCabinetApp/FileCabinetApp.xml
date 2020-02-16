@@ -4,6 +4,28 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.FileCabinetCustomService">
+            <summary>
+            Class FileCabinetDefaultService contains custom methods of validation input data.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetCustomService.ValidateParameters(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Valides input data.
+            </summary>
+            <param name="inputData">input data.</param>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetDefaultService">
+            <summary>
+            Class FileCabinetDefaultService contains default methods of validation input data.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetDefaultService.ValidateParameters(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Valides input data.
+            </summary>
+            <param name="inputData">input data.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetInputData">
             <summary>
             Class FileCabinetRecord contain input data of people.
@@ -181,6 +203,12 @@
             Method return count of records.
             </summary>
             <returns>count of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Validate input data.
+            </summary>
+            <param name="inputData">input data.</param>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>

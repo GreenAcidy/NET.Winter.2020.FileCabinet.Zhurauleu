@@ -7,7 +7,7 @@ namespace FileCabinetApp
     /// <summary>
     /// Class FileCabinetService contain methods for working with FileCabinetRecord.
     /// </summary>
-    public class FileCabinetService
+    public abstract class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
@@ -25,6 +25,12 @@ namespace FileCabinetApp
         /// <returns>id of new record.</returns>
         public int CreateRecord(FileCabinetInputData inputData)
         {
+            if (inputData is null)
+            {
+                throw new ArgumentNullException(nameof(inputData), "must not be null");
+            }
+
+            this.ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
@@ -55,6 +61,12 @@ namespace FileCabinetApp
         /// <param name="inputData">input data.</param>
         public void EditRecord(int id, FileCabinetInputData inputData)
         {
+            if (inputData is null)
+            {
+                throw new ArgumentNullException(nameof(inputData), "must not be null");
+            }
+
+            this.ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = id,
@@ -132,5 +144,11 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
+
+        /// <summary>
+        /// Validate input data.
+        /// </summary>
+        /// <param name="inputData">input data.</param>
+        protected abstract void ValidateParameters(FileCabinetInputData inputData);
     }
 }
