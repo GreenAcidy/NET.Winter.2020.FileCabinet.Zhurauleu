@@ -17,5 +17,11 @@ namespace FileCabinetApp
         public short Experience { get; set; }
 
         public decimal Account { get; set; }
+
+        public override string ToString()
+        {
+            return $"#{this.Id}, {this.FirstName}, {this.LastName}, {this.DateOfBirth.ToLongDateString()}, " +
+                   $"{this.Gender}, {this.Experience}, {this.Account}";
+        }
     }
 }

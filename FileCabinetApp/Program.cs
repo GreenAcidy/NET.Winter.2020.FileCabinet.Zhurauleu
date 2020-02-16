@@ -14,15 +14,15 @@ namespace FileCabinetApp
 
         private static bool isRunning = true;
 
-        private static Tuple<string, Action<string, string>>[] commands = new Tuple<string, Action<string, string>>[]
+        private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
         {
-            new Tuple<string, Action<string, string>>("help", PrintHelp),
-            new Tuple<string, Action<string, string>>("stat", Stat),
-            new Tuple<string, Action<string, string>>("create", Create),
-            new Tuple<string, Action<string, string>>("edit", Edit),
-            new Tuple<string, Action<string, string>>("find", Find),
-            new Tuple<string, Action<string, string>>("list", List),
-            new Tuple<string, Action<string, string>>("exit", Exit),
+            new Tuple<string, Action<string>>("help", PrintHelp),
+            new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
+            new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("find", Find),
+            new Tuple<string, Action<string>>("list", List),
+            new Tuple<string, Action<string>>("exit", Exit),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -60,7 +60,7 @@ namespace FileCabinetApp
                 {
                     const int parametersIndex = 1;
                     var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
-                    commands[index].Item2(parameters, " ");
+                    commands[index].Item2(parameters);
                 }
                 else
                 {
@@ -76,7 +76,7 @@ namespace FileCabinetApp
             Console.WriteLine();
         }
 
-        private static void PrintHelp(string parameters, string filler = "")
+        private static void PrintHelp(string parameters)
         {
             if (!string.IsNullOrEmpty(parameters))
             {
@@ -103,117 +103,101 @@ namespace FileCabinetApp
             Console.WriteLine();
         }
 
-        private static void Stat(string parameters, string filler = "")
+        private static void Stat(string parameters)
         {
             var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
         }
 
-        private static void Create(string parametrs, string filler = "")
+        private static void Create(string parametrs)
         {
-            try
+            string firstName, lastName;
+            DateTime date;
+            char gender;
+            short expirience;
+            decimal account;
+            InputData(out firstName, out lastName, out date, out gender, out expirience, out account);
+
+            var index = fileCabinetService.CreateRecord(firstName, lastName, date, gender, expirience, account);
+            Console.WriteLine($"Record #{index} is created.");
+        }
+
+        private static void Edit(string parametrs)
+        {
+            int id = 0;
+            bool flag = false;
+            do
             {
-                Console.Write("First name: ");
-                var firstName = Console.ReadLine();
-                Console.Write("Last name: ");
-                var lastName = Console.ReadLine();
-                Console.Write("Date of birth: ");
-                var dataOfBirth = Console.ReadLine();
+                try
+                {
+                    id = int.Parse(parametrs);
+                }
+                catch (System.FormatException)
+                {
+                    Console.WriteLine($"Please enter id");
+                    id = Convert.ToInt32(Console.ReadLine());
+                }
 
-                Console.Write("Gender: ");
-                var gender = Convert.ToChar(Console.ReadLine());
-                Console.Write("Expirience: ");
-                var expirience = Convert.ToInt16(Console.ReadLine());
-                Console.Write("Account: ");
-                var account = Convert.ToDecimal(Console.ReadLine());
+                if (id < 0 || id > fileCabinetService.GetStat())
+                {
+                    flag = true;
+                    Console.WriteLine($"#{id} record is not found");
+                }
+            }
+            while (flag);
 
+            string firstName, lastName;
+            DateTime date;
+            char gender;
+            short expirience;
+            decimal account;
+            InputData(out firstName, out lastName, out date, out gender, out expirience, out account);
+
+            fileCabinetService.EditRecord(id, firstName, lastName, date, gender, expirience, account);
+            Console.WriteLine($"Record #{id} is updated.");
+        }
+
+        private static void Find(string parametrs)
+        {
+            Console.WriteLine(parametrs);
+            string[] property = parametrs.Split(' ');
+
+            if (string.Compare(property[0], "firstname", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                var records = fileCabinetService.FindByFirstName(property[1]);
+                foreach (var record in records)
+                {
+                    Console.WriteLine(record.ToString());
+                }
+            }
+            else if (string.Compare(property[0], "lastname", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                var records = fileCabinetService.FindByLastName(property[1]);
+
+                foreach (var record in records)
+                {
+                    Console.WriteLine(record.ToString());
+                }
+            }
+            else if (string.Compare(property[0], "DayOfBirth", StringComparison.OrdinalIgnoreCase) == 0)
+            {
                 DateTime date;
                 CultureInfo iOCultureFormat = new CultureInfo("en-US");
-                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
-
-                var index = fileCabinetService.CreateRecord(firstName, lastName, date, gender, expirience, account);
-                Console.WriteLine($"Record #{index} is created.");
-            }
-            catch
-            {
-                Console.WriteLine("Incorrectly entered data. Repeat entry again");
-                Create(parametrs);
-            }
-        }
-
-        private static void Edit(string parametrs, string filler = "")
-        {
-            var id = Convert.ToInt32(Console.ReadLine());
-            if (Program.fileCabinetService.GetStat() < id)
-            {
-                Console.WriteLine("#id record is not found.");
-                Edit(parametrs);
-            }
-
-            try
-            {
-                Console.Write("First name: ");
-                var firstName = Console.ReadLine();
-                Console.Write("Last name: ");
-                var lastName = Console.ReadLine();
-                Console.Write("Date of birth: ");
-                var dataOfBirth = Console.ReadLine();
-
-                Console.Write("Gender: ");
-                var gender = Convert.ToChar(Console.ReadLine());
-                Console.Write("Expirience: ");
-                var expirience = Convert.ToInt16(Console.ReadLine());
-                Console.Write("Account: ");
-                var account = Convert.ToDecimal(Console.ReadLine());
-
-                DateTime date;
-                CultureInfo iOCultureFormat = new CultureInfo("en-US");
-                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
-
-                fileCabinetService.EditRecord(id, firstName, lastName, date, gender, expirience, account);
-                Console.WriteLine($"Record #{id} is updated.");
-            }
-            catch
-            {
-                Console.WriteLine("Incorrectly entered data. Repeat entry again");
-                Edit(parametrs);
-            }
-        }
-
-        private static void Find(string parametrs, string property)
-        {
-            if (parametrs.ToUpper() == "FIRSTNAME")
-            {
-                var firstName = Console.ReadLine();
-                var records = fileCabinetService.FindByFirstName(firstName);
-                foreach (var record in records)
-                {
-                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
-                }
-            }
-            else if (parametrs.ToUpper() == "LASTNAME")
-            {
-                var lastName = Console.ReadLine();
-                var records = fileCabinetService.FindByLastName(lastName);
+                DateTime.TryParse(property[1], iOCultureFormat, DateTimeStyles.None, out date);
+                var records = fileCabinetService.FindByDateOfBirth(date);
 
                 foreach (var record in records)
                 {
-                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
+                    Console.WriteLine(record.ToString());
                 }
             }
-
-            /*if (property.ToUpper() == "DATEOFBIRTH")
+            else
             {
-                var records = fileCabinetService.FindByFirstName(parametrs);
-
-                foreach (var record in records)
-                {
-                    Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth.ToLongDateString()}, {record.Gender}, {record.Experience}, {record.Account}");
-                }
-            }*/
+                Console.WriteLine("Incorrect property. Please, try again");
+            }
         }
 
-        private static void List(string parametrs, string filler = "")
+        private static void List(string parametrs)
         {
             var records = fileCabinetService.GetRecords();
             foreach (var record in records)
@@ -222,10 +206,198 @@ namespace FileCabinetApp
             }
         }
 
-        private static void Exit(string parameters, string filler = "")
+        private static void Exit(string parameters)
         {
             Console.WriteLine("Exiting an application...");
             isRunning = false;
+        }
+
+        private static void InputData(out string firstName, out string lastName, out DateTime date, out char gender, out short expirience, out decimal account)
+        {
+            do
+            {
+                Console.Write("First name: ");
+                firstName = Console.ReadLine();
+                if (ValidationName(firstName))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"{firstName} string entered incorrectly!");
+                    Console.WriteLine();
+                }
+            }
+            while (isRunning);
+
+            do
+            {
+                Console.Write("Last name: ");
+                lastName = Console.ReadLine();
+                if (ValidationName(lastName))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"{lastName} string entered incorrectly!");
+                    Console.WriteLine();
+                }
+            }
+            while (isRunning);
+
+            do
+            {
+                Console.Write("Date of birth (mm/dd/yyyy): ");
+                var dataOfBirth = Console.ReadLine();
+                CultureInfo iOCultureFormat = new CultureInfo("en-US");
+                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
+                if (ValidationData(date))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"{date} data entered incorrectly!");
+                    Console.WriteLine();
+                }
+            }
+            while (isRunning);
+
+            do
+            {
+                Console.Write("Gender (M/F): ");
+                try
+                {
+                    gender = Convert.ToChar(Console.ReadLine());
+                }
+                catch (System.FormatException)
+                {
+                    Console.WriteLine($"Gender must hafe only one symbol!");
+                    Console.Write("Gender (M/F): ");
+                    gender = Convert.ToChar(Console.ReadLine());
+                }
+
+                if (ValidationGender(gender))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"{gender} gender entered incorrectly!");
+                    Console.WriteLine();
+                }
+            }
+            while (isRunning);
+
+            do
+            {
+                Console.Write("Expirience: ");
+                expirience = Convert.ToInt16(Console.ReadLine());
+                if (ValidationExpirience(expirience))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"{expirience} number entered incorrectly!");
+                    Console.WriteLine();
+                }
+            }
+            while (isRunning);
+
+            do
+            {
+                Console.Write("Account: ");
+                account = Convert.ToDecimal(Console.ReadLine());
+                if (ValidationAccount(account))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"{account} number entered incorrectly!");
+                    Console.WriteLine();
+                }
+            }
+            while (isRunning);
+        }
+
+        private static bool ValidationName(string name)
+        {
+            if (name is null)
+            {
+                return false;
+            }
+
+            int lenth = name.Length;
+
+            if (lenth < 2 || lenth > 60)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(name.Trim()))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool ValidationData(DateTime date)
+        {
+            var dateNow = DateTime.Today;
+            var dateMin = new DateTime(1950, 1, 1);
+
+            if (date.CompareTo(dateMin) < 0)
+            {
+                return false;
+            }
+
+            if (date.CompareTo(dateNow) > 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool ValidationGender(char gender)
+        {
+            if (char.IsWhiteSpace(gender))
+            {
+                return false;
+            }
+
+            if (gender == 'm' || gender == 'M' || gender == 'f' || gender == 'F')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private static bool ValidationExpirience(short expirience)
+        {
+            if (expirience < 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool ValidationAccount(decimal account)
+        {
+            if (account <= 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

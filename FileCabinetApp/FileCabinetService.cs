@@ -7,6 +7,13 @@ namespace FileCabinetApp
     public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listDateOfBirth = new List<FileCabinetRecord>();
+
+        private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, short expirience, decimal account)
         {
@@ -29,7 +36,7 @@ namespace FileCabinetApp
 
             if (string.IsNullOrWhiteSpace(lastName))
             {
-                if (firstName is null)
+                if (lastName is null)
                 {
                     throw new ArgumentNullException(nameof(lastName), "must not be null!");
                 }
@@ -77,6 +84,13 @@ namespace FileCabinetApp
             };
 
             this.list.Add(record);
+            this.listFirstName.Add(record);
+            this.listLastName.Add(record);
+            this.listDateOfBirth.Add(record);
+
+            this.firstNameDictionary.Add(firstName, this.listFirstName);
+            this.lastNameDictionary.Add(lastName, this.listLastName);
+            this.dateOfBirthDictionary.Add(dateOfBirth, this.listDateOfBirth);
 
             return record.Id;
         }
@@ -154,18 +168,20 @@ namespace FileCabinetApp
                 Account = account,
             };
             this.list[id - 1] = record;
+
+            this.listFirstName[id - 1] = this.list[id - 1];
+            this.listLastName[id - 1] = this.list[id - 1];
+            this.listDateOfBirth[id - 1] = this.list[id - 1];
+
+            this.firstNameDictionary[firstName] = this.listFirstName;
+            this.lastNameDictionary[lastName] = this.listLastName;
+            this.dateOfBirthDictionary[dateOfBirth] = this.listDateOfBirth;
         }
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            foreach (var obj in this.list)
-            {
-                if (obj.FirstName == firstName)
-                {
-                    result.Add(obj);
-                }
-            }
+            this.firstNameDictionary.TryGetValue(firstName, out result);
 
             return result.ToArray();
         }
@@ -173,13 +189,15 @@ namespace FileCabinetApp
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            foreach (var obj in this.list)
-            {
-                if (obj.LastName == lastName)
-                {
-                    result.Add(obj);
-                }
-            }
+            this.lastNameDictionary.TryGetValue(lastName, out result);
+
+            return result.ToArray();
+        }
+
+        public FileCabinetRecord[] FindByDateOfBirth(DateTime dateOfBirth)
+        {
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            this.dateOfBirthDictionary.TryGetValue(dateOfBirth, out result);
 
             return result.ToArray();
         }
