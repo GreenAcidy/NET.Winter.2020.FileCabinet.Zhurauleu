@@ -118,14 +118,10 @@ namespace FileCabinetApp
 
         private static void Create(string parametrs)
         {
-            string firstName, lastName;
-            DateTime date;
-            char gender;
-            short experience;
-            decimal account;
-            InputData(out firstName, out lastName, out date, out gender, out experience, out account);
+            FileCabinetInputData inputData = new FileCabinetInputData();
+            InputData(inputData);
 
-            var index = fileCabinetService.CreateRecord(firstName, lastName, date, gender, experience, account);
+            var index = fileCabinetService.CreateRecord(inputData);
             Console.WriteLine($"Record #{index} is created.");
         }
 
@@ -153,14 +149,10 @@ namespace FileCabinetApp
             }
             while (flag);
 
-            string firstName, lastName;
-            DateTime date;
-            char gender;
-            short experience;
-            decimal account;
-            InputData(out firstName, out lastName, out date, out gender, out experience, out account);
+            FileCabinetInputData inputData = new FileCabinetInputData();
+            InputData(inputData);
 
-            fileCabinetService.EditRecord(id, firstName, lastName, date, gender, experience, account);
+            fileCabinetService.EditRecord(id, inputData);
             Console.WriteLine($"Record #{id} is updated.");
         }
 
@@ -219,19 +211,19 @@ namespace FileCabinetApp
             isRunning = false;
         }
 
-        private static void InputData(out string firstName, out string lastName, out DateTime date, out char gender, out short experience, out decimal account)
+        private static void InputData(FileCabinetInputData inputData)
         {
             do
             {
                 Console.Write("First name: ");
-                firstName = Console.ReadLine();
-                if (ValidationName(firstName))
+                inputData.FirstName = Console.ReadLine();
+                if (ValidationName(inputData.FirstName))
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine($"{firstName} string entered incorrectly!");
+                    Console.WriteLine($"{inputData.FirstName} string entered incorrectly!");
                     Console.WriteLine();
                 }
             }
@@ -240,14 +232,14 @@ namespace FileCabinetApp
             do
             {
                 Console.Write("Last name: ");
-                lastName = Console.ReadLine();
-                if (ValidationName(lastName))
+                inputData.LastName = Console.ReadLine();
+                if (ValidationName(inputData.LastName))
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine($"{lastName} string entered incorrectly!");
+                    Console.WriteLine($"{inputData.LastName} string entered incorrectly!");
                     Console.WriteLine();
                 }
             }
@@ -257,15 +249,17 @@ namespace FileCabinetApp
             {
                 Console.Write("Date of birth (mm/dd/yyyy): ");
                 var dataOfBirth = Console.ReadLine();
+                DateTime date = default;
                 CultureInfo iOCultureFormat = new CultureInfo("en-US");
                 DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
-                if (ValidationData(date))
+                inputData.DateOfBirth = date;
+                if (ValidationData(inputData.DateOfBirth))
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine($"{date} data entered incorrectly!");
+                    Console.WriteLine($"{inputData.DateOfBirth} data entered incorrectly!");
                     Console.WriteLine();
                 }
             }
@@ -276,22 +270,22 @@ namespace FileCabinetApp
                 Console.Write("Gender (M/F): ");
                 try
                 {
-                    gender = Convert.ToChar(Console.ReadLine());
+                    inputData.Gender = Convert.ToChar(Console.ReadLine());
                 }
                 catch (System.FormatException)
                 {
                     Console.WriteLine($"Gender must hafe only one symbol!");
                     Console.Write("Gender (M/F): ");
-                    gender = Convert.ToChar(Console.ReadLine());
+                    inputData.Gender = Convert.ToChar(Console.ReadLine());
                 }
 
-                if (ValidationGender(gender))
+                if (ValidationGender(inputData.Gender))
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine($"{gender} gender entered incorrectly!");
+                    Console.WriteLine($"{inputData.Gender} gender entered incorrectly!");
                     Console.WriteLine();
                 }
             }
@@ -300,14 +294,14 @@ namespace FileCabinetApp
             do
             {
                 Console.Write("experience: ");
-                experience = Convert.ToInt16(Console.ReadLine());
-                if (ValidationExpirience(experience))
+                inputData.Experience = Convert.ToInt16(Console.ReadLine());
+                if (ValidationExpirience(inputData.Experience))
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine($"{experience} number entered incorrectly!");
+                    Console.WriteLine($"{inputData.Experience} number entered incorrectly!");
                     Console.WriteLine();
                 }
             }
@@ -316,14 +310,14 @@ namespace FileCabinetApp
             do
             {
                 Console.Write("Account: ");
-                account = Convert.ToDecimal(Console.ReadLine());
-                if (ValidationAccount(account))
+                inputData.Account = Convert.ToDecimal(Console.ReadLine());
+                if (ValidationAccount(inputData.Account))
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine($"{account} number entered incorrectly!");
+                    Console.WriteLine($"{inputData.Account} number entered incorrectly!");
                     Console.WriteLine();
                 }
             }

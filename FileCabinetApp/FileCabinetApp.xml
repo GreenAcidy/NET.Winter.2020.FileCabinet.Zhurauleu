@@ -4,6 +4,65 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.FileCabinetInputData">
+            <summary>
+            Class FileCabinetRecord contain input data of people.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetInputData.FirstName">
+            <summary>
+            Gets or sets first name of person.
+            </summary>
+            <value>
+            first name of person.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetInputData.LastName">
+            <summary>
+            Gets or sets last name of person.
+            </summary>
+            <value>
+            last name of person in record..
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetInputData.DateOfBirth">
+            <summary>
+            Gets or sets date of birth of person.
+            </summary>
+            <value>
+            date of birth of person.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetInputData.Gender">
+            <summary>
+            Gets or sets gender of person.
+            </summary>
+            <value>
+            gender of person.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetInputData.Experience">
+            <summary>
+            Gets or sets experience of person.
+            </summary>
+            <value>
+            experience of person.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetInputData.Account">
+            <summary>
+            Gets or sets account of person.
+            </summary>
+            <value>
+            date of account of person.
+            </value>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetInputData.ToString">
+            <summary>
+            Overrided method return one record.
+            </summary>
+            <returns>One record of person.</returns>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             Class FileCabinetRecord contain brief data of people.
@@ -76,29 +135,19 @@
             Class FileCabinetService contain methods for working with FileCabinetRecord.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(System.String,System.String,System.DateTime,System.Char,System.Int16,System.Decimal)">
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetInputData)">
             <summary>
             Method get data and create record.
             </summary>
-            <param name="firstName">input first name.</param>
-            <param name="lastName">input last name.</param>
-            <param name="dateOfBirth">input date of birth.</param>
-            <param name="gender">input gender.</param>
-            <param name="experience">input experience>.</param>
-            <param name="account">input account. </param>
+            <param name="inputData">input data.</param>
             <returns>id of new record.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,System.String,System.String,System.DateTime,System.Char,System.Int16,System.Decimal)">
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,FileCabinetApp.FileCabinetInputData)">
             <summary>
             Method get data and edit existing record.
             </summary>
             <param name="id">input id of existing record.</param>
-            <param name="firstName">input first name.</param>
-            <param name="lastName">input last name.</param>
-            <param name="dateOfBirth">input date of birth.</param>
-            <param name="gender">input gender.</param>
-            <param name="experience">input experience>.</param>
-            <param name="account">input account. </param>
+            <param name="inputData">input data.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
             <summary>

@@ -21,79 +21,19 @@ namespace FileCabinetApp
         /// <summary>
         /// Method get data and create record.
         /// </summary>
-        /// <param name="firstName">input first name.</param>
-        /// <param name="lastName">input last name.</param>
-        /// <param name="dateOfBirth">input date of birth.</param>
-        /// <param name="gender">input gender.</param>
-        /// <param name="experience">input experience>.</param>
-        /// <param name="account">input account. </param>
+        /// <param name="inputData">input data.</param>
         /// <returns>id of new record.</returns>
-        public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, short experience, decimal account)
+        public int CreateRecord(FileCabinetInputData inputData)
         {
-            if (string.IsNullOrWhiteSpace(firstName))
-            {
-                if (firstName is null)
-                {
-                    throw new ArgumentNullException(nameof(firstName), "must not be null!");
-                }
-                else
-                {
-                    throw new ArgumentException("must contain at least two symbols except space");
-                }
-            }
-
-            if (firstName.Length < 2 || firstName.Length > 60)
-            {
-                throw new ArgumentException("First name must be shorter than 61 symbol and larger than 1 symbol");
-            }
-
-            if (string.IsNullOrWhiteSpace(lastName))
-            {
-                if (lastName is null)
-                {
-                    throw new ArgumentNullException(nameof(lastName), "must not be null!");
-                }
-                else
-                {
-                    throw new ArgumentException("must contain at least two symbols except space");
-                }
-            }
-
-            if (lastName.Length < 2 || lastName.Length > 60)
-            {
-                throw new ArgumentException("First name must be shorter than 61 symbol and larger than 1 symbol");
-            }
-
-            DateTime date = new DateTime(1950, 01, 01);
-            if (dateOfBirth > DateTime.Today || dateOfBirth < date)
-            {
-                throw new ArgumentException("Date of birth must be in range from 01-Jan-1950 to current day");
-            }
-
-            if (char.IsWhiteSpace(gender))
-            {
-                throw new ArgumentException("Must contain except space symbol");
-            }
-
-            if (experience < 0)
-            {
-                throw new ArgumentException("Experience can not be negative");
-            }
-
-            if (account <= 0)
-            {
-                throw new ArgumentException("Account must be positive");
-            }
-
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Gender = gender,
-                Experience = experience,
-                Account = account,
+                FirstName = inputData.FirstName,
+                LastName = inputData.LastName,
+                DateOfBirth = inputData.DateOfBirth,
+                Gender = inputData.Gender,
+                Experience = inputData.Experience,
+                Account = inputData.Account,
             };
 
             this.list.Add(record);
@@ -101,9 +41,9 @@ namespace FileCabinetApp
             this.listLastName.Add(record);
             this.listDateOfBirth.Add(record);
 
-            this.firstNameDictionary.Add(firstName, this.listFirstName);
-            this.lastNameDictionary.Add(lastName, this.listLastName);
-            this.dateOfBirthDictionary.Add(dateOfBirth, this.listDateOfBirth);
+            this.firstNameDictionary.Add(inputData.FirstName, this.listFirstName);
+            this.lastNameDictionary.Add(inputData.LastName, this.listLastName);
+            this.dateOfBirthDictionary.Add(inputData.DateOfBirth, this.listDateOfBirth);
 
             return record.Id;
         }
@@ -112,83 +52,18 @@ namespace FileCabinetApp
         /// Method get data and edit existing record.
         /// </summary>
         /// <param name="id">input id of existing record.</param>
-        /// <param name="firstName">input first name.</param>
-        /// <param name="lastName">input last name.</param>
-        /// <param name="dateOfBirth">input date of birth.</param>
-        /// <param name="gender">input gender.</param>
-        /// <param name="experience">input experience>.</param>
-        /// <param name="account">input account. </param>
-        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, char gender, short experience, decimal account)
+        /// <param name="inputData">input data.</param>
+        public void EditRecord(int id, FileCabinetInputData inputData)
         {
-            if (this.list.Count < id)
-            {
-                throw new ArgumentException("Current id is not found");
-            }
-
-            if (string.IsNullOrWhiteSpace(firstName))
-            {
-                if (firstName is null)
-                {
-                    throw new ArgumentNullException(nameof(firstName), "must not be null!");
-                }
-                else
-                {
-                    throw new ArgumentException("must contain at least two symbols except space");
-                }
-            }
-
-            if (firstName.Length < 2 || firstName.Length > 60)
-            {
-                throw new ArgumentException("First name must be shorter than 61 symbol and larger than 1 symbol");
-            }
-
-            if (string.IsNullOrWhiteSpace(lastName))
-            {
-                if (firstName is null)
-                {
-                    throw new ArgumentNullException(nameof(lastName), "must not be null!");
-                }
-                else
-                {
-                    throw new ArgumentException("must contain at least two symbols except space");
-                }
-            }
-
-            if (lastName.Length < 2 || lastName.Length > 60)
-            {
-                throw new ArgumentException("First name must be shorter than 61 symbol and larger than 1 symbol");
-            }
-
-            DateTime date = new DateTime(1950, 01, 01);
-            if (dateOfBirth > DateTime.Today || dateOfBirth < date)
-            {
-                throw new ArgumentException("Date of birth must be in range from 01-Jan-1950 to current day");
-            }
-
-            if (char.IsWhiteSpace(gender))
-            {
-                throw new ArgumentException("Must contain except space symbol");
-            }
-
-            if (experience < 0)
-            {
-                throw new ArgumentException("Experience can not be negative");
-            }
-
-            if (account <= 0)
-            {
-                throw new ArgumentException("Account must be positive");
-            }
-
             var record = new FileCabinetRecord
             {
                 Id = id,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Gender = gender,
-                Experience = experience,
-                Account = account,
+                FirstName = inputData.FirstName,
+                LastName = inputData.LastName,
+                DateOfBirth = inputData.DateOfBirth,
+                Gender = inputData.Gender,
+                Experience = inputData.Experience,
+                Account = inputData.Account,
             };
             this.list[id - 1] = record;
 
@@ -196,9 +71,9 @@ namespace FileCabinetApp
             this.listLastName[id - 1] = this.list[id - 1];
             this.listDateOfBirth[id - 1] = this.list[id - 1];
 
-            this.firstNameDictionary[firstName] = this.listFirstName;
-            this.lastNameDictionary[lastName] = this.listLastName;
-            this.dateOfBirthDictionary[dateOfBirth] = this.listDateOfBirth;
+            this.firstNameDictionary[inputData.FirstName] = this.listFirstName;
+            this.lastNameDictionary[inputData.LastName] = this.listLastName;
+            this.dateOfBirthDictionary[inputData.DateOfBirth] = this.listDateOfBirth;
         }
 
         /// <summary>
