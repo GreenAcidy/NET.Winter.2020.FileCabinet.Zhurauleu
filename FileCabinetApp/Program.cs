@@ -13,13 +13,14 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
-        private static FileCabinetService fileCabinetService = new FileCabinetCustomService();
+        private static FileCabinetService fileCabinetService = new FileCabinetDefaultService();
 
         private static bool isRunning = true;
 
         private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
         {
             new Tuple<string, Action<string>>("help", PrintHelp),
+            new Tuple<string, Action<string>>("validation", Validation),
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("edit", Edit),
@@ -31,6 +32,7 @@ namespace FileCabinetApp
         private static string[][] helpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
+            new string[] { "validation", "change type of validation of input data", "The 'help' command change type of validation of input data." },
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
             new string[] { "create", "receive user input and and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "edit", "modifies existing records", "The 'exit' command modifies existing records." },
@@ -46,6 +48,7 @@ namespace FileCabinetApp
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
+            Console.WriteLine("Using default validation rules.");
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
@@ -114,6 +117,32 @@ namespace FileCabinetApp
         {
             var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
+        }
+
+        private static void Validation(string parameters)
+        {
+            do
+            {
+                if (string.Compare(parameters, "default", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    fileCabinetService = new FileCabinetDefaultService();
+                    Console.WriteLine($"Validation #{parameters} is using now.");
+                    break;
+                }
+                else if (string.Compare(parameters, "custom", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    fileCabinetService = new FileCabinetCustomService();
+                    Console.WriteLine($"Validation #{parameters} is using now.");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"{parameters} string entered incorrectly, please try again");
+                    Console.Write("Validation: ");
+                    parameters = Console.ReadLine();
+                }
+            }
+            while (isRunning);
         }
 
         private static void Create(string parametrs)
