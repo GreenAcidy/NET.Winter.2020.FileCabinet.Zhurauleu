@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Class Program.
+    /// </summary>
     public static class Program
     {
         private const string DeveloperName = "Kiryl Zhurauleu";
@@ -36,6 +39,10 @@ namespace FileCabinetApp
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
+        /// <summary>
+        /// method connecting the user and the program.
+        /// </summary>
+        /// <param name="args">input parameter.</param>
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
@@ -114,11 +121,11 @@ namespace FileCabinetApp
             string firstName, lastName;
             DateTime date;
             char gender;
-            short expirience;
+            short experience;
             decimal account;
-            InputData(out firstName, out lastName, out date, out gender, out expirience, out account);
+            InputData(out firstName, out lastName, out date, out gender, out experience, out account);
 
-            var index = fileCabinetService.CreateRecord(firstName, lastName, date, gender, expirience, account);
+            var index = fileCabinetService.CreateRecord(firstName, lastName, date, gender, experience, account);
             Console.WriteLine($"Record #{index} is created.");
         }
 
@@ -149,11 +156,11 @@ namespace FileCabinetApp
             string firstName, lastName;
             DateTime date;
             char gender;
-            short expirience;
+            short experience;
             decimal account;
-            InputData(out firstName, out lastName, out date, out gender, out expirience, out account);
+            InputData(out firstName, out lastName, out date, out gender, out experience, out account);
 
-            fileCabinetService.EditRecord(id, firstName, lastName, date, gender, expirience, account);
+            fileCabinetService.EditRecord(id, firstName, lastName, date, gender, experience, account);
             Console.WriteLine($"Record #{id} is updated.");
         }
 
@@ -212,7 +219,7 @@ namespace FileCabinetApp
             isRunning = false;
         }
 
-        private static void InputData(out string firstName, out string lastName, out DateTime date, out char gender, out short expirience, out decimal account)
+        private static void InputData(out string firstName, out string lastName, out DateTime date, out char gender, out short experience, out decimal account)
         {
             do
             {
@@ -292,15 +299,15 @@ namespace FileCabinetApp
 
             do
             {
-                Console.Write("Expirience: ");
-                expirience = Convert.ToInt16(Console.ReadLine());
-                if (ValidationExpirience(expirience))
+                Console.Write("experience: ");
+                experience = Convert.ToInt16(Console.ReadLine());
+                if (ValidationExpirience(experience))
                 {
                     break;
                 }
                 else
                 {
-                    Console.WriteLine($"{expirience} number entered incorrectly!");
+                    Console.WriteLine($"{experience} number entered incorrectly!");
                     Console.WriteLine();
                 }
             }
@@ -380,9 +387,9 @@ namespace FileCabinetApp
             }
         }
 
-        private static bool ValidationExpirience(short expirience)
+        private static bool ValidationExpirience(short experience)
         {
-            if (expirience < 0)
+            if (experience < 0)
             {
                 return false;
             }
