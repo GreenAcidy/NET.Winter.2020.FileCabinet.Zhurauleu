@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
@@ -13,7 +14,7 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
-        private static FileCabinetService fileCabinetService = new FileCabinetDefaultService();
+        private static FileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
 
         private static bool isRunning = true;
 
@@ -125,13 +126,13 @@ namespace FileCabinetApp
             {
                 if (string.Compare(parameters, "default", StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    fileCabinetService = new FileCabinetDefaultService();
+                    fileCabinetService = new FileCabinetService(new DefaultValidator());
                     Console.WriteLine($"Validation #{parameters} is using now.");
                     break;
                 }
                 else if (string.Compare(parameters, "custom", StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    fileCabinetService = new FileCabinetCustomService();
+                    fileCabinetService = new FileCabinetService(new CustomValidator());
                     Console.WriteLine($"Validation #{parameters} is using now.");
                     break;
                 }

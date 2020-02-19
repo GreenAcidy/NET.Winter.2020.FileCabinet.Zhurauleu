@@ -4,16 +4,6 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
-        <member name="T:FileCabinetApp.FileCabinetCustomService">
-            <summary>
-            Class FileCabinetDefaultService contains custom methods of validation input data.
-            </summary>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetDefaultService">
-            <summary>
-            Class FileCabinetDefaultService contains default methods of validation input data.
-            </summary>
-        </member>
         <member name="T:FileCabinetApp.FileCabinetInputData">
             <summary>
             Class FileCabinetRecord contain input data of people.
@@ -145,6 +135,12 @@
             Class FileCabinetService contain methods for working with FileCabinetRecord.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.Interfaces.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+            <param name="validator">type of validation input data.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetInputData)">
             <summary>
             Method get data and create record.
@@ -192,10 +188,16 @@
             </summary>
             <returns>count of records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateValidator">
+        <member name="T:FileCabinetApp.Interfaces.IRecordValidator">
             <summary>
-            Validate input data.
+            Sets behaviour of validation input data.
             </summary>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Get input data and validate.
+            </summary>
+            <param name="inputData">input data.</param>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>

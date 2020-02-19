@@ -1,17 +1,16 @@
-﻿using FileCabinetApp.Interfaces;
-using FileCabinetApp.Validators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FileCabinetApp.Interfaces;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
     /// <summary>
     /// Class FileCabinetService contain methods for working with FileCabinetRecord.
     /// </summary>
-    public abstract class FileCabinetService
+    public class FileCabinetService
     {
-        private IRecordValidator validator;
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
@@ -20,7 +19,12 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+        private IRecordValidator validator;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        /// <param name="validator">type of validation input data.</param>
         public FileCabinetService(IRecordValidator validator)
         {
             this.validator = validator;
@@ -38,7 +42,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            this.CreateValidator().ValidateParameters(inputData);
+            this.validator.ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
@@ -74,7 +78,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            this.CreateValidator().ValidateParameters(inputData);
+            this.validator.ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = id,
@@ -152,10 +156,5 @@ namespace FileCabinetApp
         {
             return this.list.Count;
         }
-
-        /// <summary>
-        /// Validate input data.
-        /// </summary>
-        protected abstract IRecordValidator CreateValidator();
     }
 }
