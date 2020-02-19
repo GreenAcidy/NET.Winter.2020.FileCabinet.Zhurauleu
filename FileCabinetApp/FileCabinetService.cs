@@ -1,4 +1,5 @@
 ﻿using FileCabinetApp.Interfaces;
+using FileCabinetApp.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace FileCabinetApp
     /// </summary>
     public abstract class FileCabinetService
     {
+        private IRecordValidator validator;
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
@@ -18,6 +20,11 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+
+        public FileCabinetService(IRecordValidator validator)
+        {
+            this.validator = validator;
+        }
 
         /// <summary>
         /// Method get data and create record.
