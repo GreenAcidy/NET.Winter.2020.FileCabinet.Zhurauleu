@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileCabinetApp.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +31,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            this.ValidateParameters(inputData);
+            this.CreateValidator().ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
@@ -66,7 +67,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            this.ValidateParameters(inputData);
+            this.CreateValidator().ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = id,
@@ -148,7 +149,6 @@ namespace FileCabinetApp
         /// <summary>
         /// Validate input data.
         /// </summary>
-        /// <param name="inputData">input data.</param>
-        protected abstract void ValidateParameters(FileCabinetInputData inputData);
+        protected abstract IRecordValidator CreateValidator();
     }
 }
