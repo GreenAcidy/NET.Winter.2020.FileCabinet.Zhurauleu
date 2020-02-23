@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using FileCabinetApp.Interfaces;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -14,7 +15,7 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
-        private static FileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
+        private static IFileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
 
         private static bool isRunning = true;
 
@@ -150,7 +151,6 @@ namespace FileCabinetApp
         {
             FileCabinetInputData inputData = new FileCabinetInputData();
             InputData(inputData);
-
             var index = fileCabinetService.CreateRecord(inputData);
             Console.WriteLine($"Record #{index} is created.");
         }

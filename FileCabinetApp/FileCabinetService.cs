@@ -9,7 +9,7 @@ namespace FileCabinetApp
     /// <summary>
     /// Class FileCabinetService contain methods for working with FileCabinetRecord.
     /// </summary>
-    public class FileCabinetService
+    public class FileCabinetService : IFileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
