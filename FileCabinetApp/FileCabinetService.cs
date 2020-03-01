@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FileCabinetApp.Interfaces;
 using FileCabinetApp.Validators;
@@ -20,6 +21,7 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
         private IRecordValidator validator;
+        private ReadOnlyCollection<FileCabinetRecord> records;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
@@ -105,12 +107,12 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">input first name.</param>
         /// <returns>all records whose first name matches the incoming.</returns>
-        public FileCabinetRecord[] FindByFirstName(string firstName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
             this.firstNameDictionary.TryGetValue(firstName, out result);
-
-            return result.ToArray();
+            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
+            return this.records;
         }
 
         /// <summary>
@@ -118,12 +120,12 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">input first name.</param>
         /// <returns>all records whose last name matches the incoming.</returns>
-        public FileCabinetRecord[] FindByLastName(string lastName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
             this.lastNameDictionary.TryGetValue(lastName, out result);
-
-            return result.ToArray();
+            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
+            return this.records;
         }
 
         /// <summary>
@@ -131,21 +133,22 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
-        public FileCabinetRecord[] FindByDateOfBirth(DateTime dateOfBirth)
+        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
             this.dateOfBirthDictionary.TryGetValue(dateOfBirth, out result);
-
-            return result.ToArray();
+            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
+            return this.records;
         }
 
         /// <summary>
         /// Method return all records.
         /// </summary>
         /// <returns>all records.</returns>
-        public FileCabinetRecord[] GetRecords()
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            return this.list.ToArray();
+            this.records = new ReadOnlyCollection<FileCabinetRecord>(this.list);
+            return this.records;
         }
 
         /// <summary>

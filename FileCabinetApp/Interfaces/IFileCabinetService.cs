@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace FileCabinetApp.Interfaces
@@ -28,27 +29,27 @@ namespace FileCabinetApp.Interfaces
         /// </summary>
         /// <param name="firstName">input first name.</param>
         /// <returns>all records whose first name matches the incoming.</returns>
-        public FileCabinetRecord[] FindByFirstName(string firstName);
+        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName);
 
         /// <summary>
         /// Method find record by input last name.
         /// </summary>
         /// <param name="lastName">input first name.</param>
         /// <returns>all records whose last name matches the incoming.</returns>
-        public FileCabinetRecord[] FindByLastName(string lastName);
+        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName);
 
         /// <summary>
         /// Method find record by input date of birth.
         /// </summary>
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
-        public FileCabinetRecord[] FindByDateOfBirth(DateTime dateOfBirth);
+        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
 
         /// <summary>
         /// Method return all records.
         /// </summary>
         /// <returns>all records.</returns>
-        public FileCabinetRecord[] GetRecords();
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords();
 
         /// <summary>
         /// Method return count of records.
