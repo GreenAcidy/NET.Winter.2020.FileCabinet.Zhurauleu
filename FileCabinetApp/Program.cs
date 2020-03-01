@@ -8,7 +8,7 @@ namespace FileCabinetApp
     /// <summary>
     /// Class Program.
     /// </summary>
-    public class Program
+    public static class Program
     {
         private const string DeveloperName = "Kiryl Zhurauleu";
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
@@ -149,8 +149,24 @@ namespace FileCabinetApp
 
         private static void Create(string parametrs)
         {
-            FileCabinetInputData inputData = new FileCabinetInputData();
-            InputData(inputData);
+            Console.Write("First name: ");
+            var firstName = ReadInput(StringConverter, FirstNameValidation);
+
+            Console.Write("Last name: ");
+            var lastName = ReadInput(StringConverter, LastNameValidation);
+
+            Console.Write("Date of birth (mm/dd/yyyy): ");
+            var date = ReadInput(DateConverter, DateValidation);
+
+            Console.Write("Gender(M/F): ");
+            var gender = ReadInput(CharConverter, GenderValidation);
+
+            Console.Write("Experience: ");
+            var experience = ReadInput(ShortConverter, ExperienceValidation);
+
+            Console.Write("Account: ");
+            var account = ReadInput(DecimalConverter, AccountValidation);
+            FileCabinetInputData inputData = new FileCabinetInputData(firstName, lastName, date, gender, experience, account);
             var index = fileCabinetService.CreateRecord(inputData);
             Console.WriteLine($"Record #{index} is created.");
         }
@@ -179,8 +195,24 @@ namespace FileCabinetApp
             }
             while (flag);
 
-            FileCabinetInputData inputData = new FileCabinetInputData();
-            InputData(inputData);
+            Console.Write("First name: ");
+            var firstName = ReadInput(StringConverter, FirstNameValidation);
+
+            Console.Write("Last name: ");
+            var lastName = ReadInput(StringConverter, LastNameValidation);
+
+            Console.Write("Date of birth (mm/dd/yyyy): ");
+            var date = ReadInput(DateConverter, DateValidation);
+
+            Console.Write("Gender: ");
+            var gender = ReadInput(CharConverter, GenderValidation);
+
+            Console.Write("Experience: ");
+            var experience = ReadInput(ShortConverter, ExperienceValidation);
+
+            Console.Write("Account: ");
+            var account = ReadInput(DecimalConverter, AccountValidation);
+            FileCabinetInputData inputData = new FileCabinetInputData(firstName, lastName, date, gender, experience, account);
 
             fileCabinetService.EditRecord(id, inputData);
             Console.WriteLine($"Record #{id} is updated.");
@@ -241,197 +273,155 @@ namespace FileCabinetApp
             isRunning = false;
         }
 
-        private static void InputData(FileCabinetInputData inputData)
+        private static Tuple<bool, string> FirstNameValidation(string input)
         {
-            do
+            bool flag = true;
+            try
             {
-                Console.Write("First name: ");
-                inputData.FirstName = Console.ReadLine();
-                if (ValidationName(inputData.FirstName))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine($"{inputData.FirstName} string entered incorrectly!");
-                    Console.WriteLine();
-                }
+                fileCabinetService.Validator.ValidationFirstName(input);
             }
-            while (isRunning);
-
-            do
+            catch
             {
-                Console.Write("Last name: ");
-                inputData.LastName = Console.ReadLine();
-                if (ValidationName(inputData.LastName))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine($"{inputData.LastName} string entered incorrectly!");
-                    Console.WriteLine();
-                }
+                flag = false;
             }
-            while (isRunning);
 
-            do
-            {
-                Console.Write("Date of birth (mm/dd/yyyy): ");
-                var dataOfBirth = Console.ReadLine();
-                DateTime date = default;
-                CultureInfo iOCultureFormat = new CultureInfo("en-US");
-                DateTime.TryParse(dataOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
-                inputData.DateOfBirth = date;
-                if (ValidationData(inputData.DateOfBirth))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine($"{inputData.DateOfBirth} data entered incorrectly!");
-                    Console.WriteLine();
-                }
-            }
-            while (isRunning);
-
-            do
-            {
-                Console.Write("Gender (M/F): ");
-                try
-                {
-                    inputData.Gender = Convert.ToChar(Console.ReadLine());
-                }
-                catch (System.FormatException)
-                {
-                    Console.WriteLine($"Gender must hafe only one symbol!");
-                    Console.Write("Gender (M/F): ");
-                    inputData.Gender = Convert.ToChar(Console.ReadLine());
-                }
-
-                if (ValidationGender(inputData.Gender))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine($"{inputData.Gender} gender entered incorrectly!");
-                    Console.WriteLine();
-                }
-            }
-            while (isRunning);
-
-            do
-            {
-                Console.Write("experience: ");
-                inputData.Experience = Convert.ToInt16(Console.ReadLine());
-                if (ValidationExpirience(inputData.Experience))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine($"{inputData.Experience} number entered incorrectly!");
-                    Console.WriteLine();
-                }
-            }
-            while (isRunning);
-
-            do
-            {
-                Console.Write("Account: ");
-                inputData.Account = Convert.ToDecimal(Console.ReadLine());
-                if (ValidationAccount(inputData.Account))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine($"{inputData.Account} number entered incorrectly!");
-                    Console.WriteLine();
-                }
-            }
-            while (isRunning);
+            return Tuple.Create(flag, input);
         }
 
-        private static bool ValidationName(string name)
+        private static Tuple<bool, string> LastNameValidation(string input)
         {
-            if (name is null)
+            bool flag = true;
+            try
             {
-                return false;
+                fileCabinetService.Validator.ValidationLastName(input);
+            }
+            catch
+            {
+                flag = false;
             }
 
-            int lenth = name.Length;
-
-            if (lenth < 2 || lenth > 60)
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(name.Trim()))
-            {
-                return false;
-            }
-
-            return true;
+            return Tuple.Create(flag, input);
         }
 
-        private static bool ValidationData(DateTime date)
+        private static Tuple<bool, string> DateValidation(DateTime date)
         {
-            var dateNow = DateTime.Today;
-            var dateMin = new DateTime(1950, 1, 1);
-
-            if (date.CompareTo(dateMin) < 0)
+            bool flag = true;
+            try
             {
-                return false;
+                fileCabinetService.Validator.ValidationData(date);
+            }
+            catch
+            {
+                flag = false;
             }
 
-            if (date.CompareTo(dateNow) > 0)
-            {
-                return false;
-            }
-
-            return true;
+            return Tuple.Create(flag, date.ToString());
         }
 
-        private static bool ValidationGender(char gender)
+        private static Tuple<bool, string> GenderValidation(char input)
         {
-            if (char.IsWhiteSpace(gender))
+            bool flag = true;
+            try
             {
-                return false;
+                fileCabinetService.Validator.ValidationGender(input);
+            }
+            catch
+            {
+                flag = false;
             }
 
-            if (gender == 'm' || gender == 'M' || gender == 'f' || gender == 'F')
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return Tuple.Create(flag, input.ToString());
         }
 
-        private static bool ValidationExpirience(short experience)
+        private static Tuple<bool, string> ExperienceValidation(short input)
         {
-            if (experience < 0)
+            bool flag = true;
+            try
             {
-                return false;
+                fileCabinetService.Validator.ValidationExperience(input);
+            }
+            catch
+            {
+                flag = false;
             }
 
-            return true;
+            return Tuple.Create(flag, input.ToString());
         }
 
-        private static bool ValidationAccount(decimal account)
+        private static Tuple<bool, string> AccountValidation(decimal input)
         {
-            if (account <= 0)
+            bool flag = true;
+            try
             {
-                return false;
+                fileCabinetService.Validator.ValidationAccount(input);
+            }
+            catch
+            {
+                flag = false;
             }
 
-            return true;
+            return Tuple.Create(flag, input.ToString());
         }
 
-        private T ReadInput<T>(Func<string, Tuple<bool, string, T>> converter, Func<T, Tuple<bool, string>> validator)
+        private static Tuple<bool, string, string> StringConverter(string input)
+        {
+            bool isConv = true;
+            if (input is null)
+            {
+                isConv = false;
+            }
+
+            return Tuple.Create(isConv, input, (string)Convert.ChangeType(input, typeof(string)));
+        }
+
+        private static Tuple<bool, string, char> CharConverter(string input)
+        {
+            bool isConv = true;
+            if (input is null)
+            {
+                isConv = false;
+            }
+
+            return Tuple.Create(isConv, input, (char)Convert.ChangeType(input, typeof(char)));
+        }
+
+        private static Tuple<bool, string, DateTime> DateConverter(string input)
+        {
+            bool isConv = true;
+            if (input is null)
+            {
+                isConv = false;
+            }
+
+            DateTime date;
+            CultureInfo iOCultureFormat = new CultureInfo("en-US");
+            DateTime.TryParse(input, iOCultureFormat, DateTimeStyles.None, out date);
+            return Tuple.Create(isConv, input, date);
+        }
+
+        private static Tuple<bool, string, short> ShortConverter(string input)
+        {
+            bool isConv = true;
+            if (input is null)
+            {
+                isConv = false;
+            }
+
+            return Tuple.Create(isConv, input, (short)Convert.ChangeType(input, typeof(short)));
+        }
+
+        private static Tuple<bool, string, decimal> DecimalConverter(string input)
+        {
+            bool isConv = true;
+            if (input is null)
+            {
+                isConv = false;
+            }
+
+            return Tuple.Create(isConv, input, (decimal)Convert.ChangeType(input, typeof(decimal)));
+        }
+
+        private static T ReadInput<T>(Func<string, Tuple<bool, string, T>> converter, Func<T, Tuple<bool, string>> validator)
         {
             do
             {

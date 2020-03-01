@@ -19,15 +19,15 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            ValidationName(inputData.FirstName);
-            ValidationName(inputData.LastName);
-            ValidationData(inputData.DateOfBirth);
-            ValidationGender(inputData.Gender);
-            ValidationExpirience(inputData.Experience);
-            ValidationAccount(inputData.Account);
+            this.ValidationFirstName(inputData.FirstName);
+            this.ValidationLastName(inputData.LastName);
+            this.ValidationData(inputData.DateOfBirth);
+            this.ValidationGender(inputData.Gender);
+            this.ValidationExperience(inputData.Experience);
+            this.ValidationAccount(inputData.Account);
         }
 
-        private static void ValidationName(string name)
+        public void ValidationFirstName(string name)
         {
             if (name is null)
             {
@@ -47,7 +47,27 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        private static void ValidationData(DateTime dateOfBirth)
+        public void ValidationLastName(string name)
+        {
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name), "Must not be null!");
+            }
+
+            int lenth = name.Length;
+
+            if (lenth < 2 || lenth > 60)
+            {
+                throw new ArgumentException("Name must be shorter than 61 symbol and larger than 1 symbol");
+            }
+
+            if (string.IsNullOrEmpty(name.Trim()))
+            {
+                throw new ArgumentException("Must contain at least two symbols except space");
+            }
+        }
+
+        public void ValidationData(DateTime dateOfBirth)
         {
             DateTime date = new DateTime(1950, 01, 01);
             if (dateOfBirth > DateTime.Today || dateOfBirth < date)
@@ -56,7 +76,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        private static void ValidationGender(char gender)
+        public void ValidationGender(char gender)
         {
             if (char.IsWhiteSpace(gender))
             {
@@ -69,7 +89,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        private static void ValidationExpirience(short experience)
+        public void ValidationExperience(short experience)
         {
             if (experience < 0)
             {
@@ -77,7 +97,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        private static void ValidationAccount(decimal account)
+        public void ValidationAccount(decimal account)
         {
             if (account <= 0)
             {

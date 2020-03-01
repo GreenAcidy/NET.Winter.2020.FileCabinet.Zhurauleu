@@ -20,7 +20,6 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
-        private IRecordValidator validator;
         private ReadOnlyCollection<FileCabinetRecord> records;
 
         /// <summary>
@@ -29,8 +28,10 @@ namespace FileCabinetApp
         /// <param name="validator">type of validation input data.</param>
         public FileCabinetService(IRecordValidator validator)
         {
-            this.validator = validator;
+            this.Validator = validator;
         }
+
+        public IRecordValidator Validator { get; }
 
         /// <summary>
         /// Method get data and create record.
@@ -44,7 +45,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            this.validator.ValidateParameters(inputData);
+            this.Validator.ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
@@ -80,7 +81,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            this.validator.ValidateParameters(inputData);
+            this.Validator.ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = id,

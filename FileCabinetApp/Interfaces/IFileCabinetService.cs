@@ -10,6 +10,8 @@ namespace FileCabinetApp.Interfaces
     /// </summary>
     internal interface IFileCabinetService
     {
+        public IRecordValidator Validator { get; }
+
         /// <summary>
         /// Method get data and create record.
         /// </summary>

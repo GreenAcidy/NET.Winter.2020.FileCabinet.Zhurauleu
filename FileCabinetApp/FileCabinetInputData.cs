@@ -9,6 +9,16 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetInputData
     {
+        public FileCabinetInputData(string firstname, string lastname, DateTime date, char gender, short experience, decimal account)
+        {
+            this.FirstName = firstname;
+            this.LastName = lastname;
+            this.DateOfBirth = date;
+            this.Gender = gender;
+            this.Experience = experience;
+            this.Account = account;
+        }
+
         /// <summary>
         /// Gets or sets first name of person.
         /// </summary>
