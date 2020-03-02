@@ -1,30 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace FileCabinetApp
 {
     /// <summary>
-    /// Class FileCabinetRecord contain brief data of people.
+    /// Class FileCabinetRecord contain input data of people.
     /// </summary>
-    public class FileCabinetRecord
+    public class FileCabinetInputData
     {
-        /// <summary>
-        /// Gets or sets id of record.
-        /// </summary>
-        /// <value>
-        /// Id of record.
-        /// </value>
-        public int Id { get; set; }
+        public FileCabinetInputData(string firstname, string lastname, DateTime date, char gender, short experience, decimal account)
+        {
+            this.FirstName = firstname;
+            this.LastName = lastname;
+            this.DateOfBirth = date;
+            this.Gender = gender;
+            this.Experience = experience;
+            this.Account = account;
+        }
 
         /// <summary>
-        /// Gets or sets first name of person in record.
+        /// Gets or sets first name of person.
         /// </summary>
         /// <value>
-        /// first name of person in record.
+        /// first name of person.
         /// </value>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Gets or sets last name of person in record.
+        /// Gets or sets last name of person.
         /// </summary>
         /// <value>
         /// last name of person in record..
@@ -32,44 +36,44 @@ namespace FileCabinetApp
         public string LastName { get; set; }
 
         /// <summary>
-        /// Gets or sets date of birth of person in record.
+        /// Gets or sets date of birth of person.
         /// </summary>
         /// <value>
-        /// date of birth of person in record..
+        /// date of birth of person.
         /// </value>
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// Gets or sets gender of person in record.
+        /// Gets or sets gender of person.
         /// </summary>
         /// <value>
-        /// gender of person in record..
+        /// gender of person.
         /// </value>
         public char Gender { get; set; }
 
         /// <summary>
-        /// Gets or sets experience of person in record.
+        /// Gets or sets experience of person.
         /// </summary>
         /// <value>
-        /// experience of person in record..
+        /// experience of person.
         /// </value>
         public short Experience { get; set; }
 
         /// <summary>
-        /// Gets or sets account of person in record.
+        /// Gets or sets account of person.
         /// </summary>
         /// <value>
-        /// date of account of person in record..
+        /// date of account of person.
         /// </value>
         public decimal Account { get; set; }
 
         /// <summary>
-        /// Overrided method return one record of person.
+        /// Overrided method return one record.
         /// </summary>
         /// <returns>One record of person.</returns>
         public override string ToString()
         {
-            return $"#{this.Id}, {this.FirstName}, {this.LastName}, {this.DateOfBirth.ToLongDateString()}, " +
+            return $"#{this.FirstName}, {this.LastName}, {this.DateOfBirth.ToLongDateString()}, " +
                    $"{this.Gender}, {this.Experience}, {this.Account}";
         }
     }

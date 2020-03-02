@@ -1,166 +1,161 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using FileCabinetApp.Interfaces;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
-    public class FileCabinetService
+    /// <summary>
+    /// Class FileCabinetService contain methods for working with FileCabinetRecord.
+    /// </summary>
+    public class FileCabinetService : IFileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listDateOfBirth = new List<FileCabinetRecord>();
 
-        public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, short expirience, decimal account)
+        private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+        private ReadOnlyCollection<FileCabinetRecord> records;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        /// <param name="validator">type of validation input data.</param>
+        public FileCabinetService(IRecordValidator validator)
         {
-            if (string.IsNullOrWhiteSpace(firstName))
+            this.Validator = validator;
+        }
+
+        public IRecordValidator Validator { get; }
+
+        /// <summary>
+        /// Method get data and create record.
+        /// </summary>
+        /// <param name="inputData">input data.</param>
+        /// <returns>id of new record.</returns>
+        public int CreateRecord(FileCabinetInputData inputData)
+        {
+            if (inputData is null)
             {
-                if (firstName is null)
-                {
-                    throw new ArgumentNullException(nameof(firstName), "must not be null!");
-                }
-                else
-                {
-                    throw new ArgumentException("must contain at least two symbols except space");
-                }
+                throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            if (firstName.Length < 2 || firstName.Length > 60)
-            {
-                throw new ArgumentException("First name must be shorter than 61 symbol and larger than 1 symbol");
-            }
-
-            if (string.IsNullOrWhiteSpace(lastName))
-            {
-                if (firstName is null)
-                {
-                    throw new ArgumentNullException(nameof(lastName), "must not be null!");
-                }
-                else
-                {
-                    throw new ArgumentException("must contain at least two symbols except space");
-                }
-            }
-
-            if (lastName.Length < 2 || lastName.Length > 60)
-            {
-                throw new ArgumentException("First name must be shorter than 61 symbol and larger than 1 symbol");
-            }
-
-            DateTime date = new DateTime(1950, 01, 01);
-            if (dateOfBirth > DateTime.Today || dateOfBirth < date)
-            {
-                throw new ArgumentException("Date of birth must be in range from 01-Jan-1950 to current day");
-            }
-
-            if (char.IsWhiteSpace(gender))
-            {
-                throw new ArgumentException("Must contain except space symbol");
-            }
-
-            if (expirience < 0)
-            {
-                throw new ArgumentException("Experience can not be negative");
-            }
-
-            if (account <= 0)
-            {
-                throw new ArgumentException("Account must be positive");
-            }
-
+            this.Validator.ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Gender = gender,
-                Experience = expirience,
-                Account = account,
+                FirstName = inputData.FirstName,
+                LastName = inputData.LastName,
+                DateOfBirth = inputData.DateOfBirth,
+                Gender = inputData.Gender,
+                Experience = inputData.Experience,
+                Account = inputData.Account,
             };
 
             this.list.Add(record);
+            this.listFirstName.Add(record);
+            this.listLastName.Add(record);
+            this.listDateOfBirth.Add(record);
+
+            this.firstNameDictionary.Add(inputData.FirstName, this.listFirstName);
+            this.lastNameDictionary.Add(inputData.LastName, this.listLastName);
+            this.dateOfBirthDictionary.Add(inputData.DateOfBirth, this.listDateOfBirth);
 
             return record.Id;
         }
 
-        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, char gender, short expirience, decimal account)
+        /// <summary>
+        /// Method get data and edit existing record.
+        /// </summary>
+        /// <param name="id">input id of existing record.</param>
+        /// <param name="inputData">input data.</param>
+        public void EditRecord(int id, FileCabinetInputData inputData)
         {
-            if (this.list.Count < id)
+            if (inputData is null)
             {
-                throw new ArgumentException("Current id is not found");
+                throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            if (string.IsNullOrWhiteSpace(firstName))
-            {
-                if (firstName is null)
-                {
-                    throw new ArgumentNullException(nameof(firstName), "must not be null!");
-                }
-                else
-                {
-                    throw new ArgumentException("must contain at least two symbols except space");
-                }
-            }
-
-            if (firstName.Length < 2 || firstName.Length > 60)
-            {
-                throw new ArgumentException("First name must be shorter than 61 symbol and larger than 1 symbol");
-            }
-
-            if (string.IsNullOrWhiteSpace(lastName))
-            {
-                if (firstName is null)
-                {
-                    throw new ArgumentNullException(nameof(lastName), "must not be null!");
-                }
-                else
-                {
-                    throw new ArgumentException("must contain at least two symbols except space");
-                }
-            }
-
-            if (lastName.Length < 2 || lastName.Length > 60)
-            {
-                throw new ArgumentException("First name must be shorter than 61 symbol and larger than 1 symbol");
-            }
-
-            DateTime date = new DateTime(1950, 01, 01);
-            if (dateOfBirth > DateTime.Today || dateOfBirth < date)
-            {
-                throw new ArgumentException("Date of birth must be in range from 01-Jan-1950 to current day");
-            }
-
-            if (char.IsWhiteSpace(gender))
-            {
-                throw new ArgumentException("Must contain except space symbol");
-            }
-
-            if (expirience < 0)
-            {
-                throw new ArgumentException("Experience can not be negative");
-            }
-
-            if (account <= 0)
-            {
-                throw new ArgumentException("Account must be positive");
-            }
-
+            this.Validator.ValidateParameters(inputData);
             var record = new FileCabinetRecord
             {
                 Id = id,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Gender = gender,
-                Experience = expirience,
-                Account = account,
+                FirstName = inputData.FirstName,
+                LastName = inputData.LastName,
+                DateOfBirth = inputData.DateOfBirth,
+                Gender = inputData.Gender,
+                Experience = inputData.Experience,
+                Account = inputData.Account,
             };
-            this.list.RemoveAt(id - 1);
-            this.list.Insert(id - 1, record);
+            this.list[id - 1] = record;
+
+            this.listFirstName[id - 1] = this.list[id - 1];
+            this.listLastName[id - 1] = this.list[id - 1];
+            this.listDateOfBirth[id - 1] = this.list[id - 1];
+
+            this.firstNameDictionary[inputData.FirstName] = this.listFirstName;
+            this.lastNameDictionary[inputData.LastName] = this.listLastName;
+            this.dateOfBirthDictionary[inputData.DateOfBirth] = this.listDateOfBirth;
         }
 
-        public FileCabinetRecord[] GetRecords()
+        /// <summary>
+        /// Method find record by input first name.
+        /// </summary>
+        /// <param name="firstName">input first name.</param>
+        /// <returns>all records whose first name matches the incoming.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            return this.list.ToArray();
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            this.firstNameDictionary.TryGetValue(firstName, out result);
+            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
+            return this.records;
         }
 
+        /// <summary>
+        /// Method find record by input last name.
+        /// </summary>
+        /// <param name="lastName">input first name.</param>
+        /// <returns>all records whose last name matches the incoming.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        {
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            this.lastNameDictionary.TryGetValue(lastName, out result);
+            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
+            return this.records;
+        }
+
+        /// <summary>
+        /// Method find record by input date of birth.
+        /// </summary>
+        /// <param name="dateOfBirth">input first name.</param>
+        /// <returns>all records whose date of birth matches the incoming.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        {
+            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
+            this.dateOfBirthDictionary.TryGetValue(dateOfBirth, out result);
+            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
+            return this.records;
+        }
+
+        /// <summary>
+        /// Method return all records.
+        /// </summary>
+        /// <returns>all records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
+        {
+            this.records = new ReadOnlyCollection<FileCabinetRecord>(this.list);
+            return this.records;
+        }
+
+        /// <summary>
+        /// Method return count of records.
+        /// </summary>
+        /// <returns>count of records.</returns>
         public int GetStat()
         {
             return this.list.Count;
