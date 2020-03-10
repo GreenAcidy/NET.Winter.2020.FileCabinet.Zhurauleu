@@ -369,6 +369,17 @@ namespace FileCabinetApp
             if (input is null)
             {
                 isConv = false;
+                return Tuple.Create(isConv, input, string.Empty);
+            }
+
+            try
+            {
+                Convert.ChangeType(input, typeof(string));
+            }
+            catch
+            {
+                isConv = false;
+                return Tuple.Create(isConv, input, string.Empty);
             }
 
             return Tuple.Create(isConv, input, (string)Convert.ChangeType(input, typeof(string)));
@@ -380,6 +391,17 @@ namespace FileCabinetApp
             if (input is null)
             {
                 isConv = false;
+                return Tuple.Create(isConv, input, '1');
+            }
+
+            try
+            {
+                Convert.ChangeType(input, typeof(char));
+            }
+            catch
+            {
+                isConv = false;
+                return Tuple.Create(isConv, input, '1');
             }
 
             return Tuple.Create(isConv, input, (char)Convert.ChangeType(input, typeof(char)));
@@ -396,6 +418,7 @@ namespace FileCabinetApp
             DateTime date;
             CultureInfo iOCultureFormat = new CultureInfo("en-US");
             DateTime.TryParse(input, iOCultureFormat, DateTimeStyles.None, out date);
+
             return Tuple.Create(isConv, input, date);
         }
 
@@ -405,6 +428,17 @@ namespace FileCabinetApp
             if (input is null)
             {
                 isConv = false;
+                return Tuple.Create(isConv, input, (short)1);
+            }
+
+            try
+            {
+                Convert.ChangeType(input, typeof(short));
+            }
+            catch
+            {
+                isConv = false;
+                return Tuple.Create(isConv, input, (short)1);
             }
 
             return Tuple.Create(isConv, input, (short)Convert.ChangeType(input, typeof(short)));
@@ -416,6 +450,17 @@ namespace FileCabinetApp
             if (input is null)
             {
                 isConv = false;
+                Tuple.Create(isConv, input, 1M);
+            }
+
+            try
+            {
+                Convert.ChangeType(input, typeof(decimal));
+            }
+            catch
+            {
+                isConv = false;
+                return Tuple.Create(isConv, input, 1M);
             }
 
             return Tuple.Create(isConv, input, (decimal)Convert.ChangeType(input, typeof(decimal)));
