@@ -63,6 +63,80 @@
             </summary>
             <returns>One record of person.</returns>
         </member>
+        <member name="T:FileCabinetApp.Interfaces.IFileCabinetService">
+            <summary>
+            Interface IFileCabinetService sets behaviour of working with Cabinet.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.CreateRecord(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Method get data and create record.
+            </summary>
+            <param name="inputData">input data.</param>
+            <returns>id of new record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.EditRecord(System.Int32,FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Method get data and edit existing record.
+            </summary>
+            <param name="id">input id of existing record.</param>
+            <param name="inputData">input data.</param>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Method find record by input first name.
+            </summary>
+            <param name="firstName">input first name.</param>
+            <returns>all records whose first name matches the incoming.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Method find record by input last name.
+            </summary>
+            <param name="lastName">input first name.</param>
+            <returns>all records whose last name matches the incoming.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Method find record by input date of birth.
+            </summary>
+            <param name="dateOfBirth">input first name.</param>
+            <returns>all records whose date of birth matches the incoming.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetRecords">
+            <summary>
+            Method return all records.
+            </summary>
+            <returns>all records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetStat">
+            <summary>
+            Method return count of records.
+            </summary>
+            <returns>count of records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Interfaces.IRecordValidator">
+            <summary>
+            Sets behaviour of validation input data.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Get input data and validate.
+            </summary>
+            <param name="inputData">input data.</param>
+        </member>
+        <member name="T:FileCabinetApp.Program">
+            <summary>
+            Class Program.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Program.Main(System.String[])">
+            <summary>
+            method connecting the user and the program.
+            </summary>
+            <param name="args">input parameter.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             Class FileCabinetRecord contain brief data of people.
@@ -187,80 +261,6 @@
             Method return count of records.
             </summary>
             <returns>count of records.</returns>
-        </member>
-        <member name="T:FileCabinetApp.Interfaces.IFileCabinetService">
-            <summary>
-            Interface IFileCabinetService sets behaviour of working with Cabinet.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.CreateRecord(FileCabinetApp.FileCabinetInputData)">
-            <summary>
-            Method get data and create record.
-            </summary>
-            <param name="inputData">input data.</param>
-            <returns>id of new record.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.EditRecord(System.Int32,FileCabinetApp.FileCabinetInputData)">
-            <summary>
-            Method get data and edit existing record.
-            </summary>
-            <param name="id">input id of existing record.</param>
-            <param name="inputData">input data.</param>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Method find record by input first name.
-            </summary>
-            <param name="firstName">input first name.</param>
-            <returns>all records whose first name matches the incoming.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Method find record by input last name.
-            </summary>
-            <param name="lastName">input first name.</param>
-            <returns>all records whose last name matches the incoming.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Method find record by input date of birth.
-            </summary>
-            <param name="dateOfBirth">input first name.</param>
-            <returns>all records whose date of birth matches the incoming.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetRecords">
-            <summary>
-            Method return all records.
-            </summary>
-            <returns>all records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetStat">
-            <summary>
-            Method return count of records.
-            </summary>
-            <returns>count of records.</returns>
-        </member>
-        <member name="T:FileCabinetApp.Interfaces.IRecordValidator">
-            <summary>
-            Sets behaviour of validation input data.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetInputData)">
-            <summary>
-            Get input data and validate.
-            </summary>
-            <param name="inputData">input data.</param>
-        </member>
-        <member name="T:FileCabinetApp.Program">
-            <summary>
-            Class Program.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Program.Main(System.String[])">
-            <summary>
-            method connecting the user and the program.
-            </summary>
-            <param name="args">input parameter.</param>
         </member>
         <member name="T:FileCabinetApp.Validators.CustomValidator">
             <summary>

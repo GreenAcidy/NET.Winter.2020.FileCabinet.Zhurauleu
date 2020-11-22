@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FileCabinetApp.Interfaces;
+using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -159,6 +160,11 @@ namespace FileCabinetApp
         public int GetStat()
         {
             return this.list.Count;
+        }
+
+        public FileCabinetServiceSnapshot MakeSnapShot()
+        {
+            return new FileCabinetServiceSnapshot(this.list.ToArray());
         }
     }
 }
