@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using FileCabinetApp.Interfaces;
 using FileCabinetApp.Validators;
 
@@ -27,6 +28,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
+            new Tuple<string, Action<string>>("export", Export),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("exit", Exit),
         };
@@ -38,7 +40,10 @@ namespace FileCabinetApp
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
             new string[] { "create", "receive user input and and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "edit", "modifies existing records", "The 'exit' command modifies existing records." },
-            new string[] { "find", "finds records by criterion ", "The 'exit' command finds records by criterion." },
+            new string[] { "find firstName", "return a list of records with desired firstName.", "The 'find firstName' comand return a list of records with finded firstName." },
+            new string[] { "find lastName", "return a list of records with desired lastName.", "The 'find lastName' command return a list of records with finded lastName." },
+            new string[] { "find dateofbirth", "return a list of records with desired date of birth.", "The 'find dateOfBirth' comand return a list of records with finded date of birth." },
+            new string[] { "export CSV", "export recods in csv format", "The 'export csv' command exports all records in csv format" },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
@@ -256,6 +261,36 @@ namespace FileCabinetApp
             {
                 Console.WriteLine("Incorrect property. Please, try again");
             }
+        }
+
+        private static void Export(string parameters)
+        {
+            string[] property = parameters.Split(' ');
+            do
+            {
+                if (string.Compare(property[0], "csv", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    try
+                    {
+                        var snapshot = fileCabinetService.MakeSnapShot();
+                        using (var streamWriter = new StreamWriter(property[1], false))
+                        {
+                            snapshot.SaveToCSV(streamWriter);
+                            Console.WriteLine($"All record write in file {property[1]}");
+                            break;
+                        }
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Console.WriteLine($"Cannot be open this file {property[1]}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect property. Please, try again");
+                }
+            }
+            while (isRunning);
         }
 
         private static void List(string parametrs)

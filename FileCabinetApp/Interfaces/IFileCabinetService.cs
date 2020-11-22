@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using FileCabinetApp.Service;
 
 namespace FileCabinetApp.Interfaces
 {
@@ -58,5 +59,7 @@ namespace FileCabinetApp.Interfaces
         /// </summary>
         /// <returns>count of records.</returns>
         public int GetStat();
+
+        public FileCabinetServiceSnapshot MakeSnapShot();
     }
 }
