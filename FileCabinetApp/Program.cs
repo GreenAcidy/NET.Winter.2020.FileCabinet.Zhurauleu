@@ -43,7 +43,8 @@ namespace FileCabinetApp
             new string[] { "find firstName", "return a list of records with desired firstName.", "The 'find firstName' comand return a list of records with finded firstName." },
             new string[] { "find lastName", "return a list of records with desired lastName.", "The 'find lastName' command return a list of records with finded lastName." },
             new string[] { "find dateofbirth", "return a list of records with desired date of birth.", "The 'find dateOfBirth' comand return a list of records with finded date of birth." },
-            new string[] { "export CSV", "export recods in csv format", "The 'export csv' command exports all records in csv format" },
+            new string[] { "export CSV", "export recods in csv format", "The 'export CSV' command exports all records in csv format" },
+            new string[] { "export XML", "export recods in xml format", "The 'export XML' command exports all records in xml format" },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
@@ -276,6 +277,23 @@ namespace FileCabinetApp
                         using (var streamWriter = new StreamWriter(property[1], false))
                         {
                             snapshot.SaveToCSV(streamWriter);
+                            Console.WriteLine($"All record write in file {property[1]}");
+                            break;
+                        }
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Console.WriteLine($"Cannot be open this file {property[1]}");
+                    }
+                }
+                else if (string.Compare(property[0], "xml", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    try
+                    {
+                        var snapshot = fileCabinetService.MakeSnapShot();
+                        using (var streamWriter = new StreamWriter(property[1], false))
+                        {
+                            snapshot.SaveToXML(streamWriter);
                             Console.WriteLine($"All record write in file {property[1]}");
                             break;
                         }

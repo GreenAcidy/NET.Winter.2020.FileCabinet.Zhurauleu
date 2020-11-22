@@ -30,5 +30,16 @@ namespace FileCabinetApp.Service
             var csvWriter = new FileCabinetRecordCsvWriter(writer, records);
             csvWriter.Write();
         }
+
+        public void SaveToXML(StreamWriter writer)
+        {
+            if (writer is null)
+            {
+                throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
+            }
+
+            var xmlWriter = new FileCabinetRecordXmlWriter(XmlWriter.Create(writer), records);
+            xmlWriter.Write();
+        }
     }
 }
