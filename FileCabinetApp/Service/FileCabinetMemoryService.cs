@@ -11,7 +11,7 @@ namespace FileCabinetApp
     /// <summary>
     /// Class FileCabinetService contain methods for working with FileCabinetRecord.
     /// </summary>
-    public class FileCabinetService : IFileCabinetService
+    public class FileCabinetMemoryService : IFileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
@@ -24,10 +24,10 @@ namespace FileCabinetApp
         private ReadOnlyCollection<FileCabinetRecord> records;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>
         /// <param name="validator">type of validation input data.</param>
-        public FileCabinetService(IRecordValidator validator)
+        public FileCabinetMemoryService(IRecordValidator validator)
         {
             this.Validator = validator;
         }
