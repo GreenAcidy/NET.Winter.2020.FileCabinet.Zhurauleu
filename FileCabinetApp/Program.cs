@@ -16,7 +16,7 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
-        private static IFileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
+        private static IFileCabinetService fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
 
         private static bool isRunning = true;
 
@@ -133,13 +133,13 @@ namespace FileCabinetApp
             {
                 if (string.Compare(parameters, "default", StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    fileCabinetService = new FileCabinetService(new DefaultValidator());
+                    fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
                     Console.WriteLine($"Validation #{parameters} is using now.");
                     break;
                 }
                 else if (string.Compare(parameters, "custom", StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    fileCabinetService = new FileCabinetService(new CustomValidator());
+                    fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
                     Console.WriteLine($"Validation #{parameters} is using now.");
                     break;
                 }
