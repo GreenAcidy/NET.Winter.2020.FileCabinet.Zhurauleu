@@ -5,11 +5,11 @@ using FileCabinetApp;
 
 namespace FileCabinetGenerator
 {
-    public class CsvWriter
+    public class RecordCsvWriter
     {
         private readonly TextWriter writer;
 
-        public CsvWriter(TextWriter writer)
+        public RecordCsvWriter(TextWriter writer)
         {
             if (writer is null)
             {
