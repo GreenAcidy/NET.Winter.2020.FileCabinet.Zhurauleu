@@ -61,5 +61,7 @@ namespace FileCabinetApp.Interfaces
         public int GetStat();
 
         public FileCabinetServiceSnapshot MakeSnapShot();
+
+        public int Restore(FileCabinetServiceSnapshot snapshot);
     }
 }
