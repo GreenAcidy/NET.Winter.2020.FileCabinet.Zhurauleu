@@ -65,7 +65,6 @@ namespace FileCabinetApp
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
             CommandAgrsHandler(args);
-            // Console.WriteLine("Using default validation rules.");
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
@@ -275,7 +274,7 @@ namespace FileCabinetApp
             Console.Write("Date of birth (mm/dd/yyyy): ");
             var date = ReadInput(DateConverter, DateValidation);
 
-            Console.Write("Gender: ");
+            Console.Write("Gender(M/F): ");
             var gender = ReadInput(CharConverter, GenderValidation);
 
             Console.Write("Experience: ");
@@ -311,7 +310,7 @@ namespace FileCabinetApp
                     Console.WriteLine(record.ToString());
                 }
             }
-            else if (string.Compare(property[0], "DayOfBirth", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (string.Compare(property[0], "DateOfBirth", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 DateTime date;
                 CultureInfo iOCultureFormat = new CultureInfo("en-US");
