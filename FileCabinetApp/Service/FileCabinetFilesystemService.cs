@@ -1,12 +1,12 @@
-﻿using FileCabinetApp.Validators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Text;
 using FileCabinetApp.Interfaces;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp.Service
 {
@@ -25,13 +25,6 @@ namespace FileCabinetApp.Service
             : this(new DefaultValidator(), fileStream)
         {
         }
-
-        public FileCabinetFilesystemService(IRecordValidator validator)
-        {
-            this.Validator = validator;
-        }
-
-        public IRecordValidator Validator { get; }
 
         public FileCabinetFilesystemService(IRecordValidator validator, FileStream fileStream)
         {
@@ -53,6 +46,13 @@ namespace FileCabinetApp.Service
             this.position = 0;
             this.id = 1;
         }
+
+        public FileCabinetFilesystemService(IRecordValidator validator)
+        {
+            this.Validator = validator;
+        }
+
+        public IRecordValidator Validator { get; }
 
         public int CreateRecord(FileCabinetInputData inputData)
         {
@@ -135,6 +135,29 @@ namespace FileCabinetApp.Service
             throw new NotImplementedException();
         }
 
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.binReader.Close();
+                this.binWriter.Close();
+                this.fileStream.Close();
+            }
+
+            this.disposed = true;
+        }
+
         private void WriteRecordToBinaryFile(int position, FileCabinetInputData inputData, int id)
         {
             this.binWriter.Seek(position, SeekOrigin.Begin);
@@ -180,29 +203,6 @@ namespace FileCabinetApp.Service
             }
 
             return records;
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                this.binReader.Close();
-                this.binWriter.Close();
-                this.fileStream.Close();
-            }
-
-            this.disposed = true;
         }
     }
 }

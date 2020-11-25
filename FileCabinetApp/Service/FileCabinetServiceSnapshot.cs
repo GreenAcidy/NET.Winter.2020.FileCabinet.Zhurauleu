@@ -27,7 +27,7 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
 
-            var csvWriter = new FileCabinetRecordCsvWriter(writer, records);
+            var csvWriter = new FileCabinetRecordCsvWriter(writer, this.records);
             csvWriter.Write();
         }
 
@@ -38,7 +38,7 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
 
-            var xmlWriter = new FileCabinetRecordXmlWriter(XmlWriter.Create(writer), records);
+            var xmlWriter = new FileCabinetRecordXmlWriter(XmlWriter.Create(writer), this.records);
             xmlWriter.Write();
         }
     }

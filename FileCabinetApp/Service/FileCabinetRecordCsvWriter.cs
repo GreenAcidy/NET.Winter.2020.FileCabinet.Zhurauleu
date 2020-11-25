@@ -29,10 +29,10 @@ namespace FileCabinetApp.Service
 
         public void Write()
         {
-            writer.WriteLine("Id, First Name, Last Name, Date, of, Birth, Gender, Experience, Account");
+            this.writer.WriteLine("Id, First Name, Last Name, Date, of, Birth, Gender, Experience, Account");
             foreach (var record in this.records)
             {
-                writer.WriteLine(record.ToString(), CultureInfo.InvariantCulture);
+                this.writer.WriteLine(record.ToString(), CultureInfo.InvariantCulture);
             }
         }
     }
