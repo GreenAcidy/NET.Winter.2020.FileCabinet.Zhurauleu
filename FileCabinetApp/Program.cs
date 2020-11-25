@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using FileCabinetApp.Interfaces;
+using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -16,14 +17,14 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
-        private static IFileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
-
+        private static IFileCabinetService fileCabinetService;
+        private static IRecordValidator validator;
+        private static bool isDefaultRule;
         private static bool isRunning = true;
 
         private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
         {
             new Tuple<string, Action<string>>("help", PrintHelp),
-            new Tuple<string, Action<string>>("validation", Validation),
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("edit", Edit),
@@ -36,7 +37,6 @@ namespace FileCabinetApp
         private static string[][] helpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
-            new string[] { "validation", "change type of validation of input data", "The 'help' command change type of validation of input data." },
             new string[] { "stat", "show statistics by records.", "The 'create' command show statistics by records." },
             new string[] { "create", "receive user input and and create new record.", "The 'exit' command receive user input and create new record." },
             new string[] { "edit", "modifies existing records", "The 'exit' command modifies existing records." },
@@ -49,6 +49,14 @@ namespace FileCabinetApp
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
+        private static string[] commandLineParameters = new string[]
+        {
+            "--validation-rules",
+            "-v",
+            "--storage",
+            "-s",
+        };
+
         /// <summary>
         /// method connecting the user and the program.
         /// </summary>
@@ -56,7 +64,7 @@ namespace FileCabinetApp
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
-            Console.WriteLine("Using default validation rules.");
+            CommandAgrsHandler(args);
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
@@ -127,30 +135,86 @@ namespace FileCabinetApp
             Console.WriteLine($"{recordsCount} record(s).");
         }
 
-        private static void Validation(string parameters)
+        private static void CommandAgrsHandler(string[] args)
         {
-            do
+            string rule;
+            int commandIndex = ParseRule(args, out rule);
+            switch (rule)
             {
-                if (string.Compare(parameters, "default", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    fileCabinetService = new FileCabinetService(new DefaultValidator());
-                    Console.WriteLine($"Validation #{parameters} is using now.");
+                case "DEFAULT":
+                    fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
+                    Console.WriteLine("Using default validation rules.");
+                    isDefaultRule = true;
+                    validator = new DefaultValidator();
                     break;
-                }
-                else if (string.Compare(parameters, "custom", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    fileCabinetService = new FileCabinetService(new CustomValidator());
-                    Console.WriteLine($"Validation #{parameters} is using now.");
+                case "CUSTOM":
+                    fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
+                    Console.WriteLine("Using custom validation rules.");
+                    validator = new CustomValidator();
                     break;
-                }
-                else
+                default:
+                    fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
+                    Console.WriteLine("Using default validation rules.");
+                    isDefaultRule = true;
+                    validator = new DefaultValidator();
+                    break;
+            }
+
+            if (commandIndex >= 3)
+            {
+                switch (rule)
                 {
-                    Console.WriteLine($"{parameters} string entered incorrectly, please try again");
-                    Console.Write("Validation(default/custom): ");
-                    parameters = Console.ReadLine();
+                    case "MEMORY":
+                        fileCabinetService = new FileCabinetMemoryService(validator);
+                        Console.WriteLine("Use memory service");
+                        break;
+                    case "FILE":
+                        string fullPath = "cabinet-records.db";
+                        FileStream fileStream = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+                        fileCabinetService = new FileCabinetFilesystemService(fileStream);
+                        Console.WriteLine("Use file service");
+                        break;
                 }
             }
-            while (isRunning);
+        }
+
+        private static int ParseRule(string[] args, out string rule)
+        {
+            if (args.Length == 0)
+            {
+                rule = string.Empty;
+                return -1;
+            }
+
+            int index = -1;
+
+            var parseText = args[0].Split(' ');
+            if (parseText[0] == commandLineParameters[0])
+            {
+                rule = parseText[parseText.Length - 1].ToUpper();
+                index = 0;
+            }
+            else if (parseText[0] == commandLineParameters[1])
+            {
+                rule = args[1].ToUpper();
+                index = 1;
+            }
+            else if (parseText[0] == commandLineParameters[2])
+            {
+                rule = parseText[parseText.Length - 1].ToUpper();
+                index = 3;
+            }
+            else if (parseText[0] == commandLineParameters[3])
+            {
+                rule = args[1].ToUpper();
+                index = 4;
+            }
+            else
+            {
+                rule = string.Empty;
+            }
+
+            return index;
         }
 
         private static void Create(string parametrs)
@@ -210,7 +274,7 @@ namespace FileCabinetApp
             Console.Write("Date of birth (mm/dd/yyyy): ");
             var date = ReadInput(DateConverter, DateValidation);
 
-            Console.Write("Gender: ");
+            Console.Write("Gender(M/F): ");
             var gender = ReadInput(CharConverter, GenderValidation);
 
             Console.Write("Experience: ");
@@ -246,7 +310,7 @@ namespace FileCabinetApp
                     Console.WriteLine(record.ToString());
                 }
             }
-            else if (string.Compare(property[0], "DayOfBirth", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (string.Compare(property[0], "DateOfBirth", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 DateTime date;
                 CultureInfo iOCultureFormat = new CultureInfo("en-US");
