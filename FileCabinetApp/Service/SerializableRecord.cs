@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace FileCabinetGenerator
+namespace FileCabinetApp
 {
     [Serializable]
     public class SerializableRecord
@@ -20,7 +20,7 @@ namespace FileCabinetGenerator
         [XmlElement("LastName")]
         public string LastName { get; set; }
 
-        [XmlElement("Experience")]
+        [XmlElement("Expirience")]
         public short Experience { get; set; }
 
         [XmlElement("Account")]
@@ -32,7 +32,7 @@ namespace FileCabinetGenerator
         [XmlElement("DateOfBirth")]
         public string DateOfBirth
         {
-            get => this.dateOfBirth.ToString("mm/dd/yyyy", CultureInfo.InvariantCulture);
+            get => this.dateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
         }
     }
 }
