@@ -139,7 +139,6 @@ namespace FileCabinetGenerator
                 serializeRecord.Experience = record.Experience;
                 serializeRecord.Account = record.Account;
                 
-
                 collection.Add(serializeRecord);
             }
 
