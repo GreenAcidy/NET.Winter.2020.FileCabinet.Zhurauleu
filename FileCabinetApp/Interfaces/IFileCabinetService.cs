@@ -48,6 +48,8 @@ namespace FileCabinetApp.Interfaces
         /// <returns>all records whose date of birth matches the incoming.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
 
+        public bool Remove(int id);
+
         /// <summary>
         /// Method return all records.
         /// </summary>
