@@ -166,5 +166,76 @@ namespace FileCabinetApp
         {
             return new FileCabinetServiceSnapshot(this.list.ToArray());
         }
+
+        public int Restore(FileCabinetServiceSnapshot snapshot)
+        {
+            if (snapshot is null)
+            {
+                throw new ArgumentNullException($"{nameof(snapshot)} cannot be null.");
+            }
+
+            int count = 0;
+            foreach (var record in snapshot.Records)
+            {
+                try
+                {
+                    int id = record.Id;
+                    if (id <= 0)
+                    {
+                        throw new ArgumentOutOfRangeException($"{nameof(id)} must be positive.");
+                    }
+
+                    if (id <= this.list.Count)
+                    {
+                        var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
+                        this.EditRecord(id, data);
+                        count++;
+                    }
+                    else
+                    {
+                        this.list.Add(record);
+
+                        if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper()))
+                        {
+                            this.firstNameDictionary[record.FirstName.ToUpper()].Add(record);
+                        }
+                        else
+                        {
+                            this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+                        }
+
+                        if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper()))
+                        {
+                            this.lastNameDictionary[record.LastName.ToUpper()].Add(record);
+                        }
+                        else
+                        {
+                            this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
+                        }
+
+                        if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
+                        {
+                            this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
+                        }
+                        else
+                        {
+                            this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
+                        }
+
+                        count++;
+                    }
+                }
+                catch (IndexOutOfRangeException indexOutOfRangeException)
+                {
+                    Console.WriteLine($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine($"Import record with id {record.Id} failed: {exception.Message}");
+                }
+            }
+
+            return count;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace FileCabinetApp
 {
@@ -69,8 +70,8 @@ namespace FileCabinetApp
         /// <returns>One record of person.</returns>
         public override string ToString()
         {
-            return $"#{this.Id}, {this.FirstName}, {this.LastName}, {this.DateOfBirth.ToLongDateString()}, " +
-                   $"{this.Gender}, {this.Experience}, {this.Account}";
+            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                this.Id, this.FirstName, this.LastName, this.DateOfBirth, this.Gender, this.Experience, this.Account);
         }
     }
 }

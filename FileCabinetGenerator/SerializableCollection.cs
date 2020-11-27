@@ -1,7 +1,9 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Xml.Serialization;
 
-namespace FileCabinetApp.Service
+namespace FileCabinetGenerator
 {
     [XmlRoot("Records")]
     public class SerializableCollection
