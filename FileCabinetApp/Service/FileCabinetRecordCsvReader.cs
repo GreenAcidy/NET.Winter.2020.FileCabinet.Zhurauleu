@@ -51,9 +51,9 @@ namespace FileCabinetApp.Service
                 FirstName = data[1].Trim(),
                 LastName = data[2].Trim(),
                 DateOfBirth = DateTime.Parse(data[3].Trim(), CultureInfo.InvariantCulture),
-                Experience = short.Parse(data[4].Trim(), CultureInfo.InvariantCulture),
-                Account = decimal.Parse(data[5].Trim(), CultureInfo.InvariantCulture),
-                Gender = char.Parse(data[6].Trim()),
+                Gender = char.Parse(data[4].Trim()),
+                Experience = short.Parse(data[5].Trim(), CultureInfo.InvariantCulture),
+                Account = decimal.Parse(data[6].Trim(), CultureInfo.InvariantCulture),              
             };
 
         protected virtual void Dispose(bool disposing)

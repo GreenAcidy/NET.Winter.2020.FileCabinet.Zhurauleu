@@ -9,7 +9,6 @@ namespace FileCabinetApp
     [Serializable]
     public class SerializableRecord
     {
-        public DateTime dateOfBirth;
 
         [XmlAttribute("Id")]
         public int Id { get; set; }
@@ -20,14 +19,16 @@ namespace FileCabinetApp
         [XmlElement("LastName")]
         public string LastName { get; set; }
 
-        [XmlElement("Expirience")]
+        [XmlElement("Gender")]
+        public char Gender { get; set; }
+
+        [XmlElement("Experience")]
         public short Experience { get; set; }
 
         [XmlElement("Account")]
         public decimal Account { get; set; }
 
-        [XmlElement("Gender")]
-        public char Gender { get; set; }
+        public DateTime dateOfBirth;
 
         [XmlElement("DateOfBirth")]
         public string DateOfBirth

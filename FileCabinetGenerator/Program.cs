@@ -135,9 +135,10 @@ namespace FileCabinetGenerator
                 serializeRecord.FirstName = record.FirstName;
                 serializeRecord.LastName = record.LastName;
                 serializeRecord.dateOfBirth = record.DateOfBirth;
+                serializeRecord.Gender = record.Gender;
                 serializeRecord.Experience = record.Experience;
                 serializeRecord.Account = record.Account;
-                serializeRecord.Gender = record.Gender;
+                
 
                 collection.Add(serializeRecord);
             }
