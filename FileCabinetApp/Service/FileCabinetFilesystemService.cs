@@ -1,12 +1,12 @@
-﻿using System;
+﻿using FileCabinetApp.Validators;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.IO;
 using System.Linq;
+using System.IO;
 using System.Text;
 using FileCabinetApp.Interfaces;
-using FileCabinetApp.Validators;
 
 namespace FileCabinetApp.Service
 {
@@ -14,17 +14,33 @@ namespace FileCabinetApp.Service
     {
         public const int LengtOfString = 120;
         public const int RecordSize = 518;
+
+        private const short isRealRecord = 0;
+        private const short isRemovedRecord = 1;
+
         private readonly FileStream fileStream;
         private readonly BinaryReader binReader;
         private readonly BinaryWriter binWriter;
-        private int position;
+
+        private int cursor;
+        private int currentID;
+
         private bool disposed;
-        private int id;
+
+        private Dictionary<int, bool> records;
+        private Dictionary<int, int> idPositions;
 
         public FileCabinetFilesystemService(FileStream fileStream)
             : this(new DefaultValidator(), fileStream)
         {
         }
+
+        public FileCabinetFilesystemService(IRecordValidator validator)
+        {
+            this.Validator = validator;
+        }
+
+        public IRecordValidator Validator { get; }
 
         public FileCabinetFilesystemService(IRecordValidator validator, FileStream fileStream)
         {
@@ -42,40 +58,31 @@ namespace FileCabinetApp.Service
             this.fileStream = fileStream;
             this.binReader = new BinaryReader(fileStream);
             this.binWriter = new BinaryWriter(fileStream);
+            this.records = new Dictionary<int, bool>();
+            this.idPositions = new Dictionary<int, int>();
             this.disposed = true;
-            this.position = 0;
-            this.id = 1;
+            this.cursor = 0;
+            this.currentID = 1;
         }
 
-        public FileCabinetFilesystemService(IRecordValidator validator)
+        public int CreateRecord(FileCabinetInputData parameters)
         {
-            this.Validator = validator;
+            return this.CreateRecordWithId(parameters, this.currentID++);
         }
 
-        public IRecordValidator Validator { get; }
-
-        public int CreateRecord(FileCabinetInputData inputData)
+        public void EditRecord(int id, FileCabinetInputData parameters)
         {
-            this.Validator.ValidateParameters(inputData);
-            this.WriteRecordToBinaryFile(this.position, inputData, this.id);
-            this.position += RecordSize;
-            return this.id++;
-        }
-
-        public void EditRecord(int id, FileCabinetInputData inputData)
-        {
-            if (id > this.id)
+            if (!this.records.ContainsKey(id) || this.records[id] == false)
             {
                 throw new ArgumentException($"Element with #{nameof(id)} can't fine in this records list.");
             }
 
-            int position = (id - 1) * RecordSize;
-            this.WriteRecordToBinaryFile(position, inputData, id);
+            this.WriteRecordToBinaryFile(this.idPositions[id], parameters, id);
         }
 
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            var records = this.GetRecordsCollection();
+            var records = GetRecordsCollection();
             var result = new List<FileCabinetRecord>();
 
             foreach (var record in records)
@@ -91,7 +98,7 @@ namespace FileCabinetApp.Service
 
         public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            var records = this.GetRecordsCollection();
+            var records = GetRecordsCollection();
             var result = new List<FileCabinetRecord>();
 
             foreach (var record in records)
@@ -123,12 +130,59 @@ namespace FileCabinetApp.Service
             return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
+        public bool Remove(int id)
+        {
+            if (!this.records.ContainsKey(id))
+            {
+                return false;
+            }
+
+            this.binWriter.BaseStream.Position = this.idPositions[id];
+            this.binWriter.Write(isRemovedRecord);
+            this.records[id] = false;
+            this.binWriter.BaseStream.Position = this.cursor;
+            return true;
+        }
+
+        public void Purge()
+        {
+            var collection = this.GetRecordsCollection();
+            this.binWriter.BaseStream.Position = 0;
+            this.records.Clear();
+            this.cursor = 0;
+
+            foreach (var record in collection)
+            {
+                var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
+
+                this.WriteRecordToBinaryFile(this.cursor, data, record.Id);
+                this.cursor += RecordSize;
+                this.records.Add(record.Id, true);
+            }
+        }
+
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
             =>
             new ReadOnlyCollection<FileCabinetRecord>(this.GetRecordsCollection());
 
-        public int GetStat()
-            => this.GetRecordsCollection().Count;
+        public (int real, int removed) GetStat()
+        {
+            int removed = 0;
+            int real = 0;
+
+            foreach (var recrodId in this.records)
+            {
+                if (recrodId.Value == true)
+                {
+                    real++;
+                    continue;
+                }
+
+                removed++;
+            }
+
+            return (real, removed);
+        }
 
         public FileCabinetServiceSnapshot MakeSnapShot()
         {
@@ -153,19 +207,17 @@ namespace FileCabinetApp.Service
                         throw new ArgumentOutOfRangeException($"{nameof(id)} must be positive.");
                     }
 
-                    int countRecords = this.GetStat();
-                    int size = countRecords;
                     var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
 
-                    if (id <= countRecords)
+                    if (this.records.ContainsKey(id))
                     {
                         this.EditRecord(id, data);
                         count++;
                     }
                     else
                     {
-                        this.WriteRecordToBinaryFile(RecordSize * size++, data, id);
-                        this.position += RecordSize;
+                        this.CreateRecordWithId(data, id);
+                        this.currentID = id + 1;
                         count++;
                     }
                 }
@@ -205,25 +257,36 @@ namespace FileCabinetApp.Service
             this.disposed = true;
         }
 
-        private void WriteRecordToBinaryFile(int position, FileCabinetInputData inputData, int id)
+        private int CreateRecordWithId(FileCabinetInputData parameters, int id)
         {
-            this.binWriter.Seek(position, SeekOrigin.Begin);
-            this.binWriter.Write((short)0);
-            this.binWriter.Write(id);
-            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(inputData.FirstName, new string(' ', LengtOfString - inputData.FirstName.Length)).ToCharArray()));
-            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(inputData.LastName, new string(' ', LengtOfString - inputData.LastName.Length)).ToCharArray()));
-            this.binWriter.Write(inputData.DateOfBirth.Month);
-            this.binWriter.Write(inputData.DateOfBirth.Day);
-            this.binWriter.Write(inputData.DateOfBirth.Year);
-            this.binWriter.Write(inputData.Experience);
-            this.binWriter.Write(inputData.Account);
-            this.binWriter.Write(Encoding.Unicode.GetBytes(inputData.Gender.ToString(CultureInfo.InvariantCulture)));
+            this.Validator.ValidateParameters(parameters);
+            this.WriteRecordToBinaryFile(this.cursor, parameters, id);
+            this.idPositions[id] = this.cursor;
+            this.cursor += RecordSize;
+            this.records.Add(id, true);
+            return id;
         }
 
-        private FileCabinetRecord ReadRecordOutBinaryFile(long position)
+        private void WriteRecordToBinaryFile(int position, FileCabinetInputData parameters, int id)
+        {
+            this.binWriter.Seek(position, SeekOrigin.Begin);
+            this.binWriter.Write(isRealRecord);
+            this.binWriter.Write(id);
+            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.FirstName, new string(' ', LengtOfString - parameters.FirstName.Length)).ToCharArray()));
+            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.LastName, new string(' ', LengtOfString - parameters.LastName.Length)).ToCharArray()));
+            this.binWriter.Write(parameters.DateOfBirth.Month);
+            this.binWriter.Write(parameters.DateOfBirth.Day);
+            this.binWriter.Write(parameters.DateOfBirth.Year);
+            this.binWriter.Write(parameters.Experience);
+            this.binWriter.Write(parameters.Account);
+            this.binWriter.Write(Encoding.Unicode.GetBytes(parameters.Gender.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        private FileCabinetRecord ReadRecordOutBinaryFile(long position, out bool removedKey)
         {
             this.binReader.BaseStream.Position = position;
-            this.binReader.ReadInt16();
+            short readKey = this.binReader.ReadInt16();
+            removedKey = readKey == isRemovedRecord;
 
             var record = new FileCabinetRecord()
             {
@@ -242,11 +305,14 @@ namespace FileCabinetApp.Service
         private List<FileCabinetRecord> GetRecordsCollection()
         {
             List<FileCabinetRecord> records = new List<FileCabinetRecord>();
-
-            for (int i = 0; i < this.position; i += RecordSize)
+            bool removedKey;
+            for (int i = 0; i < this.records.Count * RecordSize; i += RecordSize)
             {
-                var record = this.ReadRecordOutBinaryFile(i);
-                records.Add(record);
+                var record = this.ReadRecordOutBinaryFile(i, out removedKey);
+                if (!removedKey)
+                {
+                    records.Add(record);
+                }
             }
 
             return records;

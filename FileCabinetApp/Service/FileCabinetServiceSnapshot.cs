@@ -41,7 +41,26 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(writer)} cannot be null.");
             }
 
-            var xmlWriter = new FileCabinetRecordXmlWriter(XmlWriter.Create(writer), this.records);
+            var collection = new List<SerializableRecord>();
+
+            foreach (var record in this.records)
+            {
+                var serializeRecord = new SerializableRecord();
+                serializeRecord.Id = record.Id;
+                serializeRecord.FirstName = record.FirstName;
+                serializeRecord.LastName = record.LastName;
+                serializeRecord.DateOfBirth = record.DateOfBirth;
+                serializeRecord.Experience = record.Experience;
+                serializeRecord.Account = record.Account;
+                serializeRecord.Gender = record.Gender;
+
+                collection.Add(serializeRecord);
+            }
+
+            var serializableRecords = new SerializableCollection();
+            serializableRecords.SerializeRecords = collection.ToArray();
+
+            var xmlWriter = new FileCabinetRecordXmlWriter(XmlWriter.Create(writer), serializableRecords);
             xmlWriter.Write();
         }
 

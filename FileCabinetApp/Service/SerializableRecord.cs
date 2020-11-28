@@ -28,12 +28,7 @@ namespace FileCabinetApp
         [XmlElement("Account")]
         public decimal Account { get; set; }
 
-        public DateTime dateOfBirth;
-
         [XmlElement("DateOfBirth")]
-        public string DateOfBirth
-        {
-            get => this.dateOfBirth.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
-        }
+        public DateTime DateOfBirth { get; set; }
     }
 }

@@ -10,10 +10,9 @@ namespace FileCabinetApp.Service
     {
         private readonly XmlWriter writer;
         private XmlSerializer serializer;
-        private SerializableCollection collection;
-        private FileCabinetRecord[] records;
+        private SerializableCollection records;
 
-        public FileCabinetRecordXmlWriter(XmlWriter writer, FileCabinetRecord[] records)
+        public FileCabinetRecordXmlWriter(XmlWriter writer, SerializableCollection records)
         {
             if (writer is null)
             {
@@ -26,14 +25,13 @@ namespace FileCabinetApp.Service
             }
 
             this.writer = writer;
-            this.collection = new SerializableCollection();
             this.serializer = new XmlSerializer(typeof(SerializableCollection));
             this.records = records;
         }
 
         public void Write()
         {
-            this.serializer.Serialize(writer, records);
+            this.serializer.Serialize(this.writer, this.records);
         }
     }
 }

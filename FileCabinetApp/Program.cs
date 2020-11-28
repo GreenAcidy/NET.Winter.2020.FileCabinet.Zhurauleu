@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.IO;
 using FileCabinetApp.Interfaces;
@@ -31,6 +31,8 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("export", Export),
             new Tuple<string, Action<string>>("import", Import),
+            new Tuple<string, Action<string>>("remove", Remove),
+            new Tuple<string, Action<string>>("purge", Purge),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("exit", Exit),
         };
@@ -48,6 +50,7 @@ namespace FileCabinetApp
             new string[] { "export XML", "export recods in xml format", "The 'export XML' command exports all records in xml format" },
             new string[] { "import CSV", "import records from csv file.", "The 'import CSV' command import all records from csv file." },
             new string[] { "import XML", "import records from xml file.", "The 'import XML' command import all records from xml file." },
+            new string[] { "remove", "remove record from the service.", "The 'remove' command remove record from the service." },
             new string[] { "list", "return a list of records added to the service.", "The 'exit' command return a list of records added to the service." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
@@ -260,7 +263,7 @@ namespace FileCabinetApp
                     id = Convert.ToInt32(Console.ReadLine());
                 }
 
-                if (id < 0 || id > fileCabinetService.GetStat())
+                if (id < 0 || id > fileCabinetService.GetStat().real)
                 {
                     flag = true;
                     Console.WriteLine($"#{id} record is not found");
@@ -434,6 +437,25 @@ namespace FileCabinetApp
 
             int completed = fileCabinetService.Restore(snapshot);
             Console.WriteLine($"{completed} records were imported from {path}");
+        }
+
+        private static void Remove(string parameters)
+        {
+            var id = int.Parse(parameters);
+            if (fileCabinetService.Remove(id))
+            {
+                Console.WriteLine($"Record #{id} was removed");
+            }
+            else
+            {
+                Console.WriteLine($"Record #{id} not founded or not exist.");
+            }
+        }
+
+        private static void Purge(string parameters)
+        {
+            fileCabinetService.Purge();
+            Console.WriteLine("Data file processing is completed");
         }
 
         private static void List(string parametrs)
