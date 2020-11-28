@@ -145,7 +145,7 @@ namespace FileCabinetApp
 
         public bool Remove(int id)
         {
-            if (id > this.list.Count);
+            if (id > this.list.Count)
             {
                 return false;
             }
@@ -165,23 +165,27 @@ namespace FileCabinetApp
             return false;
         }
 
+        public void Purge()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Method return all records.
         /// </summary>
         /// <returns>all records.</returns>
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            this.records = new ReadOnlyCollection<FileCabinetRecord>(this.list);
-            return this.records;
+            return new ReadOnlyCollection<FileCabinetRecord>(this.list);
         }
 
         /// <summary>
         /// Method return count of records.
         /// </summary>
         /// <returns>count of records.</returns>
-        public int GetStat()
+        public (int real, int removed) GetStat()
         {
-            return this.list.Count;
+            return (this.list.Count, 0);
         }
 
         public FileCabinetServiceSnapshot MakeSnapShot()

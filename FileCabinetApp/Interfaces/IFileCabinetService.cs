@@ -50,6 +50,8 @@ namespace FileCabinetApp.Interfaces
 
         public bool Remove(int id);
 
+        public void Purge();
+
         /// <summary>
         /// Method return all records.
         /// </summary>
@@ -60,7 +62,7 @@ namespace FileCabinetApp.Interfaces
         /// Method return count of records.
         /// </summary>
         /// <returns>count of records.</returns>
-        public int GetStat();
+        public (int real, int removed) GetStat();
 
         public FileCabinetServiceSnapshot MakeSnapShot();
 

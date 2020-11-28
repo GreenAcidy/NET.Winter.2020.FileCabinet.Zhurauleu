@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.IO;
 using FileCabinetApp.Interfaces;
@@ -32,6 +32,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("export", Export),
             new Tuple<string, Action<string>>("import", Import),
             new Tuple<string, Action<string>>("remove", Remove),
+            new Tuple<string, Action<string>>("purge", Purge),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("exit", Exit),
         };
@@ -262,7 +263,7 @@ namespace FileCabinetApp
                     id = Convert.ToInt32(Console.ReadLine());
                 }
 
-                if (id < 0 || id > fileCabinetService.GetStat())
+                if (id < 0 || id > fileCabinetService.GetStat().real)
                 {
                     flag = true;
                     Console.WriteLine($"#{id} record is not found");
@@ -449,6 +450,12 @@ namespace FileCabinetApp
             {
                 Console.WriteLine($"Record #{id} not founded or not exist.");
             }
+        }
+
+        private static void Purge(string parameters)
+        {
+            fileCabinetService.Purge();
+            Console.WriteLine("Data file processing is completed");
         }
 
         private static void List(string parametrs)
