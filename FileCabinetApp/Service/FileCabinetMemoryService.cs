@@ -145,7 +145,7 @@ namespace FileCabinetApp
 
         public bool Remove(int id)
         {
-            if (id > this.list.Count)
+            if (id > this.list.Count);
             {
                 return false;
             }

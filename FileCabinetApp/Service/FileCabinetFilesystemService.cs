@@ -14,12 +14,17 @@ namespace FileCabinetApp.Service
     {
         public const int LengtOfString = 120;
         public const int RecordSize = 518;
+        private const short isRealRecord = 0;
+        private const short isRemovedRecord = 1;
         private readonly FileStream fileStream;
         private readonly BinaryReader binReader;
         private readonly BinaryWriter binWriter;
         private int position;
         private bool disposed;
         private int id;
+
+        private List<int> realIdRecord;
+        private List<int> removeIdRecords;
 
         public FileCabinetFilesystemService(FileStream fileStream)
             : this(new DefaultValidator(), fileStream)
@@ -45,6 +50,8 @@ namespace FileCabinetApp.Service
             this.disposed = true;
             this.position = 0;
             this.id = 1;
+            this.realIdRecord = new List<int>();
+            this.removeIdRecords = new List<int>();
         }
 
         public FileCabinetFilesystemService(IRecordValidator validator)
@@ -59,6 +66,7 @@ namespace FileCabinetApp.Service
             this.Validator.ValidateParameters(inputData);
             this.WriteRecordToBinaryFile(this.position, inputData, this.id);
             this.position += RecordSize;
+            this.realIdRecord.Add(this.id);
             return this.id++;
         }
 
@@ -125,7 +133,16 @@ namespace FileCabinetApp.Service
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            if (!this.realIdRecord.Contains(id))
+            {
+                return false;
+            }
+
+            this.binReader.BaseStream.Position = id * RecordSize;
+            this.binWriter.Write(isRemovedRecord);
+            this.realIdRecord.Add(id);
+            this.realIdRecord.Remove(id);
+            return true;
         }
 
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
@@ -213,7 +230,7 @@ namespace FileCabinetApp.Service
         private void WriteRecordToBinaryFile(int position, FileCabinetInputData inputData, int id)
         {
             this.binWriter.Seek(position, SeekOrigin.Begin);
-            this.binWriter.Write((short)0);
+            this.binWriter.Write(isRealRecord);
             this.binWriter.Write(id);
             this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(inputData.FirstName, new string(' ', LengtOfString - inputData.FirstName.Length)).ToCharArray()));
             this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(inputData.LastName, new string(' ', LengtOfString - inputData.LastName.Length)).ToCharArray()));
