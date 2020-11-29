@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
 using FileCabinetApp.Interfaces;
@@ -8,10 +9,17 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
     public class FindCommandHandler : ServiceCommandHandlerBase
     {
         public const string FindConstant = "find";
+        private readonly Action<IEnumerable<FileCabinetRecord>> printer;
 
-        public FindCommandHandler(IFileCabinetService fileCabinetService)
-            : base(fileCabinetService)
+        public FindCommandHandler(IFileCabinetService fileCabinetService, Action<IEnumerable<FileCabinetRecord>> printer)
+             : base(fileCabinetService)
         {
+            if (printer is null)
+            {
+                throw new ArgumentNullException($"{nameof(printer)} cannot be null.");
+            }
+
+            this.printer = printer;
         }
 
         public override void Handle(AppCommandRequest commandRequest)
@@ -48,23 +56,16 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             }
         }
 
-
         private void FindFirstName(string firstName)
         {
             var records = fileCabinetService.FindByFirstName(firstName);
-            foreach (var record in records)
-            {
-                Console.WriteLine(record.ToString());
-            }
+            this.printer(records);
         }
 
         private void FindLastName(string lastName)
         {
             var records = fileCabinetService.FindByLastName(lastName);
-            foreach (var record in records)
-            {
-                Console.WriteLine(record.ToString());
-            }
+            this.printer(records);
         }
 
         private void FindDateOfBirth(string dateOfBirth)
@@ -74,10 +75,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             DateTime.TryParse(dateOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
             var records = fileCabinetService.FindByDateOfBirth(date);
 
-            foreach (var record in records)
-            {
-                Console.WriteLine(record.ToString());
-            }
+            this.printer(records);
         }
     }
 }

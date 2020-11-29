@@ -4,6 +4,7 @@ using FileCabinetApp.CommandHandlers.CabinetHandlers;
 using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
 using FileCabinetApp.CommandHandlers.ServiceHandlers;
 using FileCabinetApp.Interfaces;
+using FileCabinetApp.Printers;
 using FileCabinetApp.Service;
 using FileCabinetApp.Validators;
 
@@ -148,12 +149,13 @@ namespace FileCabinetApp
         {
             static void Runner(bool x) => isRunning = x;
 
+            var recordPrinter = new DefaultRecordPrinter();
             var helpHandler = new HelpCommandHandler();
             var statHandler = new StatCommandHandler(fileCabinetService);
-            var listHandler = new ListCommandHandler(fileCabinetService);
+            var listHandler = new ListCommandHandler(fileCabinetService, recordPrinter.Print);
             var createHandler = new CreateCommandHandler(fileCabinetService);
             var importHandler = new ImportCommandHandler(fileCabinetService);
-            var findHandler = new FindCommandHandler(fileCabinetService);
+            var findHandler = new FindCommandHandler(fileCabinetService, recordPrinter.Print);
             var exportHandler = new ExportCommandHandler(fileCabinetService);
             var removeHandler = new RemoveCommandHandler(fileCabinetService);
             var purgeHandler = new PurgeCommandHandler(fileCabinetService);
