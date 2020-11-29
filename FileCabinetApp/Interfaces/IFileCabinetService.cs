@@ -9,7 +9,7 @@ namespace FileCabinetApp.Interfaces
     /// <summary>
     /// Interface IFileCabinetService sets behaviour of working with Cabinet.
     /// </summary>
-    internal interface IFileCabinetService
+    public interface IFileCabinetService
     {
         public IRecordValidator Validator { get; }
 
