@@ -19,15 +19,15 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException(nameof(inputData), "must not be null");
             }
 
-            this.ValidationFirstName(inputData.FirstName);
-            this.ValidationLastName(inputData.LastName);
-            this.ValidationData(inputData.DateOfBirth);
-            this.ValidationGender(inputData.Gender);
-            this.ValidationExperience(inputData.Experience);
-            this.ValidationAccount(inputData.Account);
+            this.ValidateFirstName(inputData.FirstName);
+            this.ValidateLastName(inputData.LastName);
+            this.ValidateDateOfBirth(inputData.DateOfBirth);
+            this.ValidateGender(inputData.Gender);
+            this.ValidateExperience(inputData.Experience);
+            this.ValidateAccount(inputData.Account);
         }
 
-        public void ValidationFirstName(string name)
+        private void ValidateFirstName(string name)
         {
             if (name is null)
             {
@@ -47,7 +47,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        public void ValidationLastName(string name)
+        private void ValidateLastName(string name)
         {
             if (name is null)
             {
@@ -67,7 +67,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        public void ValidationData(DateTime dateOfBirth)
+        private void ValidateDateOfBirth(DateTime dateOfBirth)
         {
             DateTime date = new DateTime(1950, 01, 01);
             if (dateOfBirth > DateTime.Today || dateOfBirth < date)
@@ -76,7 +76,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        public void ValidationGender(char gender)
+        private void ValidateGender(char gender)
         {
             if (char.IsWhiteSpace(gender))
             {
@@ -89,7 +89,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        public void ValidationExperience(short experience)
+        private void ValidateExperience(short experience)
         {
             if (experience < 0)
             {
@@ -97,7 +97,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        public void ValidationAccount(decimal account)
+        private void ValidateAccount(decimal account)
         {
             if (account <= 0)
             {

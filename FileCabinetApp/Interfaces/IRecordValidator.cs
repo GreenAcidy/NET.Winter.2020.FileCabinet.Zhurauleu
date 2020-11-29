@@ -14,17 +14,5 @@ namespace FileCabinetApp.Interfaces
         /// </summary>
         /// <param name="inputData">input data.</param>
         public void ValidateParameters(FileCabinetInputData inputData);
-
-        public void ValidationFirstName(string firstName);
-
-        public void ValidationLastName(string lastName);
-
-        public void ValidationData(DateTime dateOfBirth);
-
-        public void ValidationGender(char gender);
-
-        public void ValidationExperience(short experience);
-
-        public void ValidationAccount(decimal bankAccount);
     }
 }
