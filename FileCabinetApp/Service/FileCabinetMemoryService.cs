@@ -27,6 +27,11 @@ namespace FileCabinetApp
         /// <param name="validator">type of validation input data.</param>
         public FileCabinetMemoryService(IRecordValidator validator)
         {
+            if (validator is null)
+            {
+                throw new ArgumentException($"{nameof(validator)} cannot be null.");
+            }
+
             this.Validator = validator;
         }
 

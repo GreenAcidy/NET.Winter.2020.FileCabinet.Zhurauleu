@@ -36,9 +36,9 @@ namespace FileCabinetApp.Validators
             return this;
         }
 
-        public ValidatorBuilder ValidateGender()
+        public ValidatorBuilder ValidateGender(string genders)
         {
-            this.validators.Add(new GenderValidator());
+            this.validators.Add(new GenderValidator(genders));
             return this;
         }
 
