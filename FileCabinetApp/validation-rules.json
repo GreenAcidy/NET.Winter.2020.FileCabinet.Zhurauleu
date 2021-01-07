@@ -22,6 +22,7 @@
 		"gender": {
 			"genders": "mMfF"  
 		}
+	},
 	"custom": {
 		"firstName": {
 			"min": 2,

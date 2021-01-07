@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using FileCabinetApp.CommandHandlers.CabinetHandlers;
+using FileCabinetApp.CommandHandlers.CommandAgrsHandlers;
 using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
 using FileCabinetApp.CommandHandlers.ServiceHandlers;
 using FileCabinetApp.Interfaces;
@@ -18,16 +19,7 @@ namespace FileCabinetApp
         private const string DeveloperName = "Kiryl Zhurauleu";
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
         private static IFileCabinetService fileCabinetService;
-        private static IRecordValidator validator;
         private static bool isRunning = true;
-
-        private static string[] commandLineParameters = new string[]
-        {
-            "--validation-rules",
-            "-v",
-            "--storage",
-            "-s",
-        };
 
         /// <summary>
         /// method connecting the user and the program.
@@ -36,7 +28,9 @@ namespace FileCabinetApp
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
-            CommandAgrsHandler(args);
+            var handler = new Handler();
+            handler.Handle(args);
+            fileCabinetService = handler.GetService();
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
 
@@ -60,83 +54,6 @@ namespace FileCabinetApp
                 Console.WriteLine();
             }
             while (isRunning);
-        }
-
-        private static void CommandAgrsHandler(string[] args)
-        {
-            string rule;
-            int commandIndex = ParseRule(args, out rule);
-            switch (rule)
-            {
-                case "DEFAULT":
-                    Console.WriteLine("Using default validation rules.");
-                    validator = new ValidatorBuilder().Create();
-                    break;
-                case "CUSTOM":
-                    Console.WriteLine("Using custom validation rules.");
-                    validator = new ValidatorBuilder().Create("custom");
-                    break;
-                default:
-                    Console.WriteLine("Using default validation rules.");
-                    validator = new ValidatorBuilder().Create();
-                    break;
-            }
-
-            if (commandIndex >= 3)
-            {
-                switch (rule)
-                {
-                    case "MEMORY":
-                        fileCabinetService = new FileCabinetMemoryService(validator);
-                        Console.WriteLine("Use memory service");
-                        break;
-                    case "FILE":
-                        string fullPath = "cabinet-records.db";
-                        FileStream fileStream = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-                        fileCabinetService = new FileCabinetFilesystemService(validator, fileStream);
-                        Console.WriteLine("Use file service");
-                        break;
-                }
-            }
-        }
-
-        private static int ParseRule(string[] args, out string rule)
-        {
-            if (args.Length == 0)
-            {
-                rule = string.Empty;
-                return -1;
-            }
-
-            int index = -1;
-
-            var parseText = args[0].Split(' ');
-            if (parseText[0] == commandLineParameters[0])
-            {
-                rule = parseText[parseText.Length - 1].ToUpper();
-                index = 0;
-            }
-            else if (parseText[0] == commandLineParameters[1])
-            {
-                rule = args[1].ToUpper();
-                index = 1;
-            }
-            else if (parseText[0] == commandLineParameters[2])
-            {
-                rule = parseText[parseText.Length - 1].ToUpper();
-                index = 3;
-            }
-            else if (parseText[0] == commandLineParameters[3])
-            {
-                rule = args[1].ToUpper();
-                index = 4;
-            }
-            else
-            {
-                rule = string.Empty;
-            }
-
-            return index;
         }
 
         public static ICommandHandler CreateCommandHandlers()

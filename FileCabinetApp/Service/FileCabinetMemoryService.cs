@@ -21,6 +21,8 @@ namespace FileCabinetApp
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
         private ReadOnlyCollection<FileCabinetRecord> records;
 
+        public FileCabinetMemoryService() { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>

@@ -31,6 +31,11 @@ namespace FileCabinetApp.Validators
             {
                 throw new ArgumentException($"{nameof(inputData.Gender)} must be letter.");
             }
+
+            if (!this.genders.Contains(inputData.Gender, StringComparison.Ordinal))
+            {
+                throw new ArgumentException($"{nameof(inputData.Gender)} must be correct gender.");
+            }
         }
     }
 }
