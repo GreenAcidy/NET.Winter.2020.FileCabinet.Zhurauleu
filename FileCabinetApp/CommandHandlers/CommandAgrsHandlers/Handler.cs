@@ -55,6 +55,9 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
                     case CommandArgConstant.STOPWATCH:
                         this.decoratedService = new ServiceMeter(this.service);
                         break;
+                    case CommandArgConstant.LOGGER:
+                        this.decoratedService = new ServiceLogger(this.service);
+                        break;
                 }
             }
         }
@@ -103,7 +106,7 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
             int addition;
             for (int i = 0; i < parameters.Length; i += addition)
             {
-                if (parameters[i] == CommandArgConstant.STOPWATCH || parameters[i] == CommandArgConstant.STOPWATCH)
+                if (parameters[i] == CommandArgConstant.singleCommands[0] || parameters[i] == CommandArgConstant.singleCommands[1])
                 {
                     addition = 1;
                     yield return (parameters[i], string.Empty);

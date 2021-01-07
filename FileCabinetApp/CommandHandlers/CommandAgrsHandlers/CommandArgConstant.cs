@@ -11,6 +11,9 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
         public const string STORAGE = "--storage";
         public const string STORAGESHORT = "-s";
         public const string STOPWATCH = "-use-stopwatch";
+        public const string LOGGER = "-use-logger";
+
+        public static string[] singleCommands = { STOPWATCH, LOGGER };
 
     }
 }
