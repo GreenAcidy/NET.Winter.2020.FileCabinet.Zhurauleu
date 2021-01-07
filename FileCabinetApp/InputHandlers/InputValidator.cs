@@ -103,10 +103,10 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string>(isValid, input.ToString());
         };
 
-        public static Func<char, Tuple<bool, string>> genderValidator = gender =>
+        public static Func<char, Tuple<bool, string>> genderValidator = input =>
         {
-            bool isValid = char.IsLetter(gender);
-            return new Tuple<bool, string>(isValid, gender.ToString());
+            bool isValid = input == 'm' || input == 'f' || input == 'M' || input == 'F';
+            return new Tuple<bool, string>(isValid, input.ToString());
         };
     }
 }

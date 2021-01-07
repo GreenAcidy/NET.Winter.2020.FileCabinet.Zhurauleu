@@ -7,6 +7,19 @@ namespace FileCabinetApp.Validators
 {
     public class GenderValidator : IRecordValidator
     {
+
+        private readonly string genders;
+
+        public GenderValidator(string genders)
+        {
+            if (genders is null)
+            {
+                throw new ArgumentNullException($"{nameof(genders)} cannot be null.");
+            }
+
+            this.genders = genders;
+        }
+
         public void ValidateParameters(FileCabinetInputData inputData)
         {
             if (inputData is null)
@@ -17,6 +30,11 @@ namespace FileCabinetApp.Validators
             if (!char.IsLetter(inputData.Gender))
             {
                 throw new ArgumentException($"{nameof(inputData.Gender)} must be letter.");
+            }
+
+            if (!this.genders.Contains(inputData.Gender, StringComparison.Ordinal))
+            {
+                throw new ArgumentException($"{nameof(inputData.Gender)} must be correct gender.");
             }
         }
     }

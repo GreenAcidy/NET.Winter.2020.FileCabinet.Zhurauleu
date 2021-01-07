@@ -21,12 +21,19 @@ namespace FileCabinetApp
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
         private ReadOnlyCollection<FileCabinetRecord> records;
 
+        public FileCabinetMemoryService() { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>
         /// <param name="validator">type of validation input data.</param>
         public FileCabinetMemoryService(IRecordValidator validator)
         {
+            if (validator is null)
+            {
+                throw new ArgumentException($"{nameof(validator)} cannot be null.");
+            }
+
             this.Validator = validator;
         }
 

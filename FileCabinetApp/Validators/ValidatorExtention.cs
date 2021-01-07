@@ -1,4 +1,5 @@
-﻿using FileCabinetApp.Interfaces;
+﻿using FileCabinetApp.Configurations;
+using FileCabinetApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,26 +8,24 @@ namespace FileCabinetApp.Validators
 {
     public static class ValidatorExtention
     {
-        public static IRecordValidator CreateDefault(this ValidatorBuilder builder)
-            =>
-            builder
-                .ValidateFirstName(2, 60)
-                .ValidateLastName(2, 60)
-                .ValidateDateOfBirth(new DateTime(1950, 1, 1), DateTime.Now)
-                .ValidateGender()
-                .ValidateExperience(0, 20)
-                .ValidateAccount(0)
-                .Create();
+        public static IRecordValidator Create(this ValidatorBuilder builder, string validationRule = "default")
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException($"{nameof(builder)} canot be null.");
+            }
 
-        public static IRecordValidator CreateCustom(this ValidatorBuilder builder)
-            =>
-            builder
-                .ValidateFirstName(3, 30)
-                .ValidateLastName(3, 30)
-                .ValidateDateOfBirth(new DateTime(1980, 1, 1), DateTime.Now)
-                .ValidateGender()
-                .ValidateExperience(0, 10)
-                .ValidateAccount(0)
-                .Create();
+            var setters = new ConfigurationSetter(validationRule);
+            var validateParameters = setters.GetParameters();
+
+            return builder.
+                        ValidateFirstName(validateParameters.FirstNameMinLength, validateParameters.FirstNameMaxLenght).
+                        ValidateLastName(validateParameters.LastNameMinLength, validateParameters.LastNameMaxLength).
+                        ValidateDateOfBirth(validateParameters.DateOfBirthFrom, validateParameters.DateOfBirthTo).
+                        ValidateExperience(validateParameters.ExperienceMinValue, validateParameters.ExperienceMaxValue).
+                        ValidateAccount(validateParameters.AccountMinValue).
+                        ValidateGender(validateParameters.Gender).
+                        Create();
+        }
     }
 }
