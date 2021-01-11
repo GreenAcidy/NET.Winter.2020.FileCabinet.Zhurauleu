@@ -30,21 +30,21 @@ namespace FileCabinetApp.Interfaces
         /// </summary>
         /// <param name="firstName">input first name.</param>
         /// <returns>all records whose first name matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName);
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName);
 
         /// <summary>
         /// Method find record by input last name.
         /// </summary>
         /// <param name="lastName">input first name.</param>
         /// <returns>all records whose last name matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName);
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName);
 
         /// <summary>
         /// Method find record by input date of birth.
         /// </summary>
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
 
         public bool Remove(int id);
 
@@ -54,13 +54,13 @@ namespace FileCabinetApp.Interfaces
         /// Method return all records.
         /// </summary>
         /// <returns>all records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords();
+        public IEnumerable<FileCabinetRecord> GetRecords();
 
         /// <summary>
         /// Method return count of records.
         /// </summary>
         /// <returns>count of records.</returns>
-        public (int real, int removed) GetStat();
+        public (int active, int removed) GetStat();
 
         public FileCabinetServiceSnapshot MakeSnapShot();
 
