@@ -188,7 +188,7 @@ namespace FileCabinetApp
         /// Method return count of records.
         /// </summary>
         /// <returns>count of records.</returns>
-        public (int real, int removed) GetStat()
+        public (int active, int removed) GetStat()
         {
             return (this.list.Count, 0);
         }

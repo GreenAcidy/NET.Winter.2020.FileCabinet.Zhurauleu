@@ -33,7 +33,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
         private void Stat(string parameters)
         {
             var recordsCount = this.fileCabinetService.GetStat();
-            Console.WriteLine($"{recordsCount.real} record(s).");
+            Console.WriteLine($"{recordsCount.active} active record(s), {recordsCount.removed} removed record(s).");
         }
     }
 }

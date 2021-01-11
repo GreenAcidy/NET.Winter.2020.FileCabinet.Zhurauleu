@@ -60,7 +60,7 @@ namespace FileCabinetApp.Interfaces
         /// Method return count of records.
         /// </summary>
         /// <returns>count of records.</returns>
-        public (int real, int removed) GetStat();
+        public (int active, int removed) GetStat();
 
         public FileCabinetServiceSnapshot MakeSnapShot();
 

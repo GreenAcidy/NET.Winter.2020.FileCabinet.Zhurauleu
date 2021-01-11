@@ -91,7 +91,7 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
-        public (int real, int removed) GetStat()
+        public (int active, int removed) GetStat()
         {
             this.stopwatch.Restart();
             var stat = this.service.GetStat();
