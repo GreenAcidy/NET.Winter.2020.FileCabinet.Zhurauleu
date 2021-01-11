@@ -23,7 +23,7 @@ namespace FileCabinetApp.Service
             this.disposed = true;
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> Read()
+        public IEnumerable<FileCabinetRecord> Read()
         {
             var readRecords = new List<FileCabinetRecord>();
             this.streamReader.BaseStream.Position = 0;

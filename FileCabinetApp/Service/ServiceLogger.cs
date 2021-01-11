@@ -43,7 +43,7 @@ namespace FileCabinetApp.Service
             this.WriteLogInFile(nameof(this.service.EditRecord), GetInfoFileCabinetInputData(parameters));
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             var collection = this.service.FindByFirstName(firstName);
             WriteLogInFile(nameof(this.service.FindByFirstName), firstName);
@@ -51,7 +51,7 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
             var collection = this.service.FindByLastName(lastName);
             WriteLogInFile(nameof(this.service.FindByLastName), lastName);
@@ -59,7 +59,7 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             var collection = this.service.FindByDateOfBirth(dateOfBirth);
 
@@ -82,7 +82,7 @@ namespace FileCabinetApp.Service
             this.WriteLogInFile(nameof(this.service.Purge), string.Empty);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
+        public IEnumerable<FileCabinetRecord> GetRecords()
         {
             var collection = this.service.GetRecords();
             this.WriteLogInFile(nameof(this.service.GetRecords), string.Empty);

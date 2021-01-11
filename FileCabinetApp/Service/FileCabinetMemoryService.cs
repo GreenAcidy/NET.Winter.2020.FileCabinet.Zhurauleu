@@ -19,7 +19,7 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
-        private ReadOnlyCollection<FileCabinetRecord> records;
+        private IEnumerable<FileCabinetRecord> records;
 
         public FileCabinetMemoryService() { }
 
@@ -114,12 +114,21 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">input first name.</param>
         /// <returns>all records whose first name matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            this.firstNameDictionary.TryGetValue(firstName, out result);
-            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
-            return this.records;
+            if (this.firstNameDictionary.ContainsKey(firstName.ToUpper()))
+            {
+                var collection = this.firstNameDictionary[firstName.ToUpper()];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
         }
 
         /// <summary>
@@ -127,12 +136,21 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">input first name.</param>
         /// <returns>all records whose last name matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            this.lastNameDictionary.TryGetValue(lastName, out result);
-            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
-            return this.records;
+            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
+            {
+                var collection = this.lastNameDictionary[lastName.ToUpper()];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
         }
 
         /// <summary>
@@ -140,13 +158,31 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        /*public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
             this.dateOfBirthDictionary.TryGetValue(dateOfBirth, out result);
-            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
+            this.records = new IEnumerable<FileCabinetRecord>(result);
             return this.records;
+        }*/
+
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        {
+            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                var collection = this.dateOfBirthDictionary[dateOfBirth];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
         }
+
 
         public bool Remove(int id)
         {
@@ -179,9 +215,12 @@ namespace FileCabinetApp
         /// Method return all records.
         /// </summary>
         /// <returns>all records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
+        public IEnumerable<FileCabinetRecord> GetRecords()
         {
-            return new ReadOnlyCollection<FileCabinetRecord>(this.list);
+            foreach (var item in this.list)
+            {
+                yield return item;
+            }
         }
 
         /// <summary>

@@ -88,54 +88,43 @@ namespace FileCabinetApp.Service
             this.WriteRecordToBinaryFile(this.activeRecords[id], parameters, id);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            var records = GetRecordsCollection();
-            var result = new List<FileCabinetRecord>();
+            var records = this.GetRecordsCollection();
 
             foreach (var record in records)
             {
                 if (string.Equals(record.FirstName, firstName, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.Add(record);
+                    yield return record;
                 }
             }
-
-            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            var records = GetRecordsCollection();
-            var result = new List<FileCabinetRecord>();
+            var records = this.GetRecordsCollection();
 
             foreach (var record in records)
             {
                 if (string.Equals(record.LastName, lastName, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.Add(record);
+                    yield return record;
                 }
             }
-
-            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             var records = this.GetRecordsCollection();
-            var result = new List<FileCabinetRecord>();
-
-            var key = new DateTime(dateOfBirth.Year, dateOfBirth.Month, dateOfBirth.Day);
 
             foreach (var record in records)
             {
-                if (record.DateOfBirth == key)
+                if (record.DateOfBirth == dateOfBirth)
                 {
-                    result.Add(record);
+                    yield return record;
                 }
             }
-
-            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
         public bool Remove(int id)
@@ -174,17 +163,21 @@ namespace FileCabinetApp.Service
             this.fileStream.SetLength(currentPosition);
             this.removedRecords.Clear();
         }
-        
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
-            =>
-            new ReadOnlyCollection<FileCabinetRecord>(this.GetRecordsCollection());
+
+        public IEnumerable<FileCabinetRecord> GetRecords()
+        {
+            foreach (var record in this.GetRecordsCollection())
+            {
+                yield return record;
+            }
+        }
 
         public (int active, int removed) GetStat()
             => (this.activeRecords.Count, this.removedRecords.Count);
 
         public FileCabinetServiceSnapshot MakeSnapShot()
         {
-            throw new NotImplementedException();
+            return new FileCabinetServiceSnapshot(this.GetRecords().ToArray());
         }
 
         public int Restore(FileCabinetServiceSnapshot snapshot)
