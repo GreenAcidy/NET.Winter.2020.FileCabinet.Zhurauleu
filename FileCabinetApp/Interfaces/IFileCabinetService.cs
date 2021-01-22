@@ -25,6 +25,8 @@ namespace FileCabinetApp.Interfaces
         /// <param name="inputData">input data.</param>
         public void EditRecord(int id, FileCabinetInputData inputData);
 
+        public IEnumerable<FileCabinetRecord> FindBy(string properyName, string value);
+
         /// <summary>
         /// Method find record by input first name.
         /// </summary>
@@ -45,6 +47,12 @@ namespace FileCabinetApp.Interfaces
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
+
+        public IEnumerable<FileCabinetRecord> FindByGender(string gender);
+
+        public IEnumerable<FileCabinetRecord> FindByExperience(string experience);
+
+        public IEnumerable<FileCabinetRecord> FindByAccount(string account);
 
         public bool Remove(int id);
 

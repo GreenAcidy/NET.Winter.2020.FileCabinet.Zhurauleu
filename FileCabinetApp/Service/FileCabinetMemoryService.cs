@@ -11,6 +11,13 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetMemoryService : IFileCabinetService
     {
+        public const string FirstName = "firstName";
+        public const string LastName = "lastName";
+        public const string DateOfBirth = "dateOfBirth";
+        public const string Gender = "gender";
+        public const string Experience = "experience";
+        public const string Account = "account";
+
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
@@ -158,13 +165,38 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
-        /*public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+
+        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
         {
-            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            this.dateOfBirthDictionary.TryGetValue(dateOfBirth, out result);
-            this.records = new IEnumerable<FileCabinetRecord>(result);
-            return this.records;
-        }*/
+            if (string.Equals(propertyName, FirstName, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByFirstName(value);
+            }
+            else if (string.Equals(propertyName, LastName, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByLastName(value);
+            }
+            else if (string.Equals(propertyName, DateOfBirth, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByDateOfBirth(Convert.ToDateTime(value));
+            }
+            else if (string.Equals(propertyName, Experience, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByExperience(value);
+            }
+            else if (string.Equals(propertyName, Account, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByAccount(value);
+            }
+            else if (string.Equals(propertyName, Gender, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByGender(value);
+            }
+            else
+            {
+                throw new ArgumentException($"This property {propertyName} is not exist.");
+            }
+        }
 
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
@@ -183,6 +215,42 @@ namespace FileCabinetApp
             }
         }
 
+        public IEnumerable<FileCabinetRecord> FindByExperience(string experience)
+        {
+            short exp = short.Parse(experience);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Experience == exp)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByAccount(string account)
+        {
+            decimal acc = decimal.Parse(account);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Account == acc)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByGender(string gender)
+        {
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Gender == gender[0])
+                {
+                    yield return record;
+                }
+            }
+        }
 
         public bool Remove(int id)
         {
@@ -196,8 +264,8 @@ namespace FileCabinetApp
                 if (record.Id == id)
                 {
                     this.list.Remove(record);
-                    this.firstNameDictionary[record.FirstName.ToUpper()].Remove(record);
-                    this.lastNameDictionary[record.LastName.ToUpper()].Remove(record);
+                    this.firstNameDictionary[record.FirstName/*.ToUpper()*/].Remove(record);
+                    this.lastNameDictionary[record.LastName/*.ToUpper()*/].Remove(record);
                     this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
                     return true;
                 }

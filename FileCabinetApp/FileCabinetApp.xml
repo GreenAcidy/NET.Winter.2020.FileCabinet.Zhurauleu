@@ -176,7 +176,7 @@
             <param name="lastName">input first name.</param>
             <returns>all records whose last name matches the incoming.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByDateOfBirth(System.DateTime)">
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindBy(System.String,System.String)">
             <summary>
             Method find record by input date of birth.
             </summary>

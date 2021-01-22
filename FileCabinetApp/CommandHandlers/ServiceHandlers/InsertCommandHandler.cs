@@ -10,12 +10,14 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 {
     public class InsertCommandHandler : ServiceCommandHandlerBase
     {
+        private readonly Random randomGenerator;
         public const string InsertConstant = "insert";
         private const string InsertKeyWord = "values";
 
         public InsertCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
+            this.randomGenerator = new Random();
         }
 
         public override void Handle(AppCommandRequest commandRequest)
@@ -46,7 +48,9 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
                 LastName = this.GeneRateName(),
                 DateOfBirth = this.GenerateDateOfBirth(),
                 Gender = this.GenerateGender(),
-            };
+                Account = this.randomGenerator.Next(),
+                Experience = Convert.ToInt16(this.randomGenerator.Next(DateTime.Now.Year - this.GenerateDateOfBirth().Year)),
+        };
 
             for (int i = 0; i < properties.Length; i++)
             {
@@ -61,14 +65,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             }
 
             var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
-           /** {
-                firstName = record.FirstName, //is null ? this.GeneRateName() : record.FirstName,
-                lastName = record.LastName, //is null ? this.GeneRateName() : record.LastName,
-                dateOfBirth = record.DateOfBirth,
-                experience = record.Experience,
-                balance = record.Account,
-                englishLevel = record.Gender,
-            };*/
+
             this.fileCabinetService.CreateRecord(data);
         }
 
@@ -108,8 +105,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 
         private DateTime GenerateDateOfBirth()
         {
-            var randomGenerator = new Random();
-            DateTime startDate = new DateTime(1980, 1, 1);
+            DateTime startDate = new DateTime(1950, 1, 1);
             return startDate.AddDays(randomGenerator.Next((DateTime.Today - startDate).Days));
         }
 

@@ -39,7 +39,16 @@ namespace FileCabinetApp.Service
             this.Information(nameof(this.service.EditRecord), this.stopwatch.ElapsedTicks);
         }
 
-        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        {
+            this.stopwatch.Restart();
+            var collection = this.service.FindBy(propertyName, value);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindBy), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
+            public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             this.stopwatch.Restart();
             var collection = this.service.FindByFirstName(firstName);
@@ -63,6 +72,33 @@ namespace FileCabinetApp.Service
             var collection = this.service.FindByDateOfBirth(dateOfBirth);
             this.stopwatch.Stop();
             this.Information(nameof(this.service.FindByDateOfBirth), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByExperience(string expirience)
+        {
+            this.stopwatch.Restart();
+            var collection = this.service.FindByExperience(expirience);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindByExperience), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByAccount(string balance)
+        {
+            this.stopwatch.Restart();
+            var collection = this.service.FindByAccount(balance);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindByAccount), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByGender(string englishLevel)
+        {
+            this.stopwatch.Restart();
+            var collection = this.service.FindByGender(englishLevel);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindByGender), this.stopwatch.ElapsedTicks);
             return collection;
         }
 
