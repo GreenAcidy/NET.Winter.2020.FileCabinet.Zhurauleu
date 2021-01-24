@@ -75,28 +75,28 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
-        public IEnumerable<FileCabinetRecord> FindByExperience(string experience)
+        public IEnumerable<FileCabinetRecord> FindByExperience(string expirience)
         {
             this.stopwatch.Restart();
-            var collection = this.service.FindByExperience(experience);
+            var collection = this.service.FindByExperience(expirience);
             this.stopwatch.Stop();
             this.Information(nameof(this.service.FindByExperience), this.stopwatch.ElapsedTicks);
             return collection;
         }
 
-        public IEnumerable<FileCabinetRecord> FindByAccount(string account)
+        public IEnumerable<FileCabinetRecord> FindByAccount(string balance)
         {
             this.stopwatch.Restart();
-            var collection = this.service.FindByAccount(account);
+            var collection = this.service.FindByAccount(balance);
             this.stopwatch.Stop();
             this.Information(nameof(this.service.FindByAccount), this.stopwatch.ElapsedTicks);
             return collection;
         }
 
-        public IEnumerable<FileCabinetRecord> FindByGender(string gender)
+        public IEnumerable<FileCabinetRecord> FindByGender(string englishLevel)
         {
             this.stopwatch.Restart();
-            var collection = this.service.FindByGender(gender);
+            var collection = this.service.FindByGender(englishLevel);
             this.stopwatch.Stop();
             this.Information(nameof(this.service.FindByGender), this.stopwatch.ElapsedTicks);
             return collection;
