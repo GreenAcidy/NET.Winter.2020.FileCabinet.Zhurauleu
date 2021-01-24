@@ -50,7 +50,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
                 Gender = this.GenerateGender(),
                 Account = this.randomGenerator.Next(),
                 Experience = Convert.ToInt16(this.randomGenerator.Next(DateTime.Now.Year - this.GenerateDateOfBirth().Year)),
-        };
+            };
 
             for (int i = 0; i < properties.Length; i++)
             {
@@ -111,10 +111,10 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 
         private char GenerateGender()
         {
-            string levels = "mfn";
+            string genders = "mfn";
             var random = new Random();
 
-            return levels[random.Next(0, 2)];
+            return genders[random.Next(0, 2)];
         }
     }
 }
