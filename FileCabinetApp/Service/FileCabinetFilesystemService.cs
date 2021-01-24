@@ -12,6 +12,13 @@ namespace FileCabinetApp.Service
 {
     public class FileCabinetFilesystemService : IFileCabinetService, IDisposable
     {
+        public const string FirstName = "firstName";
+        public const string LastName = "lastName";
+        public const string DateOfBirth = "dateOfBirth";
+        public const string Gender = "gender";
+        public const string Experience = "experience";
+        public const string Account = "account";
+
         public const int LengtOfString = 120;
         public const int RecordSize = 518;
 
@@ -88,6 +95,38 @@ namespace FileCabinetApp.Service
             this.WriteRecordToBinaryFile(this.activeRecords[id], parameters, id);
         }
 
+        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        {
+            if (string.Equals(propertyName, FirstName, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByFirstName(value);
+            }
+            else if (string.Equals(propertyName, LastName, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByLastName(value);
+            }
+            else if (string.Equals(propertyName, DateOfBirth, StringComparison.OrdinalIgnoreCase))
+            {
+                return this.FindByDateOfBirth(Convert.ToDateTime(value));
+            }
+            else if (string.Equals(propertyName, Experience, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByExperience(value);
+            }
+            else if (string.Equals(propertyName, Account, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByAccount(value);
+            }
+            else if (string.Equals(propertyName, Gender, StringComparison.OrdinalIgnoreCase))
+            {
+                return FindByGender(value);
+            }
+            else
+            {
+                throw new ArgumentException($"This property {propertyName} is not exist.");
+            }
+        }
+
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             var records = this.GetRecordsCollection();
@@ -121,6 +160,43 @@ namespace FileCabinetApp.Service
             foreach (var record in records)
             {
                 if (record.DateOfBirth == dateOfBirth)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByExperience(string experience)
+        {
+            short exp = short.Parse(experience);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Experience == exp)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByAccount(string account)
+        {
+            decimal acc = decimal.Parse(account);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Account == acc)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByGender(string gender)
+        {
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Gender == gender[0])
                 {
                     yield return record;
                 }

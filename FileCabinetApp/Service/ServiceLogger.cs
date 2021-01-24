@@ -43,6 +43,14 @@ namespace FileCabinetApp.Service
             this.WriteLogInFile(nameof(this.service.EditRecord), GetInfoFileCabinetInputData(parameters));
         }
 
+        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        {
+            var collection = this.service.FindBy(propertyName, value);
+            WriteLogInFile(nameof(this.service.FindBy), value);
+            WriteLogReturnInFile(nameof(this.service.FindBy), collection.ToString());
+            return collection;
+        }
+
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             var collection = this.service.FindByFirstName(firstName);
@@ -65,6 +73,30 @@ namespace FileCabinetApp.Service
 
             this.WriteLogInFile(nameof(this.service.FindByDateOfBirth),  dateOfBirth.ToString());
             this.WriteLogReturnInFile(nameof(this.service.FindByDateOfBirth), collection.ToString());
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByGender(string gender)
+        {
+            var collection = this.service.FindByGender(gender);
+            WriteLogInFile(nameof(this.service.FindByGender), gender);
+            WriteLogReturnInFile(nameof(this.service.FindByGender), collection.ToString());
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByExperience(string experience)
+        {
+            var collection = this.service.FindByExperience(experience);
+            WriteLogInFile(nameof(this.service.FindByExperience), experience);
+            WriteLogReturnInFile(nameof(this.service.FindByExperience), collection.ToString());
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByAccount(string account)
+        {
+            var collection = this.service.FindByAccount(account);
+            WriteLogInFile(nameof(this.service.FindByAccount), account);
+            WriteLogReturnInFile(nameof(this.service.FindByAccount), collection.ToString());
             return collection;
         }
 
