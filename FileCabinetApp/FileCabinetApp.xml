@@ -4,6 +4,25 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceHandlers.SelectCommandHandler.#ctor(FileCabinetApp.Interfaces.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceHandlers.SelectCommandHandler"/> class.
+            </summary>
+            <param name="fileCabinetService">The current service.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceHandlers.SelectCommandHandler.#ctor(FileCabinetApp.Interfaces.IFileCabinetService,System.Action{System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord},System.Collections.Generic.List{System.String}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceHandlers.SelectCommandHandler"/> class.
+            </summary>
+            <param name="fileCabinetService">The cureent service.</param>
+            <param name="printer">The current printer.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceHandlers.SelectCommandHandler.Handle(FileCabinetApp.CommandHandlers.HandlerInfrastructure.AppCommandRequest)">
+            <summary>
+            Handle request.
+            </summary>
+            <param name="commandRequest">The command request.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetInputData">
             <summary>
             Class FileCabinetRecord contain input data of people.
@@ -126,6 +145,13 @@
             </summary>
             <param name="inputData">input data.</param>
         </member>
+        <member name="M:FileCabinetApp.Printers.TablePrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord},System.Collections.Generic.List{System.String})">
+            <summary>
+            Print record in table format.
+            </summary>
+            <param name="records">The records collection.</param>
+            <param name="property">The property to print.</param>
+        </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
             Class Program.
@@ -176,7 +202,7 @@
             <param name="lastName">input first name.</param>
             <returns>all records whose last name matches the incoming.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindBy(System.String,System.String)">
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByDateOfBirth(System.DateTime)">
             <summary>
             Method find record by input date of birth.
             </summary>
@@ -261,6 +287,42 @@
             Overrided method return one record of person.
             </summary>
             <returns>One record of person.</returns>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.FirstName">
+            <summary>
+            Gets or sets condition firstName.
+            </summary>
+            <value>FirstName.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.LastName">
+            <summary>
+            Gets or sets condition lastName.
+            </summary>
+            <value>LastName.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.DateOfBirth">
+            <summary>
+            Gets or sets condition nullable dateOfBirth.
+            </summary>
+            <value>Nullable date.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.Experience">
+            <summary>
+            Gets or sets condition nullable experience.
+            </summary>
+            <value>Nullable experience.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.Account">
+            <summary>
+            Gets or sets condition nullable account.
+            </summary>
+            <value>Nullable account.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.Gender">
+            <summary>
+            Gets or sets condition nullable english level.
+            </summary>
+            <value>Nullable gender.</value>
         </member>
     </members>
 </doc>

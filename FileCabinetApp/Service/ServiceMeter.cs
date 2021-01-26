@@ -39,16 +39,35 @@ namespace FileCabinetApp.Service
             this.Information(nameof(this.service.EditRecord), this.stopwatch.ElapsedTicks);
         }
 
-        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
         {
+            if (conditions is null)
+            {
+                throw new ArgumentNullException($"{nameof(conditions)} cannot be null.");
+            }
+
             this.stopwatch.Restart();
-            var collection = this.service.FindBy(propertyName, value);
+            var collection = this.service.FindByAnd(conditions);
             this.stopwatch.Stop();
-            this.Information(nameof(this.service.FindBy), this.stopwatch.ElapsedTicks);
+            this.Information(nameof(this.service.FindByAnd), this.stopwatch.ElapsedTicks);
             return collection;
         }
 
-            public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
+        {
+            if (conditions is null)
+            {
+                throw new ArgumentNullException($"{nameof(conditions)} cannot be null.");
+            }
+
+            this.stopwatch.Restart();
+            var collection = this.service.FindByOr(conditions);
+            this.stopwatch.Stop();
+            this.Information(nameof(this.service.FindByOr), this.stopwatch.ElapsedTicks);
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             this.stopwatch.Restart();
             var collection = this.service.FindByFirstName(firstName);

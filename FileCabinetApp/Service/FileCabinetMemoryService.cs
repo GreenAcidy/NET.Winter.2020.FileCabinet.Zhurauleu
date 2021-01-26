@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using FileCabinetApp.Interfaces;
 using FileCabinetApp.Service;
 
@@ -116,6 +117,90 @@ namespace FileCabinetApp
             this.dateOfBirthDictionary[inputData.DateOfBirth] = this.listDateOfBirth;
         }
 
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
+        {
+            foreach (var item in this.GetRecords())
+            {
+                bool isMath = true;
+                if (conditions.FirstName != null)
+                {
+                    isMath = conditions.FirstName == item.FirstName && isMath;
+                }
+
+                if (conditions.LastName != null)
+                {
+                    isMath = conditions.LastName == item.LastName && isMath;
+                }
+
+                if (conditions.DateOfBirth != null)
+                {
+                    isMath = conditions.DateOfBirth == item.DateOfBirth && isMath;
+                }
+
+                if (conditions.Experience != null)
+                {
+                    isMath = conditions.Experience == item.Experience && isMath;
+                }
+
+                if (conditions.Account != null)
+                {
+                    isMath = conditions.Account == item.Account && isMath;
+                }
+
+                if (conditions.Gender != null)
+                {
+                    isMath = conditions.Gender == item.Gender && isMath;
+                }
+
+                if (isMath)
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
+        {
+            foreach (var item in this.GetRecords())
+            {
+                bool isMath = false;
+                if (conditions.FirstName != null)
+                {
+                    isMath = conditions.FirstName == item.FirstName || isMath;
+                }
+
+                if (conditions.LastName != null)
+                {
+                    isMath = conditions.LastName == item.LastName || isMath;
+                }
+
+                if (conditions.DateOfBirth != null)
+                {
+                    isMath = conditions.DateOfBirth == item.DateOfBirth || isMath;
+                }
+
+                if (conditions.Experience != null)
+                {
+                    isMath = conditions.Experience == item.Experience || isMath;
+                }
+
+                if (conditions.Account != null)
+                {
+                    isMath = conditions.Account == item.Account || isMath;
+                }
+
+                if (conditions.Gender != null)
+                {
+                    isMath = conditions.Gender == item.Gender || isMath;
+                }
+
+                if (isMath)
+                {
+                    yield return item;
+                }
+            }
+        }
+
         /// <summary>
         /// Method find record by input first name.
         /// </summary>
@@ -165,38 +250,6 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
-
-        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
-        {
-            if (string.Equals(propertyName, FirstName, StringComparison.OrdinalIgnoreCase))
-            {
-                return this.FindByFirstName(value);
-            }
-            else if (string.Equals(propertyName, LastName, StringComparison.OrdinalIgnoreCase))
-            {
-                return this.FindByLastName(value);
-            }
-            else if (string.Equals(propertyName, DateOfBirth, StringComparison.OrdinalIgnoreCase))
-            {
-                return this.FindByDateOfBirth(Convert.ToDateTime(value));
-            }
-            else if (string.Equals(propertyName, Experience, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByExperience(value);
-            }
-            else if (string.Equals(propertyName, Account, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByAccount(value);
-            }
-            else if (string.Equals(propertyName, Gender, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByGender(value);
-            }
-            else
-            {
-                throw new ArgumentException($"This property {propertyName} is not exist.");
-            }
-        }
 
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
@@ -264,8 +317,8 @@ namespace FileCabinetApp
                 if (record.Id == id)
                 {
                     this.list.Remove(record);
-                    this.firstNameDictionary[record.FirstName/*.ToUpper()*/].Remove(record);
-                    this.lastNameDictionary[record.LastName/*.ToUpper()*/].Remove(record);
+                    this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Remove(record);
+                    this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Remove(record);
                     this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
                     return true;
                 }

@@ -2,6 +2,7 @@
 using FileCabinetApp.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.ServiceHandlers
@@ -37,7 +38,16 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
         {
             var (property, value) = this.Parse(parameters);
 
-            var deletedRecords = this.fileCabinetService.FindBy(property, value);
+            if (string.Equals(property, "id", StringComparison.OrdinalIgnoreCase))
+            {
+                int id = int.Parse(value, CultureInfo.InvariantCulture);
+                this.fileCabinetService.Remove(id);
+
+                Console.WriteLine($"Record #{id} are deleted.");
+            }
+
+            var deletedRecords = this.FindRecordForDelete(property, value);
+
             var sb = new StringBuilder();
 
             foreach (var record in deletedRecords)
@@ -66,5 +76,34 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             return (property, value);
         }
 
+        private List<FileCabinetRecord> FindRecordForDelete(string property, string value)
+        {
+            if (string.Equals(property, "firstName", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByFirstName(value));
+            }
+            else if (string.Equals(property, "lastName", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByLastName(value));
+            }
+            else if (string.Equals(property, "dateOfBirth", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByDateOfBirth(Convert.ToDateTime(value)));
+            }
+            else if (string.Equals(property, "experience", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByExperience(value));
+            }
+            else if (string.Equals(property, "account", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByAccount(value));
+            }
+            else if (string.Equals(property, "gender", StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<FileCabinetRecord>(this.fileCabinetService.FindByGender(value));
+            }
+
+            return new List<FileCabinetRecord>();
+        }
     }
 }
