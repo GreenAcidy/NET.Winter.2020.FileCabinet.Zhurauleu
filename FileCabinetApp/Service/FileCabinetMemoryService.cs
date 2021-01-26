@@ -20,9 +20,9 @@ namespace FileCabinetApp
         public const string Account = "account";
 
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
-        private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
+        /*private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
         private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
-        private readonly List<FileCabinetRecord> listDateOfBirth = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listDateOfBirth = new List<FileCabinetRecord>();*/
 
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
@@ -72,13 +72,33 @@ namespace FileCabinetApp
             };
 
             this.list.Add(record);
-            this.listFirstName.Add(record);
-            this.listLastName.Add(record);
-            this.listDateOfBirth.Add(record);
 
-            this.firstNameDictionary.Add(inputData.FirstName, this.listFirstName);
-            this.lastNameDictionary.Add(inputData.LastName, this.listLastName);
-            this.dateOfBirthDictionary.Add(inputData.DateOfBirth, this.listDateOfBirth);
+            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
+            }
+            else
+            {
+                this.firstNameDictionary.Add(record.FirstName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
+            }
+
+            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
+            }
+            else
+            {
+                this.lastNameDictionary.Add(record.LastName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
+            }
+
+            if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
+            {
+                this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
+            }
+            else
+            {
+                this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
+            }
 
             return record.Id;
         }
@@ -106,15 +126,35 @@ namespace FileCabinetApp
                 Experience = inputData.Experience,
                 Account = inputData.Account,
             };
+
             this.list[id - 1] = record;
 
-            this.listFirstName[id - 1] = this.list[id - 1];
-            this.listLastName[id - 1] = this.list[id - 1];
-            this.listDateOfBirth[id - 1] = this.list[id - 1];
+            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
+            }
+            else
+            {
+                this.firstNameDictionary.Add(record.FirstName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
+            }
 
-            this.firstNameDictionary[inputData.FirstName] = this.listFirstName;
-            this.lastNameDictionary[inputData.LastName] = this.listLastName;
-            this.dateOfBirthDictionary[inputData.DateOfBirth] = this.listDateOfBirth;
+            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
+            }
+            else
+            {
+                this.lastNameDictionary.Add(record.LastName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
+            }
+
+            if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
+            {
+                this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
+            }
+            else
+            {
+                this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
+            }
         }
 
         public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
