@@ -23,6 +23,46 @@
             </summary>
             <param name="commandRequest">The command request.</param>
         </member>
+        <member name="T:FileCabinetApp.Data.CashedData">
+            <summary>
+            class CashedData contains cashed data using for memoization.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.Data.CashedData.DateOfBirthCashe">
+            <summary>
+            Date cache.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.Data.CashedData.FirstNameCashe">
+            <summary>
+            FirstName cache.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.Data.CashedData.LastNameCashe">
+            <summary>
+            LastName cache.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.Data.CashedData.ExperienceCashe">
+            <summary>
+            Experience cache.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.Data.CashedData.AccountCashe">
+            <summary>
+            Account cache.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.Data.CashedData.GenderCashe">
+            <summary>
+            Gender cache.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Data.CashedData.ClearCashe">
+            <summary>
+            Clear all cache.
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetInputData">
             <summary>
             Class FileCabinetRecord contain input data of people.
@@ -81,6 +121,109 @@
             Overrided method return one record.
             </summary>
             <returns>One record of person.</returns>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetRecord">
+            <summary>
+            Class FileCabinetRecord contain brief data of people.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Id">
+            <summary>
+            Gets or sets id of record.
+            </summary>
+            <value>
+            Id of record.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.FirstName">
+            <summary>
+            Gets or sets first name of person in record.
+            </summary>
+            <value>
+            first name of person in record.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.LastName">
+            <summary>
+            Gets or sets last name of person in record.
+            </summary>
+            <value>
+            last name of person in record..
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.DateOfBirth">
+            <summary>
+            Gets or sets date of birth of person in record.
+            </summary>
+            <value>
+            date of birth of person in record..
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Gender">
+            <summary>
+            Gets or sets gender of person in record.
+            </summary>
+            <value>
+            gender of person in record..
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Experience">
+            <summary>
+            Gets or sets experience of person in record.
+            </summary>
+            <value>
+            experience of person in record..
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Account">
+            <summary>
+            Gets or sets account of person in record.
+            </summary>
+            <value>
+            date of account of person in record..
+            </value>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecord.ToString">
+            <summary>
+            Overrided method return one record of person.
+            </summary>
+            <returns>One record of person.</returns>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.FirstName">
+            <summary>
+            Gets or sets condition firstName.
+            </summary>
+            <value>FirstName.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.LastName">
+            <summary>
+            Gets or sets condition lastName.
+            </summary>
+            <value>LastName.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.DateOfBirth">
+            <summary>
+            Gets or sets condition nullable dateOfBirth.
+            </summary>
+            <value>Nullable date.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.Experience">
+            <summary>
+            Gets or sets condition nullable experience.
+            </summary>
+            <value>Nullable experience.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.Account">
+            <summary>
+            Gets or sets condition nullable account.
+            </summary>
+            <value>Nullable account.</value>
+        </member>
+        <member name="P:FileCabinetApp.WhereConditions.Gender">
+            <summary>
+            Gets or sets condition nullable gender.
+            </summary>
+            <value>Nullable gender.</value>
         </member>
         <member name="T:FileCabinetApp.Interfaces.IFileCabinetService">
             <summary>
@@ -220,109 +363,6 @@
             Method return count of records.
             </summary>
             <returns>count of records.</returns>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetRecord">
-            <summary>
-            Class FileCabinetRecord contain brief data of people.
-            </summary>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.Id">
-            <summary>
-            Gets or sets id of record.
-            </summary>
-            <value>
-            Id of record.
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.FirstName">
-            <summary>
-            Gets or sets first name of person in record.
-            </summary>
-            <value>
-            first name of person in record.
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.LastName">
-            <summary>
-            Gets or sets last name of person in record.
-            </summary>
-            <value>
-            last name of person in record..
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.DateOfBirth">
-            <summary>
-            Gets or sets date of birth of person in record.
-            </summary>
-            <value>
-            date of birth of person in record..
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.Gender">
-            <summary>
-            Gets or sets gender of person in record.
-            </summary>
-            <value>
-            gender of person in record..
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.Experience">
-            <summary>
-            Gets or sets experience of person in record.
-            </summary>
-            <value>
-            experience of person in record..
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.Account">
-            <summary>
-            Gets or sets account of person in record.
-            </summary>
-            <value>
-            date of account of person in record..
-            </value>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecord.ToString">
-            <summary>
-            Overrided method return one record of person.
-            </summary>
-            <returns>One record of person.</returns>
-        </member>
-        <member name="P:FileCabinetApp.WhereConditions.FirstName">
-            <summary>
-            Gets or sets condition firstName.
-            </summary>
-            <value>FirstName.</value>
-        </member>
-        <member name="P:FileCabinetApp.WhereConditions.LastName">
-            <summary>
-            Gets or sets condition lastName.
-            </summary>
-            <value>LastName.</value>
-        </member>
-        <member name="P:FileCabinetApp.WhereConditions.DateOfBirth">
-            <summary>
-            Gets or sets condition nullable dateOfBirth.
-            </summary>
-            <value>Nullable date.</value>
-        </member>
-        <member name="P:FileCabinetApp.WhereConditions.Experience">
-            <summary>
-            Gets or sets condition nullable experience.
-            </summary>
-            <value>Nullable experience.</value>
-        </member>
-        <member name="P:FileCabinetApp.WhereConditions.Account">
-            <summary>
-            Gets or sets condition nullable account.
-            </summary>
-            <value>Nullable account.</value>
-        </member>
-        <member name="P:FileCabinetApp.WhereConditions.Gender">
-            <summary>
-            Gets or sets condition nullable english level.
-            </summary>
-            <value>Nullable gender.</value>
         </member>
     </members>
 </doc>

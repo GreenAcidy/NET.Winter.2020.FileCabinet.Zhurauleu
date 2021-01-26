@@ -37,7 +37,7 @@ namespace FileCabinetApp
         public decimal? Account { get; set; }
 
         /// <summary>
-        /// Gets or sets condition nullable english level.
+        /// Gets or sets condition nullable gender.
         /// </summary>
         /// <value>Nullable gender.</value>
         public char? Gender { get; set; }

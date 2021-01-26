@@ -23,7 +23,6 @@ namespace FileCabinetApp.CommandHandlers.CabinetHandlers
             new string[] { "import CSV", "import records from csv file.", "The 'import CSV' command import all records from csv file." },
             new string[] { "import XML", "import records from xml file.", "The 'import XML' command import all records from xml file." },
             new string[] { "delete", "delete record from the service.", "The 'delete' command delete record from the service." },
-            new string[] { "list", "return a list of records added to the service.", "The 'list' command return a list of records added to the service." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 

@@ -13,12 +13,11 @@ namespace FileCabinetApp.CommandHandlers.HandlerInfrastructure
         private const string @is = "is";
         private static string[] commands =
         {
-            "find",
+            "select",
             "update",
             "exit",
             "help",
             "delete",
-            "list",
             "import",
             "purge",
             "stat",
