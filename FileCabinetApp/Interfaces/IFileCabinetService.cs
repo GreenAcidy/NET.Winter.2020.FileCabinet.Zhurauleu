@@ -25,7 +25,9 @@ namespace FileCabinetApp.Interfaces
         /// <param name="inputData">input data.</param>
         public void EditRecord(int id, FileCabinetInputData inputData);
 
-        public IEnumerable<FileCabinetRecord> FindBy(string properyName, string value);
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions);
+
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions);
 
         /// <summary>
         /// Method find record by input first name.

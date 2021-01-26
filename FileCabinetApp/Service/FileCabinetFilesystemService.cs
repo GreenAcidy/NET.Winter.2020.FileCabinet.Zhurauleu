@@ -95,35 +95,87 @@ namespace FileCabinetApp.Service
             this.WriteRecordToBinaryFile(this.activeRecords[id], parameters, id);
         }
 
-        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
         {
-            if (string.Equals(propertyName, FirstName, StringComparison.OrdinalIgnoreCase))
+            foreach (var item in this.GetRecords())
             {
-                return this.FindByFirstName(value);
+                bool isMath = true;
+                if (conditions.FirstName != null)
+                {
+                    isMath = conditions.FirstName == item.FirstName && isMath;
+                }
+
+                if (conditions.LastName != null)
+                {
+                    isMath = conditions.LastName == item.LastName && isMath;
+                }
+
+                if (conditions.DateOfBirth != null)
+                {
+                    isMath = conditions.DateOfBirth == item.DateOfBirth && isMath;
+                }
+
+                if (conditions.Experience != null)
+                {
+                    isMath = conditions.Experience == item.Experience && isMath;
+                }
+
+                if (conditions.Account != null)
+                {
+                    isMath = conditions.Account == item.Account && isMath;
+                }
+
+                if (conditions.Gender != null)
+                {
+                    isMath = conditions.Gender == item.Gender && isMath;
+                }
+
+                if (isMath)
+                {
+                    yield return item;
+                }
             }
-            else if (string.Equals(propertyName, LastName, StringComparison.OrdinalIgnoreCase))
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
+        {
+            foreach (var item in this.GetRecords())
             {
-                return this.FindByLastName(value);
-            }
-            else if (string.Equals(propertyName, DateOfBirth, StringComparison.OrdinalIgnoreCase))
-            {
-                return this.FindByDateOfBirth(Convert.ToDateTime(value));
-            }
-            else if (string.Equals(propertyName, Experience, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByExperience(value);
-            }
-            else if (string.Equals(propertyName, Account, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByAccount(value);
-            }
-            else if (string.Equals(propertyName, Gender, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByGender(value);
-            }
-            else
-            {
-                throw new ArgumentException($"This property {propertyName} is not exist.");
+                bool isMath = false;
+                if (conditions.FirstName != null)
+                {
+                    isMath = conditions.FirstName == item.FirstName || isMath;
+                }
+
+                if (conditions.LastName != null)
+                {
+                    isMath = conditions.LastName == item.LastName || isMath;
+                }
+
+                if (conditions.DateOfBirth != null)
+                {
+                    isMath = conditions.DateOfBirth == item.DateOfBirth || isMath;
+                }
+
+                if (conditions.Experience != null)
+                {
+                    isMath = conditions.Experience == item.Experience || isMath;
+                }
+
+                if (conditions.Account != null)
+                {
+                    isMath = conditions.Account == item.Account || isMath;
+                }
+
+                if (conditions.Gender != null)
+                {
+                    isMath = conditions.Gender == item.Gender || isMath;
+                }
+
+                if (isMath)
+                {
+                    yield return item;
+                }
             }
         }
 

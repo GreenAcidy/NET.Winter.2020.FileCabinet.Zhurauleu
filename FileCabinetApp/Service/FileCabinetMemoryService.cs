@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using FileCabinetApp.Data;
 using FileCabinetApp.Interfaces;
 using FileCabinetApp.Service;
 
@@ -11,18 +13,7 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetMemoryService : IFileCabinetService
     {
-        public const string FirstName = "firstName";
-        public const string LastName = "lastName";
-        public const string DateOfBirth = "dateOfBirth";
-        public const string Gender = "gender";
-        public const string Experience = "experience";
-        public const string Account = "account";
-
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
-        private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
-        private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
-        private readonly List<FileCabinetRecord> listDateOfBirth = new List<FileCabinetRecord>();
-
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
@@ -71,13 +62,33 @@ namespace FileCabinetApp
             };
 
             this.list.Add(record);
-            this.listFirstName.Add(record);
-            this.listLastName.Add(record);
-            this.listDateOfBirth.Add(record);
 
-            this.firstNameDictionary.Add(inputData.FirstName, this.listFirstName);
-            this.lastNameDictionary.Add(inputData.LastName, this.listLastName);
-            this.dateOfBirthDictionary.Add(inputData.DateOfBirth, this.listDateOfBirth);
+            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
+            }
+            else
+            {
+                this.firstNameDictionary.Add(record.FirstName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
+            }
+
+            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
+            }
+            else
+            {
+                this.lastNameDictionary.Add(record.LastName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
+            }
+
+            if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
+            {
+                this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
+            }
+            else
+            {
+                this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
+            }
 
             return record.Id;
         }
@@ -105,15 +116,121 @@ namespace FileCabinetApp
                 Experience = inputData.Experience,
                 Account = inputData.Account,
             };
+
             this.list[id - 1] = record;
 
-            this.listFirstName[id - 1] = this.list[id - 1];
-            this.listLastName[id - 1] = this.list[id - 1];
-            this.listDateOfBirth[id - 1] = this.list[id - 1];
+            if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
+            }
+            else
+            {
+                this.firstNameDictionary.Add(record.FirstName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
+            }
 
-            this.firstNameDictionary[inputData.FirstName] = this.listFirstName;
-            this.lastNameDictionary[inputData.LastName] = this.listLastName;
-            this.dateOfBirthDictionary[inputData.DateOfBirth] = this.listDateOfBirth;
+            if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
+            }
+            else
+            {
+                this.lastNameDictionary.Add(record.LastName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
+            }
+
+            if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
+            {
+                this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
+            }
+            else
+            {
+                this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
+            }
+
+            CashedData.ClearCashe();
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
+        {
+            foreach (var item in this.GetRecords())
+            {
+                bool isMath = true;
+                if (conditions.FirstName != null)
+                {
+                    isMath = conditions.FirstName == item.FirstName && isMath;
+                }
+
+                if (conditions.LastName != null)
+                {
+                    isMath = conditions.LastName == item.LastName && isMath;
+                }
+
+                if (conditions.DateOfBirth != null)
+                {
+                    isMath = conditions.DateOfBirth == item.DateOfBirth && isMath;
+                }
+
+                if (conditions.Experience != null)
+                {
+                    isMath = conditions.Experience == item.Experience && isMath;
+                }
+
+                if (conditions.Account != null)
+                {
+                    isMath = conditions.Account == item.Account && isMath;
+                }
+
+                if (conditions.Gender != null)
+                {
+                    isMath = conditions.Gender == item.Gender && isMath;
+                }
+
+                if (isMath)
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
+        {
+            foreach (var item in this.GetRecords())
+            {
+                bool isMath = false;
+                if (conditions.FirstName != null)
+                {
+                    isMath = conditions.FirstName == item.FirstName || isMath;
+                }
+
+                if (conditions.LastName != null)
+                {
+                    isMath = conditions.LastName == item.LastName || isMath;
+                }
+
+                if (conditions.DateOfBirth != null)
+                {
+                    isMath = conditions.DateOfBirth == item.DateOfBirth || isMath;
+                }
+
+                if (conditions.Experience != null)
+                {
+                    isMath = conditions.Experience == item.Experience || isMath;
+                }
+
+                if (conditions.Account != null)
+                {
+                    isMath = conditions.Account == item.Account || isMath;
+                }
+
+                if (conditions.Gender != null)
+                {
+                    isMath = conditions.Gender == item.Gender || isMath;
+                }
+
+                if (isMath)
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>
@@ -123,19 +240,18 @@ namespace FileCabinetApp
         /// <returns>all records whose first name matches the incoming.</returns>
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            if (this.firstNameDictionary.ContainsKey(firstName.ToUpper()))
+            if (firstName is null)
             {
-                var collection = this.firstNameDictionary[firstName.ToUpper()];
+                throw new ArgumentNullException($"{nameof(firstName)} cannot be null.");
+            }
 
-                foreach (var item in collection)
-                {
-                    yield return item;
-                }
-            }
-            else
+            if (CashedData.FirstNameCashe.ContainsKey(firstName))
             {
-                yield break;
+                return CashedData.FirstNameCashe[firstName];
             }
+
+            CashedData.FirstNameCashe.Add(firstName, this.FindFirstName(firstName));
+            return this.FindFirstName(firstName);
         }
 
         /// <summary>
@@ -145,19 +261,18 @@ namespace FileCabinetApp
         /// <returns>all records whose last name matches the incoming.</returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
+            if (lastName is null)
             {
-                var collection = this.lastNameDictionary[lastName.ToUpper()];
+                throw new ArgumentNullException($"{nameof(lastName)} cannot be null.");
+            }
 
-                foreach (var item in collection)
-                {
-                    yield return item;
-                }
-            }
-            else
+            if (CashedData.LastNameCashe.ContainsKey(lastName))
             {
-                yield break;
+                return CashedData.FirstNameCashe[lastName];
             }
+
+            CashedData.LastNameCashe.Add(lastName, this.FindLastName(lastName));
+            return this.FindLastName(lastName);
         }
 
         /// <summary>
@@ -166,90 +281,63 @@ namespace FileCabinetApp
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
 
-        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
-        {
-            if (string.Equals(propertyName, FirstName, StringComparison.OrdinalIgnoreCase))
-            {
-                return this.FindByFirstName(value);
-            }
-            else if (string.Equals(propertyName, LastName, StringComparison.OrdinalIgnoreCase))
-            {
-                return this.FindByLastName(value);
-            }
-            else if (string.Equals(propertyName, DateOfBirth, StringComparison.OrdinalIgnoreCase))
-            {
-                return this.FindByDateOfBirth(Convert.ToDateTime(value));
-            }
-            else if (string.Equals(propertyName, Experience, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByExperience(value);
-            }
-            else if (string.Equals(propertyName, Account, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByAccount(value);
-            }
-            else if (string.Equals(propertyName, Gender, StringComparison.OrdinalIgnoreCase))
-            {
-                return FindByGender(value);
-            }
-            else
-            {
-                throw new ArgumentException($"This property {propertyName} is not exist.");
-            }
-        }
-
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
-            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            if (CashedData.DateOfBirthCashe.ContainsKey(dateOfBirth))
             {
-                var collection = this.dateOfBirthDictionary[dateOfBirth];
+                return CashedData.DateOfBirthCashe[dateOfBirth];
+            }
 
-                foreach (var item in collection)
-                {
-                    yield return item;
-                }
-            }
-            else
-            {
-                yield break;
-            }
+            CashedData.DateOfBirthCashe.Add(dateOfBirth, this.FindDateOfBirth(dateOfBirth));
+            return this.FindDateOfBirth(dateOfBirth);
         }
 
         public IEnumerable<FileCabinetRecord> FindByExperience(string experience)
         {
-            short exp = short.Parse(experience);
-
-            foreach (var record in this.GetRecords())
+            if (experience is null)
             {
-                if (record.Experience == exp)
-                {
-                    yield return record;
-                }
+                throw new ArgumentNullException($"{nameof(experience)} cannot be null.");
             }
+
+            if (CashedData.ExperienceCashe.ContainsKey(experience))
+            {
+                return CashedData.ExperienceCashe[experience];
+            }
+
+            CashedData.ExperienceCashe.Add(experience, this.FindExperience(experience));
+            return this.FindExperience(experience);
         }
 
         public IEnumerable<FileCabinetRecord> FindByAccount(string account)
         {
-            decimal acc = decimal.Parse(account);
-
-            foreach (var record in this.GetRecords())
+            if (account is null)
             {
-                if (record.Account == acc)
-                {
-                    yield return record;
-                }
+                throw new ArgumentNullException($"{nameof(account)} cannot be null");
             }
+
+            if (CashedData.AccountCashe.ContainsKey(account))
+            {
+                return CashedData.AccountCashe[account];
+            }
+
+            CashedData.AccountCashe.Add(account, this.FindAccount(account));
+            return this.FindAccount(account);
         }
 
         public IEnumerable<FileCabinetRecord> FindByGender(string gender)
         {
-            foreach (var record in this.GetRecords())
+            if (gender is null)
             {
-                if (record.Gender == gender[0])
-                {
-                    yield return record;
-                }
+                throw new ArgumentNullException($"{nameof(gender)} cannot be null.");
             }
+
+            if (CashedData.GenderCashe.ContainsKey(gender))
+            {
+                return CashedData.GenderCashe[gender];
+            }
+
+            CashedData.GenderCashe.Add(gender, this.FindGender(gender));
+            return this.FindGender(gender);
         }
 
         public bool Remove(int id)
@@ -264,13 +352,15 @@ namespace FileCabinetApp
                 if (record.Id == id)
                 {
                     this.list.Remove(record);
-                    this.firstNameDictionary[record.FirstName/*.ToUpper()*/].Remove(record);
-                    this.lastNameDictionary[record.LastName/*.ToUpper()*/].Remove(record);
+                    this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Remove(record);
+                    this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Remove(record);
                     this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
+                    CashedData.ClearCashe();
                     return true;
                 }
             }
 
+            CashedData.ClearCashe();
             return false;
         }
 
@@ -374,6 +464,100 @@ namespace FileCabinetApp
             }
 
             return count;
+        }
+
+        private IEnumerable<FileCabinetRecord> FindFirstName(string firstName)
+        {
+            if (this.firstNameDictionary.ContainsKey(firstName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                var collection = this.firstNameDictionary[firstName.ToUpper(CultureInfo.InvariantCulture)];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindLastName(string lastName)
+        {
+            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper(CultureInfo.InvariantCulture)))
+            {
+                var collection = this.lastNameDictionary[lastName.ToUpper(CultureInfo.InvariantCulture)];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindDateOfBirth(DateTime dateOfBirth)
+        {
+            /*int month = int.Parse(dateOfBirth.Substring(0, 2), CultureInfo.InvariantCulture);
+            int day = int.Parse(dateOfBirth.Substring(3, 2), CultureInfo.InvariantCulture);
+            int year = int.Parse(dateOfBirth.Substring(6, 4), CultureInfo.InvariantCulture);
+
+            var key = new DateTime(year, month, day);*/
+
+            if (this.dateOfBirthDictionary.ContainsKey(dateOfBirth))
+            {
+                var collection = this.dateOfBirthDictionary[dateOfBirth];
+
+                foreach (var item in collection)
+                {
+                    yield return item;
+                }
+            }
+            else
+            {
+                yield break;
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindExperience(string experience)
+        {
+            short exp = short.Parse(experience, CultureInfo.InvariantCulture);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Experience == exp)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindAccount(string account)
+        {
+            decimal acc = decimal.Parse(account, CultureInfo.InvariantCulture);
+
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Account == acc)
+                {
+                    yield return record;
+                }
+            }
+        }
+
+        private IEnumerable<FileCabinetRecord> FindGender(string gender)
+        {
+            foreach (var record in this.GetRecords())
+            {
+                if (record.Gender == gender[0])
+                {
+                    yield return record;
+                }
+            }
         }
     }
 }

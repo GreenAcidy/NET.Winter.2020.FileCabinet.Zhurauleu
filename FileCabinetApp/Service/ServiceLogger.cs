@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Text;
 
 namespace FileCabinetApp.Service
 {
@@ -43,11 +42,19 @@ namespace FileCabinetApp.Service
             this.WriteLogInFile(nameof(this.service.EditRecord), GetInfoFileCabinetInputData(parameters));
         }
 
-        public IEnumerable<FileCabinetRecord> FindBy(string propertyName, string value)
+        public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
         {
-            var collection = this.service.FindBy(propertyName, value);
-            WriteLogInFile(nameof(this.service.FindBy), value);
-            WriteLogReturnInFile(nameof(this.service.FindBy), collection.ToString());
+            var collection = this.service.FindByAnd(conditions);
+            this.WriteLogInFile(nameof(this.service.FindByAnd), conditions.ToString());
+            this.WriteLogReturnInFile(nameof(this.service.FindByAnd), conditions.ToString());
+            return collection;
+        }
+
+        public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
+        {
+            var collection = this.service.FindByOr(conditions);
+            this.WriteLogInFile(nameof(this.service.FindByOr), conditions.ToString());
+            this.WriteLogReturnInFile(nameof(this.service.FindByOr), conditions.ToString());
             return collection;
         }
 
