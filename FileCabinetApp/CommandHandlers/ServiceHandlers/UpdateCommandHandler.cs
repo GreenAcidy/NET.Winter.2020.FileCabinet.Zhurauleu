@@ -39,6 +39,20 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             var set = newProp;
             var where = whereProp;
 
+            if (where[0].whereProp.Equals("id", StringComparison.OrdinalIgnoreCase))
+            {
+                int id = int.Parse(where[0].whereVal);
+                foreach (var record in fileCabinetService.GetRecords())
+                {
+                    if (record.Id == id)
+                    {
+                        FileCabinetInputData data = this.CreateDataForEditing(record, set);
+                        this.fileCabinetService.EditRecord(id, data);
+                        return;
+                    }
+                }
+            }
+
             var finded = new List<List<FileCabinetRecord>>();
             foreach (var item in where)
             {

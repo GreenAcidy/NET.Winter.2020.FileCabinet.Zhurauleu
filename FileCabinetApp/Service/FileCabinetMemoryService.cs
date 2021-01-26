@@ -270,9 +270,9 @@ namespace FileCabinetApp
         /// <returns>all records whose last name matches the incoming.</returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
-            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper()))
+            if (this.lastNameDictionary.ContainsKey(lastName.ToUpper(CultureInfo.InvariantCulture)))
             {
-                var collection = this.lastNameDictionary[lastName.ToUpper()];
+                var collection = this.lastNameDictionary[lastName.ToUpper(CultureInfo.InvariantCulture)];
 
                 foreach (var item in collection)
                 {
