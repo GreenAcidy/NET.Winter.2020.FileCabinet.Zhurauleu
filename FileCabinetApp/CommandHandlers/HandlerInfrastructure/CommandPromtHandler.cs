@@ -4,13 +4,16 @@ using System.Text;
 
 namespace FileCabinetApp.CommandHandlers.HandlerInfrastructure
 {
+    /// <summary>
+    /// Class Command promt handler.
+    /// </summary>
     public static class CommandPromtHandler
     {
         private const int SubtokenLength = 3;
         private const double ThresholdWord = 0.5d;
 
-        private const string are = "are";
-        private const string @is = "is";
+        private const string Are = "are";
+        private const string Is = "is";
         private static string[] commands =
         {
             "select",
@@ -26,8 +29,17 @@ namespace FileCabinetApp.CommandHandlers.HandlerInfrastructure
             "create",
         };
 
+        /// <summary>
+        /// Get most simmular strings.
+        /// </summary>
+        /// <param name="incorrect">Incorrect string.</param>
         public static void GetTheMostSimular(string incorrect)
         {
+            if (incorrect is null)
+            {
+                throw new ArgumentNullException($"{nameof(incorrect)} cannot be null.");
+            }
+
             var sb = new StringBuilder();
             int count = 0;
             foreach (var command in commands)
@@ -46,11 +58,11 @@ namespace FileCabinetApp.CommandHandlers.HandlerInfrastructure
 
             if (count == 1)
             {
-                Console.WriteLine($"The most simmular command {are}: {sb}");
+                Console.WriteLine($"The most simmular command {Are}: {sb}");
             }
             else
             {
-                Console.WriteLine($"The most simmular command {@is}: {sb}");
+                Console.WriteLine($"The most simmular command {Is}: {sb}");
             }
         }
 
@@ -66,7 +78,7 @@ namespace FileCabinetApp.CommandHandlers.HandlerInfrastructure
                     if (!usedTokens[j])
                     {
                         var subtokenSecond = secondToken.Substring(j, SubtokenLength);
-                        if (subtokenFirst.Equals(subtokenSecond))
+                        if (subtokenFirst.Equals(subtokenSecond, StringComparison.Ordinal))
                         {
                             equalSubtokensCount++;
                             usedTokens[j] = true;
@@ -81,7 +93,7 @@ namespace FileCabinetApp.CommandHandlers.HandlerInfrastructure
 
             var tanimoto = (1.0 * equalSubtokensCount) / (subtokenFirstCount + subtokenSecondCount - equalSubtokensCount);
 
-            return ThresholdWord <= tanimoto;
+            return tanimoto >= ThresholdWord;
         }
     }
 }

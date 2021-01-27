@@ -3,11 +3,18 @@ using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
 
 namespace FileCabinetApp.CommandHandlers.CabinetHandlers
 {
+    /// <summary>
+    /// Class Exit command handler.
+    /// </summary>
     public class ExitCommandHandler : CommandHandlerBase
     {
-        public const string ExitConstant = "exit";
+        private const string ExitConstant = "exit";
         private Action<bool> isRunning;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExitCommandHandler"/> class.
+        /// </summary>
+        /// <param name="isRunning">Delegate isRunning aplication.</param>
         public ExitCommandHandler(Action<bool> isRunning)
         {
             if (isRunning is null)
@@ -18,6 +25,10 @@ namespace FileCabinetApp.CommandHandlers.CabinetHandlers
             this.isRunning = isRunning;
         }
 
+        /// <summary>
+        /// Handle command request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)

@@ -1,20 +1,31 @@
-﻿using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
-using FileCabinetApp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 {
+    /// <summary>
+    /// Calss Update command handler.
+    /// </summary>
     public class UpdateCommandHandler : ServiceCommandHandlerBase
     {
-        public const string UpdateConstant = "update";
+        private const string UpdateConstant = "update";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public UpdateCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -42,7 +53,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             if (where[0].whereProp.Equals("id", StringComparison.OrdinalIgnoreCase))
             {
                 int id = int.Parse(where[0].whereVal);
-                foreach (var record in fileCabinetService.GetRecords())
+                foreach (var record in this.fileCabinetService.GetRecords())
                 {
                     if (record.Id == id)
                     {

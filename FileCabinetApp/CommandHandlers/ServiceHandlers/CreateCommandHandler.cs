@@ -5,15 +5,26 @@ using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 {
+    /// <summary>
+    /// Class Create command handler.
+    /// </summary>
     public class CreateCommandHandler : ServiceCommandHandlerBase
     {
-        public const string CreateConstant = "create";
+        private const string CreateConstant = "create";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public CreateCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -31,7 +42,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             }
         }
 
-        public void Create(string parametrs)
+        private void Create(string parametrs)
         {
             Console.Write("First name: ");
             var firstName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.firstNameValidator);

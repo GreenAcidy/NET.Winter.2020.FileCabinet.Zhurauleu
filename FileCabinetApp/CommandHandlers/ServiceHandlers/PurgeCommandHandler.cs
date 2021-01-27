@@ -4,15 +4,26 @@ using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 {
+    /// <summary>
+    /// Class Purge command handler.
+    /// </summary>
     public class PurgeCommandHandler : ServiceCommandHandlerBase
     {
-        public const string PurgeConstant = "purge";
+        private const string PurgeConstant = "purge";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PurgeCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public PurgeCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)

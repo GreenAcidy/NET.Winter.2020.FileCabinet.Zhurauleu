@@ -1,11 +1,14 @@
-﻿using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
-using System;
+﻿using System;
+using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
 
 namespace FileCabinetApp.CommandHandlers.CabinetHandlers
 {
+    /// <summary>
+    /// Help command handler.
+    /// </summary>
     public class HelpCommandHandler : CommandHandlerBase
     {
-        public const string HelpConstant = "help";
+        private const string HelpConstant = "help";
 
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
@@ -26,6 +29,10 @@ namespace FileCabinetApp.CommandHandlers.CabinetHandlers
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
         };
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
