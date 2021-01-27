@@ -77,7 +77,7 @@ namespace FileCabinetApp
             statHandler.SetNext(createHandler);
             createHandler.SetNext(importHandler);
             importHandler.SetNext(exportHandler);
-            exportHandler.SetNext(insertHandler);
+            exportHandler.SetNext(purgeHandler);
             purgeHandler.SetNext(insertHandler);
             insertHandler.SetNext(deleteHandler);
             deleteHandler.SetNext(updateHandler);

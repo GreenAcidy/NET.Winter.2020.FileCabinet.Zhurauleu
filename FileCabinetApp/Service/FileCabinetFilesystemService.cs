@@ -24,7 +24,6 @@ namespace FileCabinetApp.Service
         private readonly FileStream fileStream;
         private readonly BinaryReader binReader;
         private readonly BinaryWriter binWriter;
-        private readonly IRecordValidator validator;
 
         private Dictionary<int, long> activeRecords;
         private Dictionary<int, long> removedRecords;

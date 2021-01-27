@@ -9,6 +9,15 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetInputData
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetInputData"/> class.
+        /// </summary>
+        /// <param name="firstname">first name.</param>
+        /// <param name="lastname">last name.</param>
+        /// <param name="date">date of birth.</param>
+        /// <param name="gender">gender.</param>
+        /// <param name="experience">experience.</param>
+        /// <param name="account">account.</param>
         public FileCabinetInputData(string firstname, string lastname, DateTime date, char gender, short experience, decimal account)
         {
             this.FirstName = firstname;

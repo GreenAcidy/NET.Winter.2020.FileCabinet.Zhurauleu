@@ -149,6 +149,22 @@
             </summary>
             <param name="incorrect">Incorrect string.</param>
         </member>
+        <member name="T:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ServiceCommandHandlerBase">
+            <summary>
+            Base command hanlder for services command.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ServiceCommandHandlerBase.fileCabinetService">
+            <summary>
+            The current service.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ServiceCommandHandlerBase.#ctor(FileCabinetApp.Interfaces.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ServiceCommandHandlerBase"/> class.
+            </summary>
+            <param name="fileCabinetService">The current service.</param>
+        </member>
         <member name="T:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ICommandHandler">
             <summary>
             Command handler interface.
@@ -166,22 +182,6 @@
             Handle request.
             </summary>
             <param name="commandRequest">The command request.</param>
-        </member>
-        <member name="T:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ServiceCommandHandlerBase">
-            <summary>
-            Base command hanlder for services command.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ServiceCommandHandlerBase.fileCabinetService">
-            <summary>
-            The current service.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ServiceCommandHandlerBase.#ctor(FileCabinetApp.Interfaces.IFileCabinetService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.HandlerInfrastructure.ServiceCommandHandlerBase"/> class.
-            </summary>
-            <param name="fileCabinetService">The current service.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceHandlers.CreateCommandHandler">
             <summary>
@@ -470,6 +470,17 @@
             Class FileCabinetRecord contain input data of people.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetInputData.#ctor(System.String,System.String,System.DateTime,System.Char,System.Int16,System.Decimal)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetInputData"/> class.
+            </summary>
+            <param name="firstname">first name.</param>
+            <param name="lastname">last name.</param>
+            <param name="date">date of birth.</param>
+            <param name="gender">gender.</param>
+            <param name="experience">experience.</param>
+            <param name="account">account.</param>
+        </member>
         <member name="P:FileCabinetApp.FileCabinetInputData.FirstName">
             <summary>
             Gets or sets first name of person.
@@ -607,6 +618,510 @@
             Class FileCabinetFilesystemService implements IFileCabinetRecord interface.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.#ctor(FileCabinetApp.Interfaces.IRecordValidator,System.IO.FileStream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetFilesystemService"/> class.
+            </summary>
+            <param name="validator">The validator.</param>
+            <param name="fileStream">The filestream.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Method get data and create record.
+            </summary>
+            <param name="inputData">input data.</param>
+            <returns>id of new record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.EditRecord(System.Int32,FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Method get data and edit existing record.
+            </summary>
+            <param name="id">input id of existing record.</param>
+            <param name="inputData">input data.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByFirstName(System.String)">
+            <summary>
+            Method find record by input first name.
+            </summary>
+            <param name="firstName">input first name.</param>
+            <returns>all records whose first name matches the incoming.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByLastName(System.String)">
+            <summary>
+            Method find record by input last name.
+            </summary>
+            <param name="lastName">input first name.</param>
+            <returns>all records whose last name matches the incoming.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Method find record by input date of birth.
+            </summary>
+            <param name="dateOfBirth">input first name.</param>
+            <returns>all records whose date of birth matches the incoming.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByExperience(System.String)">
+            <summary>
+            Find by experience.
+            </summary>
+            <param name="experience">Experience.</param>
+            <returns>The sequance of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByAccount(System.String)">
+            <summary>
+            Find by account.
+            </summary>
+            <param name="account">Account.</param>
+            <returns>The sequance of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.FindByGender(System.String)">
+            <summary>
+            Find by english level.
+            </summary>
+            <param name="gender">Gender.</param>
+            <returns>the sequance of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.Remove(System.Int32)">
+            <summary>
+            Remove record with given id.
+            </summary>
+            <param name="id">Id.</param>
+            <returns>Is removed.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.Purge">
+            <summary>
+            Remove deleted record from file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.GetRecords">
+            <summary>
+            Method return all records.
+            </summary>
+            <returns>all records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.GetStat">
+            <summary>
+            Method return count of records.
+            </summary>
+            <returns>count of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.MakeSnapShot">
+            <summary>
+            Make snapshot.
+            </summary>
+            <returns>Snapshot.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.Restore(FileCabinetApp.Service.FileCabinetServiceSnapshot)">
+            <summary>
+            Recovers saved snapshot recordings.
+            </summary>
+            <param name="snapshot">Snapshot.</param>
+            <returns>count of restored recordings.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.Dispose">
+            <summary>
+            Dispose.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetFilesystemService.Dispose(System.Boolean)">
+            <summary>
+            Dispose.
+            </summary>
+            <param name="disposing">Is disposing.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecordCsvReader">
+            <summary>
+            Classs Csv reader.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.#ctor(System.IO.StreamReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordCsvReader"/> class.
+            </summary>
+            <param name="streamReader">The csv reader.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Read">
+            <summary>
+            Read recards from csv file.
+            </summary>
+            <returns>The records collection.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Dispose">
+            <summary>
+            Dispose.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Dispose(System.Boolean)">
+            <summary>
+            Dispose.
+            </summary>
+            <param name="disposing">Is disposing.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecordCsvWriter">
+            <summary>
+            Class csv writer.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvWriter.#ctor(System.IO.TextWriter,FileCabinetApp.FileCabinetRecord[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordCsvWriter"/> class.
+            </summary>
+            <param name="writer">The csv writer.</param>
+            <param name="records">Record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvWriter.Write">
+            <summary>
+            Write records in csv file.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecordXmlReader">
+            <summary>
+            Class Xml reader.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.#ctor(System.IO.StreamReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordXmlReader"/> class.
+            </summary>
+            <param name="streamReader">The xml reader.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Read">
+            <summary>
+            Read recards from xml file.
+            </summary>
+            <returns>The records collection.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Dispose">
+            <summary>
+            Dispose.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Dispose(System.Boolean)">
+            <summary>
+            Dispose.
+            </summary>
+            <param name="disposing">Is disposing.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecordXmlWriter">
+            <summary>
+            Class Xml writer.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlWriter.#ctor(System.Xml.XmlWriter,FileCabinetApp.Service.SerializableCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordXmlWriter"/> class.
+            </summary>
+            <param name="writer">The xml writer.</param>
+            <param name="records">The serializable records.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlWriter.Write">
+            <summary>
+            Write record in xml format.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetServiceSnapshot">
+            <summary>
+            Class FileCabinetServiceSnapshot saves statement for FileCabinetService.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.#ctor(FileCabinetApp.FileCabinetRecord[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetServiceSnapshot"/> class.
+            </summary>
+            <param name="records">The array of records.</param>
+            <exception cref="T:System.ArgumentNullException">Throws, when records is null.</exception>
+        </member>
+        <member name="P:FileCabinetApp.Service.FileCabinetServiceSnapshot.Records">
+            <summary>
+            Gets record collection.
+            </summary>
+            <value>The record collection.</value>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.SaveToCSV(System.IO.StreamWriter)">
+            <summary>
+            Save records array to csv file.
+            </summary>
+            <param name="writer">The csv writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.SaveToXML(System.IO.StreamWriter)">
+            <summary>
+            Save records array to xml file.
+            </summary>
+            <param name="writer">The xml writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.LoadFromCsv(System.IO.StreamReader)">
+            <summary>
+            Read the records from csv file.
+            </summary>
+            <param name="reader">The csv reader.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetServiceSnapshot.LoadFromXml(System.IO.StreamReader)">
+            <summary>
+            Read the records from xml file.
+            </summary>
+            <param name="reader">The xml reader.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.ServiceLogger">
+            <summary>
+            Class Service logger.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.#ctor(FileCabinetApp.Interfaces.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceLogger"/> class.
+            </summary>
+            <param name="service">The current service.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.CreateRecord(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Generates a unique user record.
+            </summary>
+            <param name="parameters">Parameters of new record.</param>
+            <returns>Id of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.EditRecord(System.Int32,FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Changes the record by given ID.
+            </summary>
+            <param name="id">Id of record.</param>
+            <param name="parameters">Parameters of record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByFirstName(System.String)">
+            <summary>
+            Find all records with given firstName.
+            </summary>
+            <param name="firstName">User firstName.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByLastName(System.String)">
+            <summary>
+            Find all records with given lastName.
+            </summary>
+            <param name="lastName">User lastNeme.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Find all records with given date of birth.
+            </summary>
+            <param name="dateOfBirth">The user's date of birth.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByGender(System.String)">
+            <summary>
+            Find all records with given gender.
+            </summary>
+            <param name="gender">The user's gender.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByExperience(System.String)">
+            <summary>
+            Find all records with given experience.
+            </summary>
+            <param name="experience">The user's experience.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.FindByAccount(System.String)">
+            <summary>
+            Find all records with given account.
+            </summary>
+            <param name="account">The user's account.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.Remove(System.Int32)">
+            <summary>
+            Remove record with given id.
+            </summary>
+            <param name="id">The id of removed record.</param>
+            <returns>Is removed record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.Purge">
+            <summary>
+            Deleted all removed record from file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.GetRecords">
+            <summary>
+            Give all records.
+            </summary>
+            <returns>The array of all records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.GetStat">
+            <summary>
+            Give the count of records.
+            </summary>
+            <returns>The count of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.MakeSnapShot">
+            <summary>
+            Make snapshot of the current service.
+            </summary>
+            <returns>Snapshot of the current service.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.Restore(FileCabinetApp.Service.FileCabinetServiceSnapshot)">
+            <summary>
+            Recovers saved snapshot recordings.
+            </summary>
+            <param name="snapshot">Snapshot.</param>
+            <returns>count of recovered records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.Dispose">
+            <summary>
+            Dispose.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceLogger.Dispose(System.Boolean)">
+            <summary>
+            Dispose.
+            </summary>
+            <param name="disposing">Disposing.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.ServiceMeter">
+            <summary>
+            Class Sevice meter.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.#ctor(FileCabinetApp.Interfaces.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.ServiceMeter"/> class.
+            </summary>
+            <param name="service">The current service.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.CreateRecord(FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Generates a unique user record.
+            </summary>
+            <param name="parameters">Parameters of new record.</param>
+            <returns>Id of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.EditRecord(System.Int32,FileCabinetApp.FileCabinetInputData)">
+            <summary>
+            Changes the record by given ID.
+            </summary>
+            <param name="id">Id of record.</param>
+            <param name="parameters">Parameters of record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByFirstName(System.String)">
+            <summary>
+            Find all records with given firstName.
+            </summary>
+            <param name="firstName">User firstName.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByLastName(System.String)">
+            <summary>
+            Find all records with given lastName.
+            </summary>
+            <param name="lastName">User lastNeme.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByDateOfBirth(System.DateTime)">
+            <summary>
+            Find all records with given date of birth.
+            </summary>
+            <param name="dateOfBirth">The user's date of birth.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByExperience(System.String)">
+            <summary>
+            Find all records with given experience.
+            </summary>
+            <param name="experience">The user's experience.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByAccount(System.String)">
+            <summary>
+            Find all records with given account.
+            </summary>
+            <param name="account">The user's account.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.FindByGender(System.String)">
+            <summary>
+            Find all records with given gender.
+            </summary>
+            <param name="gender">The user's gender.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.Remove(System.Int32)">
+            <summary>
+            Remove record with given id.
+            </summary>
+            <param name="id">The id of removed record.</param>
+            <returns>Is removed record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.Purge">
+            <summary>
+            Deleted all removed record from file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.GetRecords">
+            <summary>
+            Give all records.
+            </summary>
+            <returns>The array of all records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.GetStat">
+            <summary>
+            Give the count of records.
+            </summary>
+            <returns>The count of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.MakeSnapShot">
+            <summary>
+            Make snapshot of the current service.
+            </summary>
+            <returns>Snapshot of the current service.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.ServiceMeter.Restore(FileCabinetApp.Service.FileCabinetServiceSnapshot)">
+            <summary>
+            Recovers saved snapshot recordings.
+            </summary>
+            <param name="snapshot">Snapshot.</param>
+            <returns>count of recovered records.</returns>
+        </member>
         <member name="T:FileCabinetApp.SerializableRecord">
             <summary>
             Serializable record data.
@@ -695,12 +1210,67 @@
             </summary>
             <value>Nullable gender.</value>
         </member>
-        <member name="T:FileCabinetApp.InputHandlers.Input">
+        <member name="T:FileCabinetApp.InputHandlers.InputHandler">
             <summary>
             Class Input handlers.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.InputHandlers.Input.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.StringConvrter">
+            <summary>
+            String converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.DateConverter">
+            <summary>
+            DateOfBirth converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.ExperienceConverter">
+            <summary>
+            Experience converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.AccountConverter">
+            <summary>
+            Account converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.GenderConverter">
+            <summary>
+            Gender converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.FirstNameValidator">
+            <summary>
+            FirstName validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.LastNameValidator">
+            <summary>
+            LastName validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.DateOfBirthValidator">
+            <summary>
+            DateOfBirth validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.ExperienceValidator">
+            <summary>
+            Experience validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.AccountValidator">
+            <summary>
+            Account validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.InputHandler.GenderValidator">
+            <summary>
+            Gender validator.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.InputHandlers.InputHandler.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
             <summary>
             Read input data.
             </summary>
@@ -708,61 +1278,6 @@
             <param name="converter">Data converter delegate.</param>
             <param name="validator">Data validator delegate.</param>
             <returns>Validated data.</returns>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.stringConvrter">
-            <summary>
-            String converter.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.dateConverter">
-            <summary>
-            DateOfBirth converter.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.experienceConverter">
-            <summary>
-            Experience converter.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.accountConverter">
-            <summary>
-            Account converter.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.genderConverter">
-            <summary>
-            Gender converter.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.firstNameValidator">
-            <summary>
-            FirstName validator.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.lastNameValidator">
-            <summary>
-            LastName validator.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.dateOfBirthValidator">
-            <summary>
-            DateOfBirth validator.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.experienceValidator">
-            <summary>
-            Experience validator.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.accountValidator">
-            <summary>
-            Account validator.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.InputHandlers.Input.genderValidator">
-            <summary>
-            Gender validator.
-            </summary>
         </member>
         <member name="T:FileCabinetApp.Interfaces.IFileCabinetService">
             <summary>
@@ -886,6 +1401,11 @@
             Get input data and validate.
             </summary>
             <param name="inputData">input data.</param>
+        </member>
+        <member name="T:FileCabinetApp.Printers.TablePrinter">
+            <summary>
+            Class Table printer.
+            </summary>
         </member>
         <member name="M:FileCabinetApp.Printers.TablePrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord},System.Collections.Generic.List{System.String})">
             <summary>
