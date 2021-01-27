@@ -45,22 +45,22 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
         private void Create(string parametrs)
         {
             Console.Write("First name: ");
-            var firstName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.firstNameValidator);
+            var firstName = Input.ReadInput(Input.stringConvrter, Input.firstNameValidator);
 
             Console.Write("Last name: ");
-            var lastName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.lastNameValidator);
+            var lastName = Input.ReadInput(Input.stringConvrter, Input.lastNameValidator);
 
             Console.Write("Date of birth (mm/dd/yyyy): ");
-            var dateOfBirth = InputValidator.ReadInput(InputValidator.dateConverter, InputValidator.dateOfBirthValidator);
+            var dateOfBirth = Input.ReadInput(Input.dateConverter, Input.dateOfBirthValidator);
 
             Console.Write("Gender(M/F): ");
-            var gender = InputValidator.ReadInput(InputValidator.genderConverter, InputValidator.genderValidator);
+            var gender = Input.ReadInput(Input.genderConverter, Input.genderValidator);
 
             Console.Write("Experience: ");
-            var experience = InputValidator.ReadInput(InputValidator.experienceConverter, InputValidator.experienceValidator);
+            var experience = Input.ReadInput(Input.experienceConverter, Input.experienceValidator);
 
             Console.Write("Account: ");
-            var account = InputValidator.ReadInput(InputValidator.accountConverter, InputValidator.accountValidator);
+            var account = Input.ReadInput(Input.accountConverter, Input.accountValidator);
 
             var index = this.fileCabinetService.CreateRecord(new FileCabinetInputData(firstName, lastName, dateOfBirth, gender, experience, account));
             Console.WriteLine($"Record #{index} is created.");

@@ -32,6 +32,46 @@
             </summary>
             <param name="commandRequest">The command request.</param>
         </member>
+        <member name="T:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.CommandArgConstant">
+            <summary>
+            Class provide constant for work with command arguments.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.CommandArgConstant.VALIDATIONRULE">
+            <summary>
+            Validation rule in full form.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.CommandArgConstant.VALIDATIONRULESHORT">
+            <summary>
+            Validation rule in short form.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.CommandArgConstant.STORAGE">
+            <summary>
+            Storage in full form.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.CommandArgConstant.STORAGESHORT">
+            <summary>
+            Storage in short form.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.CommandArgConstant.STOPWATCH">
+            <summary>
+            Stopwatch(only full form).
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.CommandArgConstant.LOGGER">
+            <summary>
+            Logger(only full form).
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.CommandArgConstant.SingleCommands">
+            <summary>
+            Single commands.
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.Handler">
             <summary>
             Class Handle command arguments.
@@ -48,6 +88,13 @@
             Gets fileCabinet service.
             </summary>
             <returns>The fileCabinetService.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.CommandAgrsHandlers.Handler.GetCurrentComandPairs(System.String[])">
+            <summary>
+            Return command pair: (command, value).
+            </summary>
+            <param name="args">Command args.</param>
+            <returns>The command pair (command, value).</returns>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.HandlerInfrastructure.AppCommandRequest">
             <summary>
@@ -296,9 +343,91 @@
             </summary>
             <param name="commandRequest">The command request.</param>
         </member>
+        <member name="T:FileCabinetApp.Configurations.ConfigurationSetter">
+            <summary>
+            Class maintains setting current configurations for FileCabinetRecord options.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Configurations.ConfigurationSetter.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Configurations.ConfigurationSetter"/> class.
+            </summary>
+            <param name="validationRule">Is validation rule.</param>
+        </member>
+        <member name="M:FileCabinetApp.Configurations.ConfigurationSetter.GetParameters">
+            <summary>
+            Get configuration parameters.
+            </summary>
+            <returns>Json validation parameters.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Configurations.JsonValidationParameters">
+            <summary>
+            Class incapsulate validation parameters.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.FirstNameMinLength">
+            <summary>
+            Gets or sets max length firstName.
+            </summary>
+            <value>The max length firstName.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.FirstNameMaxLenght">
+            <summary>
+            Gets or sets min length firstName.
+            </summary>
+            <value>The min length lastName.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.LastNameMinLength">
+            <summary>
+            Gets or sets max length lastName.
+            </summary>
+            <value>The max length lastName.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.LastNameMaxLength">
+            <summary>
+            Gets or sets min length lastName.
+            </summary>
+            <value>The min length lastName.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.DateOfBirthFrom">
+            <summary>
+            Gets or sets start date of birth.
+            </summary>
+            <value>The start date of birth.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.DateOfBirthTo">
+            <summary>
+            Gets or sets end date of birth.
+            </summary>
+            <value>The end date of birth.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.ExperienceMinValue">
+            <summary>
+            Gets or sets max experience.
+            </summary>
+            <value>The max experience.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.ExperienceMaxValue">
+            <summary>
+            Gets or sets min experience.
+            </summary>
+            <value>The min experience.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.AccountMinValue">
+            <summary>
+            Gets or sets min account.
+            </summary>
+            <value>The min account.</value>
+        </member>
+        <member name="P:FileCabinetApp.Configurations.JsonValidationParameters.Gender">
+            <summary>
+            Gets or sets genders.
+            </summary>
+            <value>The genders.</value>
+        </member>
         <member name="T:FileCabinetApp.Data.CashedData">
             <summary>
-            class CashedData contains cashed data using for memoization.
+            Class CashedData contains cashed data using for memoization.
             </summary>
         </member>
         <member name="F:FileCabinetApp.Data.CashedData.DateOfBirthCashe">
@@ -462,6 +591,69 @@
             </summary>
             <returns>One record of person.</returns>
         </member>
+        <member name="T:FileCabinetApp.Service.SerializableCollection">
+            <summary>
+            Class Serializeble record array.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Service.SerializableCollection.SerializeRecords">
+            <summary>
+            Gets or sets serializable record.
+            </summary>
+            <value>Serializable record.</value>
+        </member>
+        <member name="T:FileCabinetApp.SerializableRecord">
+            <summary>
+            Serializable record data.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.SerializableRecord.Id">
+            <summary>
+            Gets or sets records id.
+            </summary>
+            <value>The records id.</value>
+        </member>
+        <member name="P:FileCabinetApp.SerializableRecord.FirstName">
+            <summary>
+            Gets or sets records firstName.
+            </summary>
+            <value>The records firstName.</value>
+        </member>
+        <member name="P:FileCabinetApp.SerializableRecord.LastName">
+            <summary>
+            Gets or sets record lastName.
+            </summary>
+            <value>The records lastName.</value>
+        </member>
+        <member name="P:FileCabinetApp.SerializableRecord.Gender">
+            <summary>
+            Gets or sets records gender.
+            </summary>
+            <value>The records gender.</value>
+        </member>
+        <member name="P:FileCabinetApp.SerializableRecord.Experience">
+            <summary>
+            Gets or sets records experience.
+            </summary>
+            <value>The records experience.</value>
+        </member>
+        <member name="P:FileCabinetApp.SerializableRecord.Account">
+            <summary>
+            Gets or sets records account.
+            </summary>
+            <value>The records account.</value>
+        </member>
+        <member name="P:FileCabinetApp.SerializableRecord.DateOfBirth">
+            <summary>
+            Gets or sets records date of birth.
+            </summary>
+            <value>The records date of birth.</value>
+        </member>
+        <member name="T:FileCabinetApp.WhereConditions">
+            <summary>
+            Class contains conditions for improved find.
+            </summary>
+        </member>
         <member name="P:FileCabinetApp.WhereConditions.FirstName">
             <summary>
             Gets or sets condition firstName.
@@ -498,6 +690,75 @@
             </summary>
             <value>Nullable gender.</value>
         </member>
+        <member name="T:FileCabinetApp.InputHandlers.Input">
+            <summary>
+            Class Input handlers.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.InputHandlers.Input.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
+            <summary>
+            Read input data.
+            </summary>
+            <typeparam name="T">Data.</typeparam>
+            <param name="converter">Data converter delegate.</param>
+            <param name="validator">Data validator delegate.</param>
+            <returns>Validated data.</returns>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.stringConvrter">
+            <summary>
+            String converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.dateConverter">
+            <summary>
+            DateOfBirth converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.experienceConverter">
+            <summary>
+            Experience converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.accountConverter">
+            <summary>
+            Account converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.genderConverter">
+            <summary>
+            Gender converter.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.firstNameValidator">
+            <summary>
+            FirstName validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.lastNameValidator">
+            <summary>
+            LastName validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.dateOfBirthValidator">
+            <summary>
+            DateOfBirth validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.experienceValidator">
+            <summary>
+            Experience validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.accountValidator">
+            <summary>
+            Account validator.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.InputHandlers.Input.genderValidator">
+            <summary>
+            Gender validator.
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.Interfaces.IFileCabinetService">
             <summary>
             Interface IFileCabinetService sets behaviour of working with Cabinet.
@@ -516,6 +777,20 @@
             </summary>
             <param name="id">input id of existing record.</param>
             <param name="inputData">input data.</param>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
         </member>
         <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByFirstName(System.String)">
             <summary>
@@ -538,6 +813,39 @@
             <param name="dateOfBirth">input first name.</param>
             <returns>all records whose date of birth matches the incoming.</returns>
         </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByGender(System.String)">
+            <summary>
+            Find all records with given gender.
+            </summary>
+            <param name="gender">The user's gender.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByExperience(System.String)">
+            <summary>
+            Find all records with given experience.
+            </summary>
+            <param name="experience">The user's experience.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByAccount(System.String)">
+            <summary>
+            Find all records with given balance.
+            </summary>
+            <param name="account">The user's balance.</param>
+            <returns>The sequence of founded records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.Remove(System.Int32)">
+            <summary>
+            Remove record with given id.
+            </summary>
+            <param name="id">The id of removed record.</param>
+            <returns>Is removed record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.Purge">
+            <summary>
+            Deleted all removed record from file.
+            </summary>
+        </member>
         <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetRecords">
             <summary>
             Method return all records.
@@ -549,6 +857,19 @@
             Method return count of records.
             </summary>
             <returns>count of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.MakeSnapShot">
+            <summary>
+            Make snapshot of the current service.
+            </summary>
+            <returns>Snapshot of the current service.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.Restore(FileCabinetApp.Service.FileCabinetServiceSnapshot)">
+            <summary>
+            Recovers saved snapshot recordings.
+            </summary>
+            <param name="snapshot">Snapshot.</param>
+            <returns>count of restored recordings.</returns>
         </member>
         <member name="T:FileCabinetApp.Interfaces.IRecordValidator">
             <summary>

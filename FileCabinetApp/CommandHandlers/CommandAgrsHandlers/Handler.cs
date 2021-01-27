@@ -99,6 +99,11 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
             }
         }
 
+        /// <summary>
+        /// Return command pair: (command, value).
+        /// </summary>
+        /// <param name="args">Command args.</param>
+        /// <returns>The command pair (command, value).</returns>
         private IEnumerable<(string, string)> GetCurrentComandPairs(string[] args)
         {
             if (args is null)

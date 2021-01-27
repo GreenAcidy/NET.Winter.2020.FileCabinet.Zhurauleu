@@ -5,7 +5,7 @@ using System.Text;
 namespace FileCabinetApp.Data
 {
     /// <summary>
-    /// class CashedData contains cashed data using for memoization.
+    /// Class CashedData contains cashed data using for memoization.
     /// </summary>
     public static class CashedData
     {

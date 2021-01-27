@@ -39,6 +39,5 @@
         /// Single commands.
         /// </summary>
         public static string[] SingleCommands = { STOPWATCH, LOGGER };
-
     }
 }

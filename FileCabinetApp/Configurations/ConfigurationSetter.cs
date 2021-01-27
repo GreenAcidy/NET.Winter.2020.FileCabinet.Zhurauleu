@@ -3,6 +3,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace FileCabinetApp.Configurations
 {
+    /// <summary>
+    /// Class maintains setting current configurations for FileCabinetRecord options.
+    /// </summary>
     public class ConfigurationSetter
     {
         private const string SettersPath = @"validation-rules.json";
@@ -10,6 +13,10 @@ namespace FileCabinetApp.Configurations
         private readonly string validationRule;
         private readonly JsonValidationParameters validationParameters;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationSetter"/> class.
+        /// </summary>
+        /// <param name="validationRule">Is validation rule.</param>
         public ConfigurationSetter(string validationRule)
         {
             if (validationRule is null)
@@ -22,6 +29,10 @@ namespace FileCabinetApp.Configurations
             this.validationParameters = new JsonValidationParameters();
         }
 
+        /// <summary>
+        /// Get configuration parameters.
+        /// </summary>
+        /// <returns>Json validation parameters.</returns>
         public JsonValidationParameters GetParameters()
         {
             this.SetParameters();

@@ -1,12 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace FileCabinetApp.InputHandlers
 {
-    public static class InputValidator
+    /// <summary>
+    /// Class Input handlers.
+    /// </summary>
+    public static class Input
     {
+        /// <summary>
+        /// Read input data.
+        /// </summary>
+        /// <typeparam name="T">Data.</typeparam>
+        /// <param name="converter">Data converter delegate.</param>
+        /// <param name="validator">Data validator delegate.</param>
+        /// <returns>Validated data.</returns>
         public static T ReadInput<T>(Func<string, Tuple<bool, string, T>> converter, Func<T, Tuple<bool, string>> validator)
         {
             do
@@ -36,11 +44,19 @@ namespace FileCabinetApp.InputHandlers
             while (true);
         }
 
+        #region Converters
+
+        /// <summary>
+        /// String converter.
+        /// </summary>
         public static Func<string, Tuple<bool, string, string>> stringConvrter = input =>
         {
             return new Tuple<bool, string, string>(true, input, input);
         };
 
+        /// <summary>
+        /// DateOfBirth converter.
+        /// </summary>
         public static Func<string, Tuple<bool, string, DateTime>> dateConverter = input =>
         {
             DateTime date;
@@ -49,6 +65,9 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, DateTime>(isValid, input, date);
         };
 
+        /// <summary>
+        /// Experience converter.
+        /// </summary>
         public static Func<string, Tuple<bool, string, short>> experienceConverter = input =>
         {
             short experience;
@@ -57,6 +76,9 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, short>(isValid, input, experience);
         };
 
+        /// <summary>
+        /// Account converter.
+        /// </summary>
         public static Func<string, Tuple<bool, string, decimal>> accountConverter = input =>
         {
             decimal account;
@@ -65,6 +87,9 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, decimal>(isValid, input, account);
         };
 
+        /// <summary>
+        /// Gender converter.
+        /// </summary>
         public static Func<string, Tuple<bool, string, char>> genderConverter = input =>
         {
             char gender;
@@ -73,40 +98,64 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, char>(isValid, input, gender);
         };
 
+        #endregion
+
+        #region Validators
+
+        /// <summary>
+        /// FirstName validator.
+        /// </summary>
         public static Func<string, Tuple<bool, string>> firstNameValidator = input =>
         {
             bool isValid = !(string.IsNullOrWhiteSpace(input) || input.Length < 2 || input.Length > 60);
             return new Tuple<bool, string>(isValid, input);
         };
 
+        /// <summary>
+        /// LastName validator.
+        /// </summary>
         public static Func<string, Tuple<bool, string>> lastNameValidator = input =>
         {
             bool isValid = !(string.IsNullOrWhiteSpace(input) || input.Length < 2 || input.Length > 60);
             return new Tuple<bool, string>(isValid, input);
         };
 
+        /// <summary>
+        /// DateOfBirth validator.
+        /// </summary>
         public static Func<DateTime, Tuple<bool, string>> dateOfBirthValidator = date =>
         {
             bool isValid = !(date < new DateTime(1950, 1, 1) || date > DateTime.Now);
             return new Tuple<bool, string>(isValid, date.ToString());
         };
 
+        /// <summary>
+        /// Experience validator.
+        /// </summary>
         public static Func<short, Tuple<bool, string>> experienceValidator = input =>
         {
             bool isValid = input >= 0;
             return new Tuple<bool, string>(isValid, input.ToString());
         };
 
+        /// <summary>
+        /// Account validator.
+        /// </summary>
         public static Func<decimal, Tuple<bool, string>> accountValidator = input =>
         {
             bool isValid = input >= 0;
             return new Tuple<bool, string>(isValid, input.ToString());
         };
 
+        /// <summary>
+        /// Gender validator.
+        /// </summary>
         public static Func<char, Tuple<bool, string>> genderValidator = input =>
         {
             bool isValid = input == 'm' || input == 'f' || input == 'M' || input == 'F';
             return new Tuple<bool, string>(isValid, input.ToString());
         };
+
+        #endregion
     }
 }
