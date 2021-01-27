@@ -1,33 +1,43 @@
-﻿using FileCabinetApp.Interfaces;
-using FileCabinetApp.Service;
-using FileCabinetApp.Validators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using FileCabinetApp.Interfaces;
+using FileCabinetApp.Service;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
 {
+    /// <summary>
+    /// Class Handle command arguments.
+    /// </summary>
     public class Handler
     {
-        public const string FileServic = "file";
-        public const string MemoryServic = "memory";
+        private const string FileServic = "file";
+        private const string MemoryServic = "memory";
 
-        public const string Default = "default";
-        public const string Custom = "custom";
+        private const string Default = "default";
+        private const string Custom = "custom";
 
-        public const string fullPath = "cabinet-records.db";
+        private const string FullPath = "cabinet-records.db";
 
-        public IFileCabinetService decoratedService;
-        public IFileCabinetService service = new FileCabinetMemoryService();
-        public IRecordValidator validator = new ValidatorBuilder().Create(Default);
+        private IFileCabinetService decoratedService;
+        private IFileCabinetService service = new FileCabinetMemoryService();
+        private IRecordValidator validator = new ValidatorBuilder().Create(Default);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Handler"/> class.
+        /// </summary>
+        /// <param name="args">The command args.</param>
         public void Handle(string[] args)
         {
             var commandPairs = this.GetCurrentComandPairs(args);
             this.HandleCommand(commandPairs);
         }
 
+        /// <summary>
+        /// Gets fileCabinet service.
+        /// </summary>
+        /// <returns>The fileCabinetService.</returns>
         public IFileCabinetService GetService()
         {
             if (this.decoratedService is null)
@@ -66,7 +76,7 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
         {
             if (string.Equals(storageType, FileServic, StringComparison.OrdinalIgnoreCase))
             {
-                FileStream fileStream = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+                FileStream fileStream = File.Open(FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
                 this.service = new FileCabinetFilesystemService(this.validator, fileStream);
             }
 
@@ -89,6 +99,11 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
             }
         }
 
+        /// <summary>
+        /// Return command pair: (command, value).
+        /// </summary>
+        /// <param name="args">Command args.</param>
+        /// <returns>The command pair (command, value).</returns>
         private IEnumerable<(string, string)> GetCurrentComandPairs(string[] args)
         {
             if (args is null)
@@ -106,7 +121,7 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
             int addition;
             for (int i = 0; i < parameters.Length; i += addition)
             {
-                if (parameters[i] == CommandArgConstant.singleCommands[0] || parameters[i] == CommandArgConstant.singleCommands[1])
+                if (parameters[i] == CommandArgConstant.SingleCommands[0] || parameters[i] == CommandArgConstant.SingleCommands[1])
                 {
                     addition = 1;
                     yield return (parameters[i], string.Empty);

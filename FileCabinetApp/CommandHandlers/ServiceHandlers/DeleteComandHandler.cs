@@ -1,22 +1,33 @@
-﻿using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
-using FileCabinetApp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 {
+    /// <summary>
+    /// Class Delete command handler.
+    /// </summary>
     public class DeleteComandHandler : ServiceCommandHandlerBase
     {
-        public const string DeleteConstant = "delete";
-        public const string DeleteKeyWord = "where";
+        private const string DeleteConstant = "delete";
+        private const string DeleteKeyWord = "where";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteComandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public DeleteComandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)

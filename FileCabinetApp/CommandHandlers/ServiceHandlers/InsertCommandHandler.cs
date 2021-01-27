@@ -1,25 +1,36 @@
-﻿using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
-using FileCabinetApp.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 {
+    /// <summary>
+    /// Class Insert command handler.
+    /// </summary>
     public class InsertCommandHandler : ServiceCommandHandlerBase
     {
-        private readonly Random randomGenerator;
-        public const string InsertConstant = "insert";
+        private const string InsertConstant = "insert";
         private const string InsertKeyWord = "values";
+        private readonly Random randomGenerator;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InsertCommandHandler"/> class.
+        /// </summary>
+        /// <param name="fileCabinetService">The current service.</param>
         public InsertCommandHandler(IFileCabinetService fileCabinetService)
             : base(fileCabinetService)
         {
             this.randomGenerator = new Random();
         }
 
+        /// <summary>
+        /// Handle request.
+        /// </summary>
+        /// <param name="commandRequest">The command request.</param>
         public override void Handle(AppCommandRequest commandRequest)
         {
             if (commandRequest is null)
@@ -97,7 +108,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             for (int i = 0; i < countSymbols - 1; i++)
             {
                 int position = random.Next(alphabet.Length - 1);
-                sb.Append(i == 0 ? char.ToUpper(alphabet[position]) : alphabet[position]);
+                sb.Append(i == 0 ? char.ToUpper(alphabet[position], CultureInfo.InvariantCulture) : alphabet[position]);
             }
 
             return sb.ToString();
@@ -106,7 +117,7 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
         private DateTime GenerateDateOfBirth()
         {
             DateTime startDate = new DateTime(1950, 1, 1);
-            return startDate.AddDays(randomGenerator.Next((DateTime.Today - startDate).Days));
+            return startDate.AddDays(this.randomGenerator.Next((DateTime.Today - startDate).Days));
         }
 
         private char GenerateGender()

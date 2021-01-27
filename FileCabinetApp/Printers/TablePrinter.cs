@@ -6,6 +6,9 @@ using System.Text;
 
 namespace FileCabinetApp.Printers
 {
+    /// <summary>
+    /// Class Table printer.
+    /// </summary>
     public class TablePrinter
     {
         private const char Plus = '+';

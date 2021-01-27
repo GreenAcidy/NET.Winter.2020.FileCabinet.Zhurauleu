@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using FileCabinetApp.Data;
 using FileCabinetApp.Interfaces;
@@ -17,9 +16,13 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
-        private IEnumerable<FileCabinetRecord> records;
 
-        public FileCabinetMemoryService() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
+        /// </summary>
+        public FileCabinetMemoryService()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
@@ -35,7 +38,7 @@ namespace FileCabinetApp
             this.Validator = validator;
         }
 
-        public IRecordValidator Validator { get; }
+        private IRecordValidator Validator { get; }
 
         /// <summary>
         /// Method get data and create record.
@@ -149,10 +152,20 @@ namespace FileCabinetApp
             CashedData.ClearCashe();
         }
 
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
         public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
         {
             foreach (var item in this.GetRecords())
             {
+                if (conditions is null)
+                {
+                    throw new ArgumentNullException($"{nameof(conditions)} cannot be null.");
+                }
+
                 bool isMath = true;
                 if (conditions.FirstName != null)
                 {
@@ -191,8 +204,18 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
         public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
         {
+            if (conditions is null)
+            {
+                throw new ArgumentNullException($"{nameof(conditions)} cannot be null.");
+            }
+
             foreach (var item in this.GetRecords())
             {
                 bool isMath = false;
@@ -280,7 +303,6 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="dateOfBirth">input first name.</param>
         /// <returns>all records whose date of birth matches the incoming.</returns>
-
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             if (CashedData.DateOfBirthCashe.ContainsKey(dateOfBirth))
@@ -292,6 +314,11 @@ namespace FileCabinetApp
             return this.FindDateOfBirth(dateOfBirth);
         }
 
+        /// <summary>
+        /// Find by experience.
+        /// </summary>
+        /// <param name="experience">Experience.</param>
+        /// <returns>The sequance of record.</returns>
         public IEnumerable<FileCabinetRecord> FindByExperience(string experience)
         {
             if (experience is null)
@@ -308,6 +335,11 @@ namespace FileCabinetApp
             return this.FindExperience(experience);
         }
 
+        /// <summary>
+        /// Find by account.
+        /// </summary>
+        /// <param name="account">Account.</param>
+        /// <returns>The sequance of records.</returns>
         public IEnumerable<FileCabinetRecord> FindByAccount(string account)
         {
             if (account is null)
@@ -324,6 +356,11 @@ namespace FileCabinetApp
             return this.FindAccount(account);
         }
 
+        /// <summary>
+        /// Find by english level.
+        /// </summary>
+        /// <param name="gender">Gender.</param>
+        /// <returns>the sequance of records.</returns>
         public IEnumerable<FileCabinetRecord> FindByGender(string gender)
         {
             if (gender is null)
@@ -340,6 +377,11 @@ namespace FileCabinetApp
             return this.FindGender(gender);
         }
 
+        /// <summary>
+        /// Remove record with given id.
+        /// </summary>
+        /// <param name="id">Id.</param>
+        /// <returns>Is removed.</returns>
         public bool Remove(int id)
         {
             if (id > this.list.Count)
@@ -364,6 +406,9 @@ namespace FileCabinetApp
             return false;
         }
 
+        /// <summary>
+        /// Only for file service.
+        /// </summary>
         public void Purge()
         {
             throw new NotImplementedException();
@@ -390,11 +435,20 @@ namespace FileCabinetApp
             return (this.list.Count, 0);
         }
 
+        /// <summary>
+        /// Make snapshot.
+        /// </summary>
+        /// <returns>Snapshot.</returns>
         public FileCabinetServiceSnapshot MakeSnapShot()
         {
             return new FileCabinetServiceSnapshot(this.list.ToArray());
         }
 
+        /// <summary>
+        /// Recovers saved snapshot recordings.
+        /// </summary>
+        /// <param name="snapshot">Snapshot.</param>
+        /// <returns>count of restored recordings.</returns>
         public int Restore(FileCabinetServiceSnapshot snapshot)
         {
             if (snapshot is null)
@@ -423,22 +477,22 @@ namespace FileCabinetApp
                     {
                         this.list.Add(record);
 
-                        if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper()))
+                        if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
                         {
-                            this.firstNameDictionary[record.FirstName.ToUpper()].Add(record);
+                            this.firstNameDictionary[record.FirstName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
                         }
                         else
                         {
-                            this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+                            this.firstNameDictionary.Add(record.FirstName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
                         }
 
-                        if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper()))
+                        if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper(CultureInfo.InvariantCulture)))
                         {
-                            this.lastNameDictionary[record.LastName.ToUpper()].Add(record);
+                            this.lastNameDictionary[record.LastName.ToUpper(CultureInfo.InvariantCulture)].Add(record);
                         }
                         else
                         {
-                            this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
+                            this.lastNameDictionary.Add(record.LastName.ToUpper(CultureInfo.InvariantCulture), new List<FileCabinetRecord> { record });
                         }
 
                         if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
@@ -456,10 +510,6 @@ namespace FileCabinetApp
                 catch (IndexOutOfRangeException indexOutOfRangeException)
                 {
                     Console.WriteLine($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine($"Import record with id {record.Id} failed: {exception.Message}");
                 }
             }
 

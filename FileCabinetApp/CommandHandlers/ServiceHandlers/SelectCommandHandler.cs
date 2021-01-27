@@ -1,14 +1,16 @@
-﻿using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
-using FileCabinetApp.Interfaces;
-using FileCabinetApp.Printers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
+using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
+using FileCabinetApp.Interfaces;
+using FileCabinetApp.Printers;
 
 namespace FileCabinetApp.CommandHandlers.ServiceHandlers
 {
+    /// <summary>
+    /// Class Select command handler.
+    /// </summary>
     public class SelectCommandHandler : ServiceCommandHandlerBase
     {
         private const string SelectConst = "select";

@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.Service
 {
+    /// <summary>
+    /// Class Sevice meter.
+    /// </summary>
     public class ServiceMeter : IFileCabinetService
     {
         private readonly Stopwatch stopwatch;
         private readonly IFileCabinetService service;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServiceMeter"/> class.
+        /// </summary>
+        /// <param name="service">The current service.</param>
         public ServiceMeter(IFileCabinetService service)
         {
             if (service is null)
@@ -22,6 +28,11 @@ namespace FileCabinetApp.Service
             this.service = service;
         }
 
+        /// <summary>
+        /// Generates a unique user record.
+        /// </summary>
+        /// <param name="parameters">Parameters of new record.</param>
+        /// <returns>Id of record.</returns>
         public int CreateRecord(FileCabinetInputData parameters)
         {
             this.stopwatch.Restart();
@@ -31,6 +42,11 @@ namespace FileCabinetApp.Service
             return id;
         }
 
+        /// <summary>
+        /// Changes the record by given ID.
+        /// </summary>
+        /// <param name="id">Id of record.</param>
+        /// <param name="parameters">Parameters of record.</param>
         public void EditRecord(int id, FileCabinetInputData parameters)
         {
             this.stopwatch.Restart();
@@ -39,6 +55,11 @@ namespace FileCabinetApp.Service
             this.Information(nameof(this.service.EditRecord), this.stopwatch.ElapsedTicks);
         }
 
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
         public IEnumerable<FileCabinetRecord> FindByAnd(WhereConditions conditions)
         {
             if (conditions is null)
@@ -53,6 +74,11 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Find all records, who is mathes the conditions.
+        /// </summary>
+        /// <param name="conditions">Find condtions.</param>
+        /// <returns>Records sequance.</returns>
         public IEnumerable<FileCabinetRecord> FindByOr(WhereConditions conditions)
         {
             if (conditions is null)
@@ -67,6 +93,11 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Find all records with given firstName.
+        /// </summary>
+        /// <param name="firstName">User firstName.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByFirstName(string firstName)
         {
             this.stopwatch.Restart();
@@ -76,6 +107,11 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Find all records with given lastName.
+        /// </summary>
+        /// <param name="lastName">User lastNeme.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByLastName(string lastName)
         {
             this.stopwatch.Restart();
@@ -85,6 +121,11 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Find all records with given date of birth.
+        /// </summary>
+        /// <param name="dateOfBirth">The user's date of birth.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
         {
             this.stopwatch.Restart();
@@ -94,6 +135,11 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Find all records with given experience.
+        /// </summary>
+        /// <param name="experience">The user's experience.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByExperience(string experience)
         {
             this.stopwatch.Restart();
@@ -103,6 +149,11 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Find all records with given account.
+        /// </summary>
+        /// <param name="account">The user's account.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByAccount(string account)
         {
             this.stopwatch.Restart();
@@ -112,6 +163,11 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Find all records with given gender.
+        /// </summary>
+        /// <param name="gender">The user's gender.</param>
+        /// <returns>The sequence of founded records.</returns>
         public IEnumerable<FileCabinetRecord> FindByGender(string gender)
         {
             this.stopwatch.Restart();
@@ -121,6 +177,11 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Remove record with given id.
+        /// </summary>
+        /// <param name="id">The id of removed record.</param>
+        /// <returns>Is removed record.</returns>
         public bool Remove(int id)
         {
             this.stopwatch.Restart();
@@ -130,6 +191,9 @@ namespace FileCabinetApp.Service
             return isRemove;
         }
 
+        /// <summary>
+        /// Deleted all removed record from file.
+        /// </summary>
         public void Purge()
         {
             this.stopwatch.Restart();
@@ -138,6 +202,10 @@ namespace FileCabinetApp.Service
             this.Information(nameof(this.service.Purge), this.stopwatch.ElapsedTicks);
         }
 
+        /// <summary>
+        /// Give all records.
+        /// </summary>
+        /// <returns>The array of all records.</returns>
         public IEnumerable<FileCabinetRecord> GetRecords()
         {
             this.stopwatch.Restart();
@@ -147,6 +215,10 @@ namespace FileCabinetApp.Service
             return collection;
         }
 
+        /// <summary>
+        /// Give the count of records.
+        /// </summary>
+        /// <returns>The count of records.</returns>
         public (int active, int removed) GetStat()
         {
             this.stopwatch.Restart();
@@ -156,6 +228,10 @@ namespace FileCabinetApp.Service
             return stat;
         }
 
+        /// <summary>
+        /// Make snapshot of the current service.
+        /// </summary>
+        /// <returns>Snapshot of the current service.</returns>
         public FileCabinetServiceSnapshot MakeSnapShot()
         {
             this.stopwatch.Restart();
@@ -165,6 +241,11 @@ namespace FileCabinetApp.Service
             return snapshot;
         }
 
+        /// <summary>
+        /// Recovers saved snapshot recordings.
+        /// </summary>
+        /// <param name="snapshot">Snapshot.</param>
+        /// <returns>count of recovered records.</returns>
         public int Restore(FileCabinetServiceSnapshot snapshot)
         {
             this.stopwatch.Restart();

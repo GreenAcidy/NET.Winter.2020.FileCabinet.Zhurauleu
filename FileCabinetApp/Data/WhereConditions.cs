@@ -4,6 +4,9 @@ using System.Text;
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Class contains conditions for improved find.
+    /// </summary>
     public class WhereConditions
     {
         /// <summary>

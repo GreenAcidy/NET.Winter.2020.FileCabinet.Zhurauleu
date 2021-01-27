@@ -7,10 +7,18 @@ using System.Xml;
 
 namespace FileCabinetApp.Service
 {
+    /// <summary>
+    /// Class FileCabinetServiceSnapshot saves statement for FileCabinetService.
+    /// </summary>
     public class FileCabinetServiceSnapshot
     {
         private FileCabinetRecord[] records;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetServiceSnapshot"/> class.
+        /// </summary>
+        /// <param name="records">The array of records.</param>
+        /// <exception cref="ArgumentNullException">Throws, when records is null.</exception>
         public FileCabinetServiceSnapshot(FileCabinetRecord[] records)
         {
             if (records is null)
@@ -21,8 +29,16 @@ namespace FileCabinetApp.Service
             this.records = records;
         }
 
+        /// <summary>
+        /// Gets record collection.
+        /// </summary>
+        /// <value>The record collection.</value>
         public IReadOnlyCollection<FileCabinetRecord> Records => this.records;
 
+        /// <summary>
+        /// Save records array to csv file.
+        /// </summary>
+        /// <param name="writer">The csv writer.</param>
         public void SaveToCSV(StreamWriter writer)
         {
             if (writer is null)
@@ -34,6 +50,10 @@ namespace FileCabinetApp.Service
             csvWriter.Write();
         }
 
+        /// <summary>
+        /// Save records array to xml file.
+        /// </summary>
+        /// <param name="writer">The xml writer.</param>
         public void SaveToXML(StreamWriter writer)
         {
             if (writer is null)
@@ -64,6 +84,10 @@ namespace FileCabinetApp.Service
             xmlWriter.Write();
         }
 
+        /// <summary>
+        /// Read the records from csv file.
+        /// </summary>
+        /// <param name="reader">The csv reader.</param>
         public void LoadFromCsv(StreamReader reader)
         {
             if (reader is null)
@@ -71,10 +95,14 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(reader)} cannot be null.");
             }
 
-            var csvReader = new FileCabinetRecordCsvReader(reader);
+            using var csvReader = new FileCabinetRecordCsvReader(reader);
             this.records = csvReader.Read().ToArray();
         }
 
+        /// <summary>
+        /// Read the records from xml file.
+        /// </summary>
+        /// <param name="reader">The xml reader.</param>
         public void LoadFromXml(StreamReader reader)
         {
             if (reader is null)
@@ -82,7 +110,7 @@ namespace FileCabinetApp.Service
                 throw new ArgumentNullException($"{nameof(reader)} cannot be null.");
             }
 
-            var xmlReader = new FileCabinetRecordXmlReader(reader);
+            using var xmlReader = new FileCabinetRecordXmlReader(reader);
             this.records = xmlReader.Read().ToArray();
         }
     }

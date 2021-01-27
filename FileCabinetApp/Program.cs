@@ -61,7 +61,6 @@ namespace FileCabinetApp
         {
             static void Runner(bool x) => isRunning = x;
 
-            var recordPrinter = new DefaultRecordPrinter();
             var helpHandler = new HelpCommandHandler();
             var statHandler = new StatCommandHandler(fileCabinetService);
             var createHandler = new CreateCommandHandler(fileCabinetService);
@@ -78,7 +77,7 @@ namespace FileCabinetApp
             statHandler.SetNext(createHandler);
             createHandler.SetNext(importHandler);
             importHandler.SetNext(exportHandler);
-            exportHandler.SetNext(insertHandler);
+            exportHandler.SetNext(purgeHandler);
             purgeHandler.SetNext(insertHandler);
             insertHandler.SetNext(deleteHandler);
             deleteHandler.SetNext(updateHandler);
