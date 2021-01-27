@@ -602,6 +602,11 @@
             </summary>
             <value>Serializable record.</value>
         </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetFilesystemService">
+            <summary>
+            Class FileCabinetFilesystemService implements IFileCabinetRecord interface.
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.SerializableRecord">
             <summary>
             Serializable record data.
@@ -911,6 +916,11 @@
             Class FileCabinetService contain methods for working with FileCabinetRecord.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetMemoryService"/> class.
+            </summary>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.#ctor(FileCabinetApp.Interfaces.IRecordValidator)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetMemoryService"/> class.
@@ -930,6 +940,20 @@
             </summary>
             <param name="id">input id of existing record.</param>
             <param name="inputData">input data.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByAnd(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByOr(FileCabinetApp.WhereConditions)">
+            <summary>
+            Find all records, who is mathes the conditions.
+            </summary>
+            <param name="conditions">Find condtions.</param>
+            <returns>Records sequance.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByFirstName(System.String)">
             <summary>
@@ -952,6 +976,39 @@
             <param name="dateOfBirth">input first name.</param>
             <returns>all records whose date of birth matches the incoming.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByExperience(System.String)">
+            <summary>
+            Find by experience.
+            </summary>
+            <param name="experience">Experience.</param>
+            <returns>The sequance of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByAccount(System.String)">
+            <summary>
+            Find by account.
+            </summary>
+            <param name="account">Account.</param>
+            <returns>The sequance of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByGender(System.String)">
+            <summary>
+            Find by english level.
+            </summary>
+            <param name="gender">Gender.</param>
+            <returns>the sequance of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Remove(System.Int32)">
+            <summary>
+            Remove record with given id.
+            </summary>
+            <param name="id">Id.</param>
+            <returns>Is removed.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Purge">
+            <summary>
+            Only for file service.
+            </summary>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.GetRecords">
             <summary>
             Method return all records.
@@ -963,6 +1020,19 @@
             Method return count of records.
             </summary>
             <returns>count of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.MakeSnapShot">
+            <summary>
+            Make snapshot.
+            </summary>
+            <returns>Snapshot.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Restore(FileCabinetApp.Service.FileCabinetServiceSnapshot)">
+            <summary>
+            Recovers saved snapshot recordings.
+            </summary>
+            <param name="snapshot">Snapshot.</param>
+            <returns>count of restored recordings.</returns>
         </member>
         <member name="T:FileCabinetApp.Validators.CompositeValidator">
             <summary>

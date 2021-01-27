@@ -61,7 +61,6 @@ namespace FileCabinetApp
         {
             static void Runner(bool x) => isRunning = x;
 
-            var recordPrinter = new DefaultRecordPrinter();
             var helpHandler = new HelpCommandHandler();
             var statHandler = new StatCommandHandler(fileCabinetService);
             var createHandler = new CreateCommandHandler(fileCabinetService);
