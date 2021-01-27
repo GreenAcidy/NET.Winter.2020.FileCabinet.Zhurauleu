@@ -1,19 +1,28 @@
-﻿using FileCabinetApp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.Validators
 {
+    /// <summary>
+    /// The account validator.
+    /// </summary>
     public class AccountValidator : IRecordValidator
     {
         private readonly decimal min;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountValidator"/> class.
+        /// </summary>
+        /// <param name="min">The min account.</param>
         public AccountValidator(decimal min)
         {
             this.min = min;
         }
 
+        /// <summary>
+        /// Valadate parameters.
+        /// </summary>
+        /// <param name="inputData">Record data.</param>
         public void ValidateParameters(FileCabinetInputData inputData)
         {
             if (inputData is null)

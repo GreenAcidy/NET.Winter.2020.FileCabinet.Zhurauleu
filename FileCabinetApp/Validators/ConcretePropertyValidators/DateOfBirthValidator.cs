@@ -1,15 +1,21 @@
-﻿using FileCabinetApp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.Validators
 {
+    /// <summary>
+    /// Date of birth validator.
+    /// </summary>
     public class DateOfBirthValidator : IRecordValidator
     {
         private readonly DateTime from;
         private readonly DateTime to;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateOfBirthValidator"/> class.
+        /// </summary>
+        /// <param name="from">The start date.</param>
+        /// <param name="to">The end date.</param>
         public DateOfBirthValidator(DateTime from, DateTime to)
         {
             if (to <= from)
@@ -21,6 +27,10 @@ namespace FileCabinetApp.Validators
             this.to = to;
         }
 
+        /// <summary>
+        /// Validate parameters.
+        /// </summary>
+        /// <param name="inputData">The Record data.</param>
         public void ValidateParameters(FileCabinetInputData inputData)
         {
             if (inputData is null)

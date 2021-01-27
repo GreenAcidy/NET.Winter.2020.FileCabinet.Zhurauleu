@@ -1,13 +1,10 @@
-using System;
-using System.IO;
+﻿using System;
 using FileCabinetApp.CommandHandlers.CabinetHandlers;
 using FileCabinetApp.CommandHandlers.CommandAgrsHandlers;
 using FileCabinetApp.CommandHandlers.HandlerInfrastructure;
 using FileCabinetApp.CommandHandlers.ServiceHandlers;
 using FileCabinetApp.Interfaces;
 using FileCabinetApp.Printers;
-using FileCabinetApp.Service;
-using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
@@ -56,6 +53,10 @@ namespace FileCabinetApp
             while (isRunning);
         }
 
+        /// <summary>
+        /// Create command handler.
+        /// </summary>
+        /// <returns>Command handler.</returns>
         public static ICommandHandler CreateCommandHandlers()
         {
             static void Runner(bool x) => isRunning = x;
@@ -72,7 +73,7 @@ namespace FileCabinetApp
             var updateHandler = new UpdateCommandHandler(fileCabinetService);
             var selectHandler = new SelectCommandHandler(fileCabinetService);
             var exitHandler = new ExitCommandHandler(Runner);
-            
+
             helpHandler.SetNext(statHandler);
             statHandler.SetNext(createHandler);
             createHandler.SetNext(importHandler);

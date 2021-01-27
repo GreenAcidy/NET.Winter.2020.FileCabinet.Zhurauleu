@@ -1,14 +1,20 @@
-﻿using FileCabinetApp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.Validators
 {
+    /// <summary>
+    /// Class CompositeValidator composite validators.
+    /// </summary>
     public class CompositeValidator : IRecordValidator
     {
         private readonly List<IRecordValidator> validators;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompositeValidator"/> class.
+        /// </summary>
+        /// <param name="validators">The validators.</param>
         public CompositeValidator(IEnumerable<IRecordValidator> validators)
         {
             ICollection<IRecordValidator> collection = validators as ICollection<IRecordValidator>;
@@ -21,6 +27,10 @@ namespace FileCabinetApp.Validators
             this.validators = new List<IRecordValidator>(collection);
         }
 
+        /// <summary>
+        /// Validate data parameters.
+        /// </summary>
+        /// <param name="parameters">Record data.</param>
         public void ValidateParameters(FileCabinetInputData parameters)
         {
             if (parameters is null)

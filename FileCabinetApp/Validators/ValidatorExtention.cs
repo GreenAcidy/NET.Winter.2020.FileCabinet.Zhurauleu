@@ -1,11 +1,20 @@
-﻿using FileCabinetApp.Configurations;
+﻿using System;
+using FileCabinetApp.Configurations;
 using FileCabinetApp.Interfaces;
-using System;
 
 namespace FileCabinetApp.Validators
 {
+    /// <summary>
+    /// Class ValidatorExtention provide create method for validatorBuilders.
+    /// </summary>
     public static class ValidatorExtention
     {
+        /// <summary>
+        /// Create Record Validator.
+        /// </summary>
+        /// <param name="builder">The VaildatorBuilder.</param>
+        /// <param name="validationRule">The validation rule.</param>
+        /// <returns>The record validator.</returns>
         public static IRecordValidator Create(this ValidatorBuilder builder, string validationRule = "default")
         {
             if (builder is null)

@@ -1,15 +1,21 @@
-﻿using FileCabinetApp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.Validators
 {
+    /// <summary>
+    /// The experience validator.
+    /// </summary>
     public class ExperienceValidator : IRecordValidator
     {
         private readonly int min;
         private readonly int max;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExperienceValidator"/> class.
+        /// </summary>
+        /// <param name="min">The min experience.</param>
+        /// <param name="max">The max experience.</param>
         public ExperienceValidator(int min, int max)
         {
             if (max <= min)
@@ -21,6 +27,10 @@ namespace FileCabinetApp.Validators
             this.min = min;
         }
 
+        /// <summary>
+        /// Validate parameters.
+        /// </summary>
+        /// <param name="inputData">The Record data.</param>
         public void ValidateParameters(FileCabinetInputData inputData)
         {
             if (inputData is null)

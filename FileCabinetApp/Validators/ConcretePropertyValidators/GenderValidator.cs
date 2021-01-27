@@ -1,15 +1,19 @@
 ﻿using FileCabinetApp.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FileCabinetApp.Validators
 {
+    /// <summary>
+    /// Gender validator.
+    /// </summary>
     public class GenderValidator : IRecordValidator
     {
-
         private readonly string genders;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GenderValidator"/> class.
+        /// </summary>
+        /// <param name="genders">The genders.</param>
         public GenderValidator(string genders)
         {
             if (genders is null)
@@ -20,6 +24,10 @@ namespace FileCabinetApp.Validators
             this.genders = genders;
         }
 
+        /// <summary>
+        /// Validate parameters.
+        /// </summary>
+        /// <param name="inputData">The Record data.</param>
         public void ValidateParameters(FileCabinetInputData inputData)
         {
             if (inputData is null)
