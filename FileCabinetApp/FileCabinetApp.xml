@@ -743,96 +743,6 @@
             </summary>
             <param name="disposing">Is disposing.</param>
         </member>
-        <member name="T:FileCabinetApp.Service.FileCabinetRecordCsvReader">
-            <summary>
-            Classs Csv reader.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.#ctor(System.IO.StreamReader)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordCsvReader"/> class.
-            </summary>
-            <param name="streamReader">The csv reader.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Read">
-            <summary>
-            Read recards from csv file.
-            </summary>
-            <returns>The records collection.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Dispose">
-            <summary>
-            Dispose.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Dispose(System.Boolean)">
-            <summary>
-            Dispose.
-            </summary>
-            <param name="disposing">Is disposing.</param>
-        </member>
-        <member name="T:FileCabinetApp.Service.FileCabinetRecordCsvWriter">
-            <summary>
-            Class csv writer.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvWriter.#ctor(System.IO.TextWriter,FileCabinetApp.FileCabinetRecord[])">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordCsvWriter"/> class.
-            </summary>
-            <param name="writer">The csv writer.</param>
-            <param name="records">Record.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvWriter.Write">
-            <summary>
-            Write records in csv file.
-            </summary>
-        </member>
-        <member name="T:FileCabinetApp.Service.FileCabinetRecordXmlReader">
-            <summary>
-            Class Xml reader.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.#ctor(System.IO.StreamReader)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordXmlReader"/> class.
-            </summary>
-            <param name="streamReader">The xml reader.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Read">
-            <summary>
-            Read recards from xml file.
-            </summary>
-            <returns>The records collection.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Dispose">
-            <summary>
-            Dispose.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Dispose(System.Boolean)">
-            <summary>
-            Dispose.
-            </summary>
-            <param name="disposing">Is disposing.</param>
-        </member>
-        <member name="T:FileCabinetApp.Service.FileCabinetRecordXmlWriter">
-            <summary>
-            Class Xml writer.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlWriter.#ctor(System.Xml.XmlWriter,FileCabinetApp.Service.SerializableCollection)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordXmlWriter"/> class.
-            </summary>
-            <param name="writer">The xml writer.</param>
-            <param name="records">The serializable records.</param>
-        </member>
-        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlWriter.Write">
-            <summary>
-            Write record in xml format.
-            </summary>
-        </member>
         <member name="T:FileCabinetApp.Service.FileCabinetServiceSnapshot">
             <summary>
             Class FileCabinetServiceSnapshot saves statement for FileCabinetService.
@@ -874,6 +784,62 @@
             Read the records from xml file.
             </summary>
             <param name="reader">The xml reader.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecordCsvReader">
+            <summary>
+            Classs Csv reader.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.#ctor(System.IO.StreamReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordCsvReader"/> class.
+            </summary>
+            <param name="streamReader">The csv reader.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Read">
+            <summary>
+            Read recards from csv file.
+            </summary>
+            <returns>The records collection.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Dispose">
+            <summary>
+            Dispose.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvReader.Dispose(System.Boolean)">
+            <summary>
+            Dispose.
+            </summary>
+            <param name="disposing">Is disposing.</param>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecordXmlReader">
+            <summary>
+            Class Xml reader.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.#ctor(System.IO.StreamReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordXmlReader"/> class.
+            </summary>
+            <param name="streamReader">The xml reader.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Read">
+            <summary>
+            Read recards from xml file.
+            </summary>
+            <returns>The records collection.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Dispose">
+            <summary>
+            Dispose.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlReader.Dispose(System.Boolean)">
+            <summary>
+            Dispose.
+            </summary>
+            <param name="disposing">Is disposing.</param>
         </member>
         <member name="T:FileCabinetApp.Service.ServiceLogger">
             <summary>
@@ -1121,6 +1087,40 @@
             </summary>
             <param name="snapshot">Snapshot.</param>
             <returns>count of recovered records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecordCsvWriter">
+            <summary>
+            Class csv writer.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvWriter.#ctor(System.IO.TextWriter,FileCabinetApp.FileCabinetRecord[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordCsvWriter"/> class.
+            </summary>
+            <param name="writer">The csv writer.</param>
+            <param name="records">Record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordCsvWriter.Write">
+            <summary>
+            Write records in csv file.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.Service.FileCabinetRecordXmlWriter">
+            <summary>
+            Class Xml writer.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlWriter.#ctor(System.Xml.XmlWriter,FileCabinetApp.Service.SerializableCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Service.FileCabinetRecordXmlWriter"/> class.
+            </summary>
+            <param name="writer">The xml writer.</param>
+            <param name="records">The serializable records.</param>
+        </member>
+        <member name="M:FileCabinetApp.Service.FileCabinetRecordXmlWriter.Write">
+            <summary>
+            Write record in xml format.
+            </summary>
         </member>
         <member name="T:FileCabinetApp.SerializableRecord">
             <summary>
