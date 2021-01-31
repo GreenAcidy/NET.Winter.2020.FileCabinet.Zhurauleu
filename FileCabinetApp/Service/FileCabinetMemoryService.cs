@@ -462,15 +462,16 @@ namespace FileCabinetApp
                         throw new ArgumentOutOfRangeException($"{nameof(id)} must be positive.");
                     }
 
+                    var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
+
                     if (id <= this.list.Count)
                     {
-                        var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
                         this.EditRecord(id, data);
                         count++;
                     }
                     else
                     {
-                        this.list.Add(record);
+                        this.CreateRecord(data);
 
                         if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper(CultureInfo.InvariantCulture)))
                         {
@@ -505,6 +506,10 @@ namespace FileCabinetApp
                 catch (IndexOutOfRangeException indexOutOfRangeException)
                 {
                     Console.WriteLine($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine($"Import record with id {record.Id} failed.");
                 }
             }
 

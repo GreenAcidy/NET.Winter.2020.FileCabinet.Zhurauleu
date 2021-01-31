@@ -433,6 +433,10 @@ namespace FileCabinetApp.Service
                 {
                     Console.WriteLine($"Import record with id {record.Id} failed: {indexOutOfRangeException.Message}");
                 }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine($"Import record with id {record.Id} failed.");
+                }
             }
 
             return count;

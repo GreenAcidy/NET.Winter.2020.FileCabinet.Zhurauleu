@@ -55,10 +55,19 @@ namespace FileCabinetApp
         public decimal Account { get; set; }
 
         /// <summary>
-        /// Gets or sets records date of birth.
+        /// date of birth.
+        /// </summary>
+        /// <value>The records date of birth.</value>
+        public DateTime dateOfBirth;
+
+        /// <summary>
+        /// Gets records date of birth.
         /// </summary>
         /// <value>The records date of birth.</value>
         [XmlElement("DateOfBirth")]
-        public DateTime DateOfBirth { get; set; }
+        public string DateOfBirth
+        {
+            get => this.dateOfBirth.ToString("mm/dd/yyyy", CultureInfo.InvariantCulture);
+        }
     }
 }

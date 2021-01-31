@@ -69,7 +69,7 @@ namespace FileCabinetApp.Service
                 serializeRecord.Id = record.Id;
                 serializeRecord.FirstName = record.FirstName;
                 serializeRecord.LastName = record.LastName;
-                serializeRecord.DateOfBirth = record.DateOfBirth;
+                serializeRecord.dateOfBirth = record.DateOfBirth;
                 serializeRecord.Experience = record.Experience;
                 serializeRecord.Account = record.Account;
                 serializeRecord.Gender = record.Gender;

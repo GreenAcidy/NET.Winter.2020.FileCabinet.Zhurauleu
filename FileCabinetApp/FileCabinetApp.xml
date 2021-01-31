@@ -1163,9 +1163,15 @@
             </summary>
             <value>The records account.</value>
         </member>
+        <member name="F:FileCabinetApp.SerializableRecord.dateOfBirth">
+            <summary>
+            date of birth.
+            </summary>
+            <value>The records date of birth.</value>
+        </member>
         <member name="P:FileCabinetApp.SerializableRecord.DateOfBirth">
             <summary>
-            Gets or sets records date of birth.
+            Gets records date of birth.
             </summary>
             <value>The records date of birth.</value>
         </member>
