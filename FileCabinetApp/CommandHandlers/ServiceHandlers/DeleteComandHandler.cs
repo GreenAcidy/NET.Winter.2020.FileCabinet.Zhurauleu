@@ -52,22 +52,34 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             if (string.Equals(property, "id", StringComparison.OrdinalIgnoreCase))
             {
                 int id = int.Parse(value, CultureInfo.InvariantCulture);
-                this.fileCabinetService.Remove(id);
-
-                Console.WriteLine($"Record #{id} are deleted.");
+                if (this.fileCabinetService.Remove(id))
+                {
+                    Console.WriteLine($"Record #{id} are deleted.");
+                }
+                else
+                {
+                    Console.WriteLine($"Record #{id} are not founded. Please, try again.");
+                }
             }
-
-            var deletedRecords = this.FindRecordForDelete(property, value);
-
-            var sb = new StringBuilder();
-
-            foreach (var record in deletedRecords)
+            else
             {
-                sb.Append($"#{record.Id},");
-                this.fileCabinetService.Remove(record.Id);
-            }
+                var deletedRecords = this.FindRecordForDelete(property, value);
+                if (deletedRecords.Count == 0)
+                {
+                    Console.WriteLine($"Records with property {property} == {value} are not founded. Please try again.");
+                    return;
+                }
 
-            Console.WriteLine($"Records {sb} are deleted.");
+                var sb = new StringBuilder();
+
+                foreach (var record in deletedRecords)
+                {
+                    sb.Append($"#{record.Id},");
+                    this.fileCabinetService.Remove(record.Id);
+                }
+
+                Console.WriteLine($"Records {sb} are deleted.");
+            }
         }
 
         private (string property, string value) Parse(string parameters)

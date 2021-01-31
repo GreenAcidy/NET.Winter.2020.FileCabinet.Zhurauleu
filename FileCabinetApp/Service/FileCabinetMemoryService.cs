@@ -384,11 +384,6 @@ namespace FileCabinetApp
         /// <returns>Is removed.</returns>
         public bool Remove(int id)
         {
-            if (id > this.list.Count)
-            {
-                return false;
-            }
-
             foreach (var record in this.list)
             {
                 if (record.Id == id)
