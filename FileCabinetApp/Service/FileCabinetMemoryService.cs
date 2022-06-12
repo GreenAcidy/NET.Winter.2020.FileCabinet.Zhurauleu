@@ -12,13 +12,11 @@ namespace FileCabinetApp
     public class FileCabinetMemoryService : IFileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
-        private readonly List<FileCabinetRecord> listFirstName = new List<FileCabinetRecord>();
-        private readonly List<FileCabinetRecord> listLastName = new List<FileCabinetRecord>();
-        private readonly List<FileCabinetRecord> listDateOfBirth = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listCommandName = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listExecutionDate = new List<FileCabinetRecord>();
 
-        private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
-        private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
-        private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateOfBirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> commandNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
+        private readonly Dictionary<DateTime, List<FileCabinetRecord>> executionDateDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
         private ReadOnlyCollection<FileCabinetRecord> records;
 
         public FileCabinetMemoryService() { }
@@ -55,22 +53,17 @@ namespace FileCabinetApp
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
-                FirstName = inputData.FirstName,
-                LastName = inputData.LastName,
-                DateOfBirth = inputData.DateOfBirth,
-                Gender = inputData.Gender,
+                CommandName = inputData.CommandName,
+                ExecutionDate = inputData.ExecutionDate,
                 Experience = inputData.Experience,
-                Account = inputData.Account,
             };
 
             this.list.Add(record);
-            this.listFirstName.Add(record);
-            this.listLastName.Add(record);
-            this.listDateOfBirth.Add(record);
+            this.listCommandName.Add(record);
+            this.listExecutionDate.Add(record);
 
-            this.firstNameDictionary.Add(inputData.FirstName, this.listFirstName);
-            this.lastNameDictionary.Add(inputData.LastName, this.listLastName);
-            this.dateOfBirthDictionary.Add(inputData.DateOfBirth, this.listDateOfBirth);
+            this.commandNameDictionary.Add(inputData.CommandName, this.listCommandName);
+            this.executionDateDictionary.Add(inputData.ExecutionDate, this.listExecutionDate);
 
             return record.Id;
         }
@@ -91,59 +84,41 @@ namespace FileCabinetApp
             var record = new FileCabinetRecord
             {
                 Id = id,
-                FirstName = inputData.FirstName,
-                LastName = inputData.LastName,
-                DateOfBirth = inputData.DateOfBirth,
-                Gender = inputData.Gender,
+                CommandName = inputData.CommandName,
+                ExecutionDate = inputData.ExecutionDate,
                 Experience = inputData.Experience,
-                Account = inputData.Account,
             };
             this.list[id - 1] = record;
 
-            this.listFirstName[id - 1] = this.list[id - 1];
-            this.listLastName[id - 1] = this.list[id - 1];
-            this.listDateOfBirth[id - 1] = this.list[id - 1];
+            this.listCommandName[id - 1] = this.list[id - 1];
+            this.listExecutionDate[id - 1] = this.list[id - 1];
 
-            this.firstNameDictionary[inputData.FirstName] = this.listFirstName;
-            this.lastNameDictionary[inputData.LastName] = this.listLastName;
-            this.dateOfBirthDictionary[inputData.DateOfBirth] = this.listDateOfBirth;
+            this.commandNameDictionary[inputData.CommandName] = this.listCommandName;
+            this.executionDateDictionary[inputData.ExecutionDate] = this.listExecutionDate;
         }
 
         /// <summary>
-        /// Method find record by input first name.
+        /// Method find record by input command name.
         /// </summary>
-        /// <param name="firstName">input first name.</param>
-        /// <returns>all records whose first name matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        /// <param name="commandName">input command name.</param>
+        /// <returns>all records whose command name matches the incoming.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByCommandName(string commandName)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            this.firstNameDictionary.TryGetValue(firstName, out result);
+            this.commandNameDictionary.TryGetValue(commandName, out result);
             this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
             return this.records;
         }
 
         /// <summary>
-        /// Method find record by input last name.
+        /// Method find record by input execution date.
         /// </summary>
-        /// <param name="lastName">input first name.</param>
-        /// <returns>all records whose last name matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        /// <param name="executionDate">input command name.</param>
+        /// <returns>all records whose execution date matches the incoming.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByExecutionDate(DateTime executionDate)
         {
             List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            this.lastNameDictionary.TryGetValue(lastName, out result);
-            this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
-            return this.records;
-        }
-
-        /// <summary>
-        /// Method find record by input date of birth.
-        /// </summary>
-        /// <param name="dateOfBirth">input first name.</param>
-        /// <returns>all records whose date of birth matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
-        {
-            List<FileCabinetRecord> result = new List<FileCabinetRecord>();
-            this.dateOfBirthDictionary.TryGetValue(dateOfBirth, out result);
+            this.executionDateDictionary.TryGetValue(executionDate, out result);
             this.records = new ReadOnlyCollection<FileCabinetRecord>(result);
             return this.records;
         }
@@ -160,9 +135,8 @@ namespace FileCabinetApp
                 if (record.Id == id)
                 {
                     this.list.Remove(record);
-                    this.firstNameDictionary[record.FirstName.ToUpper()].Remove(record);
-                    this.lastNameDictionary[record.LastName.ToUpper()].Remove(record);
-                    this.dateOfBirthDictionary[record.DateOfBirth].Remove(record);
+                    this.commandNameDictionary[record.CommandName.ToUpper()].Remove(record);
+                    this.executionDateDictionary[record.ExecutionDate].Remove(record);
                     return true;
                 }
             }
@@ -218,7 +192,7 @@ namespace FileCabinetApp
 
                     if (id <= this.list.Count)
                     {
-                        var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
+                        var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Experience);
                         this.EditRecord(id, data);
                         count++;
                     }
@@ -226,31 +200,22 @@ namespace FileCabinetApp
                     {
                         this.list.Add(record);
 
-                        if (this.firstNameDictionary.ContainsKey(record.FirstName.ToUpper()))
+                        if (this.commandNameDictionary.ContainsKey(record.CommandName.ToUpper()))
                         {
-                            this.firstNameDictionary[record.FirstName.ToUpper()].Add(record);
+                            this.commandNameDictionary[record.CommandName.ToUpper()].Add(record);
                         }
                         else
                         {
-                            this.firstNameDictionary.Add(record.FirstName.ToUpper(), new List<FileCabinetRecord> { record });
+                            this.commandNameDictionary.Add(record.CommandName.ToUpper(), new List<FileCabinetRecord> { record });
                         }
 
-                        if (this.lastNameDictionary.ContainsKey(record.LastName.ToUpper()))
+                        if (this.executionDateDictionary.ContainsKey(record.ExecutionDate))
                         {
-                            this.lastNameDictionary[record.LastName.ToUpper()].Add(record);
+                            this.executionDateDictionary[record.ExecutionDate].Add(record);
                         }
                         else
                         {
-                            this.lastNameDictionary.Add(record.LastName.ToUpper(), new List<FileCabinetRecord> { record });
-                        }
-
-                        if (this.dateOfBirthDictionary.ContainsKey(record.DateOfBirth))
-                        {
-                            this.dateOfBirthDictionary[record.DateOfBirth].Add(record);
-                        }
-                        else
-                        {
-                            this.dateOfBirthDictionary.Add(record.DateOfBirth, new List<FileCabinetRecord> { record });
+                            this.executionDateDictionary.Add(record.ExecutionDate, new List<FileCabinetRecord> { record });
                         }
 
                         count++;

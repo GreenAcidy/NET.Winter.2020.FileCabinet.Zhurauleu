@@ -48,12 +48,9 @@ namespace FileCabinetApp.Service
             => new FileCabinetRecord
             {
                 Id = int.Parse(data[0].Substring(1).Trim(), CultureInfo.InvariantCulture),
-                FirstName = data[1].Trim(),
-                LastName = data[2].Trim(),
-                DateOfBirth = DateTime.Parse(data[3].Trim(), CultureInfo.InvariantCulture),
-                Gender = char.Parse(data[4].Trim()),
-                Experience = short.Parse(data[5].Trim(), CultureInfo.InvariantCulture),
-                Account = decimal.Parse(data[6].Trim(), CultureInfo.InvariantCulture),              
+                CommandName = data[1].Trim(),
+                ExecutionDate = DateTime.Parse(data[2].Trim(), CultureInfo.InvariantCulture),
+                Experience = short.Parse(data[3].Trim(), CultureInfo.InvariantCulture),
             };
 
         protected virtual void Dispose(bool disposing)

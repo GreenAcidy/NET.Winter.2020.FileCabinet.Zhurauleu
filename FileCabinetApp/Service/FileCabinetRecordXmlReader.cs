@@ -45,12 +45,9 @@ namespace FileCabinetApp.Service
             => new FileCabinetRecord
             {
                 Id = record.Id,
-                FirstName = record.FirstName,
-                LastName = record.LastName,
-                DateOfBirth = record.DateOfBirth,
-                Gender = record.Gender,
+                CommandName = record.CommandName,
+                ExecutionDate = record.ExecutionDate,
                 Experience = record.Experience,
-                Account = record.Account,
             };
 
         public void Dispose()

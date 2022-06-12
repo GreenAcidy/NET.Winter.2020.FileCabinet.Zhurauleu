@@ -40,25 +40,16 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             }
             else
             {
-                Console.Write("First name: ");
-                var firstName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.firstNameValidator);
+                Console.Write("Command name: ");
+                var commandName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.commandNameValidator);
 
-                Console.Write("Last name: ");
-                var lastName = InputValidator.ReadInput(InputValidator.stringConvrter, InputValidator.lastNameValidator);
-
-                Console.Write("Date of birth (mm/dd/yyyy): ");
-                var dateOfBirth = InputValidator.ReadInput(InputValidator.dateConverter, InputValidator.dateOfBirthValidator);
-
-                Console.Write("Gender(M/F): ");
-                var gender = InputValidator.ReadInput(InputValidator.genderConverter, InputValidator.genderValidator);
+                Console.Write("Execution date (mm/dd/yyyy): ");
+                var executionDate = InputValidator.ReadInput(InputValidator.dateConverter, InputValidator.executionDateValidator);
 
                 Console.Write("Experience: ");
                 var experience = InputValidator.ReadInput(InputValidator.experienceConverter, InputValidator.experienceValidator);
 
-                Console.Write("Account: ");
-                var account = InputValidator.ReadInput(InputValidator.accountConverter, InputValidator.accountValidator);
-
-                var index = this.fileCabinetService.CreateRecord(new FileCabinetInputData(firstName, lastName, dateOfBirth, gender, experience, account));
+                var index = this.fileCabinetService.CreateRecord(new FileCabinetInputData(commandName, executionDate, experience));
                 Console.WriteLine($"Record #{id} is edited.");
             }
         }

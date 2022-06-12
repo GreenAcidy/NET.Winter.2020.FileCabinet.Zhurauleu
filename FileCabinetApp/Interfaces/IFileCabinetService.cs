@@ -26,25 +26,18 @@ namespace FileCabinetApp.Interfaces
         public void EditRecord(int id, FileCabinetInputData inputData);
 
         /// <summary>
-        /// Method find record by input first name.
+        /// Method find record by input command name.
         /// </summary>
-        /// <param name="firstName">input first name.</param>
-        /// <returns>all records whose first name matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName);
+        /// <param name="commandName">input command name.</param>
+        /// <returns>all records whose command name matches the incoming.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByCommandName(string commandName);
 
         /// <summary>
-        /// Method find record by input last name.
+        /// Method find record by input execution date.
         /// </summary>
-        /// <param name="lastName">input first name.</param>
-        /// <returns>all records whose last name matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName);
-
-        /// <summary>
-        /// Method find record by input date of birth.
-        /// </summary>
-        /// <param name="dateOfBirth">input first name.</param>
-        /// <returns>all records whose date of birth matches the incoming.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth);
+        /// <param name="executionDate">input command name.</param>
+        /// <returns>all records whose execution date matches the incoming.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByExecutionDate(DateTime executionDate);
 
         public bool Remove(int id);
 

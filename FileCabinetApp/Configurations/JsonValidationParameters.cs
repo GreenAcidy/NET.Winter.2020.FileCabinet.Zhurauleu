@@ -3,17 +3,17 @@ namespace FileCabinetApp.Configurations
 {
     public class JsonValidationParameters
     {
-        public int FirstNameMinLength { get; set; }
+        public int CommandNameMinLength { get; set; }
 
-        public int FirstNameMaxLenght { get; set; }
+        public int CommandNameMaxLenght { get; set; }
 
         public int LastNameMinLength { get; set; }
 
         public int LastNameMaxLength { get; set; }
 
-        public DateTime DateOfBirthFrom { get; set; }
+        public DateTime ExecutionDateFrom { get; set; }
 
-        public DateTime DateOfBirthTo { get; set; }
+        public DateTime ExecutionDateTo { get; set; }
 
         public short ExperienceMinValue { get; set; }
 

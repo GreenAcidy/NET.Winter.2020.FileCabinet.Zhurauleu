@@ -9,72 +9,45 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetInputData
     {
-        public FileCabinetInputData(string firstname, string lastname, DateTime date, char gender, short experience, decimal account)
+        public FileCabinetInputData(string commandname, DateTime date, short experience)
         {
-            this.FirstName = firstname;
-            this.LastName = lastname;
-            this.DateOfBirth = date;
-            this.Gender = gender;
+            this.CommandName = commandname;
+            this.ExecutionDate = date;
             this.Experience = experience;
-            this.Account = account;
         }
 
         /// <summary>
-        /// Gets or sets first name of person.
+        /// Gets or sets command name of command.
         /// </summary>
         /// <value>
-        /// first name of person.
+        /// command name of command.
         /// </value>
-        public string FirstName { get; set; }
+        public string CommandName { get; set; }
 
         /// <summary>
-        /// Gets or sets last name of person.
+        /// Gets or sets execution date of command.
         /// </summary>
         /// <value>
-        /// last name of person in record..
+        /// execution date of command.
         /// </value>
-        public string LastName { get; set; }
+        public DateTime ExecutionDate { get; set; }
 
         /// <summary>
-        /// Gets or sets date of birth of person.
+        /// Gets or sets experience of command.
         /// </summary>
         /// <value>
-        /// date of birth of person.
-        /// </value>
-        public DateTime DateOfBirth { get; set; }
-
-        /// <summary>
-        /// Gets or sets gender of person.
-        /// </summary>
-        /// <value>
-        /// gender of person.
-        /// </value>
-        public char Gender { get; set; }
-
-        /// <summary>
-        /// Gets or sets experience of person.
-        /// </summary>
-        /// <value>
-        /// experience of person.
+        /// experience of command.
         /// </value>
         public short Experience { get; set; }
 
         /// <summary>
-        /// Gets or sets account of person.
-        /// </summary>
-        /// <value>
-        /// date of account of person.
-        /// </value>
-        public decimal Account { get; set; }
-
-        /// <summary>
         /// Overrided method return one record.
         /// </summary>
-        /// <returns>One record of person.</returns>
+        /// <returns>One record of command.</returns>
         public override string ToString()
         {
-            return $"#{this.FirstName}, {this.LastName}, {this.DateOfBirth.ToLongDateString()}, " +
-                   $"{this.Gender}, {this.Experience}, {this.Account}";
+            return $"#{this.CommandName}, {this.ExecutionDate.ToLongDateString()}, " +
+                   $"{this.Experience}";
         }
     }
 }

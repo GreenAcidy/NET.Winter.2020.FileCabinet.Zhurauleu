@@ -44,36 +44,27 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             var findComandAttributes = parameters.Split(new char[] { ' ' });
             switch (findComandAttributes[0].ToUpper())
             {
-                case "FIRSTNAME":
-                    this.FindFirstName(findComandAttributes[1]);
+                case "COMMANDNAME":
+                    this.FindCommandName(findComandAttributes[1]);
                     break;
-                case "LASTNAME":
-                    this.FindLastName(findComandAttributes[1]);
-                    break;
-                case "DATEOFBIRTH":
-                    this.FindDateOfBirth(findComandAttributes[1]);
+                case "EXECUTIONDATE":
+                    this.FindExecutionDate(findComandAttributes[1]);
                     break;
             }
         }
 
-        private void FindFirstName(string firstName)
+        private void FindCommandName(string commandName)
         {
-            var records = fileCabinetService.FindByFirstName(firstName);
+            var records = fileCabinetService.FindByCommandName(commandName);
             this.printer(records);
         }
 
-        private void FindLastName(string lastName)
-        {
-            var records = fileCabinetService.FindByLastName(lastName);
-            this.printer(records);
-        }
-
-        private void FindDateOfBirth(string dateOfBirth)
+        private void FindExecutionDate(string executionDate)
         {
             DateTime date;
             CultureInfo iOCultureFormat = new CultureInfo("en-US");
-            DateTime.TryParse(dateOfBirth, iOCultureFormat, DateTimeStyles.None, out date);
-            var records = fileCabinetService.FindByDateOfBirth(date);
+            DateTime.TryParse(executionDate, iOCultureFormat, DateTimeStyles.None, out date);
+            var records = fileCabinetService.FindByExecutionDate(date);
 
             this.printer(records);
         }

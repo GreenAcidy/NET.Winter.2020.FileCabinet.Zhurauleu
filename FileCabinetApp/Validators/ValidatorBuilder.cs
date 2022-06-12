@@ -12,39 +12,21 @@ namespace FileCabinetApp.Validators
         public IRecordValidator Create()
             => new CompositeValidator(this.validators);
 
-        public ValidatorBuilder ValidateFirstName(int min, int max)
+        public ValidatorBuilder ValidateCommandName(int min, int max)
         {
-            this.validators.Add(new FirstNameValidator(min, max));
+            this.validators.Add(new CommandNameValidator(min, max));
             return this;
         }
 
-        public ValidatorBuilder ValidateLastName(int min, int max)
+        public ValidatorBuilder ValidateExecutionDate(DateTime from, DateTime to)
         {
-            this.validators.Add(new LastNameValidator(min, max));
-            return this;
-        }
-
-        public ValidatorBuilder ValidateDateOfBirth(DateTime from, DateTime to)
-        {
-            this.validators.Add(new DateOfBirthValidator(from, to));
+            this.validators.Add(new ExecutionDateValidator(from, to));
             return this;
         }
 
         public ValidatorBuilder ValidateExperience(short min, short max)
         {
             this.validators.Add(new ExperienceValidator(min, max));
-            return this;
-        }
-
-        public ValidatorBuilder ValidateGender(string genders)
-        {
-            this.validators.Add(new GenderValidator(genders));
-            return this;
-        }
-
-        public ValidatorBuilder ValidateAccount(decimal min)
-        {
-            this.validators.Add(new AccountValidator(min));
             return this;
         }
     }

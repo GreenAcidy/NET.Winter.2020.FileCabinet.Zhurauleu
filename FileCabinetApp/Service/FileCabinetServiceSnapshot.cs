@@ -47,12 +47,9 @@ namespace FileCabinetApp.Service
             {
                 var serializeRecord = new SerializableRecord();
                 serializeRecord.Id = record.Id;
-                serializeRecord.FirstName = record.FirstName;
-                serializeRecord.LastName = record.LastName;
-                serializeRecord.DateOfBirth = record.DateOfBirth;
+                serializeRecord.CommandName = record.CommandName;
+                serializeRecord.ExecutionDate = record.ExecutionDate;
                 serializeRecord.Experience = record.Experience;
-                serializeRecord.Account = record.Account;
-                serializeRecord.Gender = record.Gender;
 
                 collection.Add(serializeRecord);
             }

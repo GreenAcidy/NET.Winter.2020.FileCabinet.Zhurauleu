@@ -22,12 +22,9 @@ namespace FileCabinetGenerator
             var record = new FileCabinetRecord();
 
             record.Id = recordId;
-            record.FirstName = this.GenerateName(randomGenerator.Next(3, 60));
-            record.LastName = this.GenerateName(randomGenerator.Next(3, 60));
-            record.DateOfBirth = GenerateDateOfBirth();
-            record.Gender = char.ToUpper(gender[randomGenerator.Next(gender.Length)]);
-            record.Account = randomGenerator.Next();
-            record.Experience = Convert.ToInt16(randomGenerator.Next(DateTime.Now.Year - record.DateOfBirth.Year));
+            record.CommandName = this.GenerateName(randomGenerator.Next(3, 60));
+            record.ExecutionDate = GenerateExecutionDate();
+            record.Experience = Convert.ToInt16(randomGenerator.Next(DateTime.Now.Year - record.ExecutionDate.Year));
             
 
             return record;
@@ -47,7 +44,7 @@ namespace FileCabinetGenerator
             return sb.ToString();
         }
 
-        private DateTime GenerateDateOfBirth()
+        private DateTime GenerateExecutionDate()
         {
             return startDate.AddDays(randomGenerator.Next((DateTime.Today - startDate).Days));
         }

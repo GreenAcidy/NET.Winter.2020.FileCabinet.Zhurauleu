@@ -70,14 +70,14 @@ namespace FileCabinetApp.Service
             this.WriteRecordToBinaryFile(this.idPositions[id], parameters, id);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByCommandName(string commandName)
         {
             var records = GetRecordsCollection();
             var result = new List<FileCabinetRecord>();
 
             foreach (var record in records)
             {
-                if (string.Equals(record.FirstName, firstName, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(record.CommandName, commandName, StringComparison.OrdinalIgnoreCase))
                 {
                     result.Add(record);
                 }
@@ -86,32 +86,16 @@ namespace FileCabinetApp.Service
             return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
-        {
-            var records = GetRecordsCollection();
-            var result = new List<FileCabinetRecord>();
-
-            foreach (var record in records)
-            {
-                if (string.Equals(record.LastName, lastName, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.Add(record);
-                }
-            }
-
-            return new ReadOnlyCollection<FileCabinetRecord>(result);
-        }
-
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
+        public ReadOnlyCollection<FileCabinetRecord> FindByExecutionDate(DateTime executionDate)
         {
             var records = this.GetRecordsCollection();
             var result = new List<FileCabinetRecord>();
 
-            var key = new DateTime(dateOfBirth.Year, dateOfBirth.Month, dateOfBirth.Day);
+            var key = new DateTime(executionDate.Year, executionDate.Month, executionDate.Day);
 
             foreach (var record in records)
             {
-                if (record.DateOfBirth == key)
+                if (record.ExecutionDate == key)
                 {
                     result.Add(record);
                 }
@@ -143,7 +127,7 @@ namespace FileCabinetApp.Service
 
             foreach (var record in collection)
             {
-                var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
+                var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Experience);
 
                 this.WriteRecordToBinaryFile(this.cursor, data, record.Id);
                 this.cursor += RecordSize;
@@ -197,7 +181,7 @@ namespace FileCabinetApp.Service
                         throw new ArgumentOutOfRangeException($"{nameof(id)} must be positive.");
                     }
 
-                    var data = new FileCabinetInputData(record.FirstName, record.LastName, record.DateOfBirth, record.Gender, record.Experience, record.Account);
+                    var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Experience);
 
                     if (this.records.ContainsKey(id))
                     {
@@ -262,14 +246,12 @@ namespace FileCabinetApp.Service
             this.binWriter.Seek(position, SeekOrigin.Begin);
             this.binWriter.Write(isRealRecord);
             this.binWriter.Write(id);
-            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.FirstName, new string(' ', LengtOfString - parameters.FirstName.Length)).ToCharArray()));
-            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.LastName, new string(' ', LengtOfString - parameters.LastName.Length)).ToCharArray()));
-            this.binWriter.Write(parameters.DateOfBirth.Month);
-            this.binWriter.Write(parameters.DateOfBirth.Day);
-            this.binWriter.Write(parameters.DateOfBirth.Year);
+            this.binWriter.Write(Encoding.Unicode.GetBytes(string.Concat(parameters.CommandName, new string(' ', LengtOfString - parameters.CommandName.Length)).ToCharArray()));
+            this.binWriter.Write(parameters.ExecutionDate.Month);
+            this.binWriter.Write(parameters.ExecutionDate.Day);
+            this.binWriter.Write(parameters.ExecutionDate.Year);
+            this.binWriter.Write(parameters.ExecutionDate.Ticks);
             this.binWriter.Write(parameters.Experience);
-            this.binWriter.Write(parameters.Account);
-            this.binWriter.Write(Encoding.Unicode.GetBytes(parameters.Gender.ToString(CultureInfo.InvariantCulture)));
         }
 
         private FileCabinetRecord ReadRecordOutBinaryFile(long position, out bool removedKey)
@@ -281,12 +263,9 @@ namespace FileCabinetApp.Service
             var record = new FileCabinetRecord()
             {
                 Id = this.binReader.ReadInt32(),
-                FirstName = Encoding.Unicode.GetString(this.binReader.ReadBytes(LengtOfString * 2)).Trim(),
-                LastName = Encoding.Unicode.GetString(this.binReader.ReadBytes(LengtOfString * 2)).Trim(),
-                DateOfBirth = DateTime.Parse($"{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}", CultureInfo.InvariantCulture),
+                CommandName = Encoding.Unicode.GetString(this.binReader.ReadBytes(LengtOfString * 2)).Trim(),
+                ExecutionDate = DateTime.Parse($"{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}", CultureInfo.InvariantCulture),
                 Experience = this.binReader.ReadInt16(),
-                Account = this.binReader.ReadDecimal(),
-                Gender = Encoding.Unicode.GetString(this.binReader.ReadBytes(sizeof(char))).First(),
             };
 
             return record;

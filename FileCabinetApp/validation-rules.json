@@ -1,50 +1,30 @@
 {
 	"default": {
-		"firstName": {
+		"commandName": {
 			"min": 2,
 			"max": 60
 		},
-		"lastName": {
-			"min": 2,
-			"max": 60
-		},
-		"dateOfBirth": {
+		"executionDate": {
 			"from": "1/1/1950",
 			"to": "10/8/2019"
 		},
 		"experience": {
 			"min": 0,
 			"max": 20
-		},
-		"account": {
-			"min": 0
-		},
-		"gender": {
-			"genders": "mMfF"  
 		}
 	},
 	"custom": {
-		"firstName": {
+		"commandName": {
 			"min": 2,
 			"max": 34
 		},
-		"lastName": {
-			"min": 2,
-			"max": 34
-		},
-		"dateOfBirth": {
+		"executionDate": {
 			"from": "1/1/1980",
 			"to": "10/8/2010"
 		},
 		"experience": {
 			"min": 0,
 			"max": 10
-		},
-		"account": {
-			"min": 0
-		},
-		"gender": {
-			"genders": "mMfFnN"
 		}
 	}
 }

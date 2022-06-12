@@ -10,8 +10,8 @@ namespace FileCabinetApp.Printers
         {
             foreach (var record in records)
             {
-                Console.WriteLine($"#{record.Id}: {record.FirstName} {record.LastName}; Date of birth: {record.DateOfBirth.ToLongDateString()};" +
-                    $" Gender: {record.Gender}; Experience: {record.Experience} years; Account: {record.Account}.");
+                Console.WriteLine($"#{record.Id}: {record.CommandName} ; Execution date: {record.ExecutionDate.ToLongDateString()};" +
+                    $" Experience: {record.Experience} number.");
             }
         }
     }

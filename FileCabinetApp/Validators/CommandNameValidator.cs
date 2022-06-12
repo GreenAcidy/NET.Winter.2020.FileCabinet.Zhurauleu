@@ -5,12 +5,12 @@ using System.Text;
 
 namespace FileCabinetApp.Validators
 {
-    public class LastNameValidator : IRecordValidator
+    public class CommandNameValidator : IRecordValidator
     {
         private readonly int maxLength;
         private readonly int minLength;
 
-        public LastNameValidator(int minLength, int maxLength)
+        public CommandNameValidator(int minLength, int maxLength)
         {
             if (maxLength <= minLength)
             {
@@ -28,19 +28,19 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(inputData)} cannot be null.");
             }
 
-            if (string.IsNullOrWhiteSpace(inputData.LastName))
+            if (string.IsNullOrWhiteSpace(inputData.CommandName))
             {
-                if (inputData.LastName is null)
+                if (inputData.CommandName is null)
                 {
-                    throw new ArgumentNullException($"{nameof(inputData.LastName)} cannot be null.");
+                    throw new ArgumentNullException($"{nameof(inputData.CommandName)} cannot be null.");
                 }
 
-                if (inputData.LastName.Length < this.minLength || inputData.LastName.Length > this.maxLength)
+                if (inputData.CommandName.Length < this.minLength || inputData.CommandName.Length > this.maxLength)
                 {
-                    throw new ArgumentException($"{nameof(inputData.LastName.Length)} must be in range {this.minLength} to {this.maxLength}.");
+                    throw new ArgumentException($"{nameof(inputData.CommandName.Length)} must be in range {this.minLength} to {this.maxLength}.");
                 }
 
-                throw new ArgumentException($"{nameof(inputData.LastName)} cannot be empty or whiteSpace.");
+                throw new ArgumentException($"{nameof(inputData.CommandName)} cannot be empty or whiteSpace.");
             }
         }
     }

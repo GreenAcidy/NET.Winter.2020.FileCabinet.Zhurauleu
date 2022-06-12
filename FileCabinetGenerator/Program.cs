@@ -132,12 +132,9 @@ namespace FileCabinetGenerator
             {
                 var serializeRecord = new SerializableRecord();
                 serializeRecord.Id = record.Id;
-                serializeRecord.FirstName = record.FirstName;
-                serializeRecord.LastName = record.LastName;
-                serializeRecord.dateOfBirth = record.DateOfBirth;
-                serializeRecord.Gender = record.Gender;
+                serializeRecord.CommandName = record.CommandName;
+                serializeRecord.executionDate = record.ExecutionDate;
                 serializeRecord.Experience = record.Experience;
-                serializeRecord.Account = record.Account;
                 
                 collection.Add(serializeRecord);
             }

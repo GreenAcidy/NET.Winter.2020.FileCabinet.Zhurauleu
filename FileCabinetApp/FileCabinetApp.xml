@@ -9,59 +9,35 @@
             Class FileCabinetRecord contain input data of people.
             </summary>
         </member>
-        <member name="P:FileCabinetApp.FileCabinetInputData.FirstName">
+        <member name="P:FileCabinetApp.FileCabinetInputData.CommandName">
             <summary>
-            Gets or sets first name of person.
+            Gets or sets command name of command.
             </summary>
             <value>
-            first name of person.
+            command name of command.
             </value>
         </member>
-        <member name="P:FileCabinetApp.FileCabinetInputData.LastName">
+        <member name="P:FileCabinetApp.FileCabinetInputData.ExecutionDate">
             <summary>
-            Gets or sets last name of person.
+            Gets or sets execution date of command.
             </summary>
             <value>
-            last name of person in record..
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetInputData.DateOfBirth">
-            <summary>
-            Gets or sets date of birth of person.
-            </summary>
-            <value>
-            date of birth of person.
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetInputData.Gender">
-            <summary>
-            Gets or sets gender of person.
-            </summary>
-            <value>
-            gender of person.
+            execution date of command.
             </value>
         </member>
         <member name="P:FileCabinetApp.FileCabinetInputData.Experience">
             <summary>
-            Gets or sets experience of person.
+            Gets or sets experience of command.
             </summary>
             <value>
-            experience of person.
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetInputData.Account">
-            <summary>
-            Gets or sets account of person.
-            </summary>
-            <value>
-            date of account of person.
+            experience of command.
             </value>
         </member>
         <member name="M:FileCabinetApp.FileCabinetInputData.ToString">
             <summary>
             Overrided method return one record.
             </summary>
-            <returns>One record of person.</returns>
+            <returns>One record of command.</returns>
         </member>
         <member name="T:FileCabinetApp.Interfaces.IFileCabinetService">
             <summary>
@@ -82,26 +58,19 @@
             <param name="id">input id of existing record.</param>
             <param name="inputData">input data.</param>
         </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByFirstName(System.String)">
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByCommandName(System.String)">
             <summary>
-            Method find record by input first name.
+            Method find record by input command name.
             </summary>
-            <param name="firstName">input first name.</param>
-            <returns>all records whose first name matches the incoming.</returns>
+            <param name="commandName">input command name.</param>
+            <returns>all records whose command name matches the incoming.</returns>
         </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByLastName(System.String)">
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByExecutionDate(System.DateTime)">
             <summary>
-            Method find record by input last name.
+            Method find record by input execution date.
             </summary>
-            <param name="lastName">input first name.</param>
-            <returns>all records whose last name matches the incoming.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Method find record by input date of birth.
-            </summary>
-            <param name="dateOfBirth">input first name.</param>
-            <returns>all records whose date of birth matches the incoming.</returns>
+            <param name="executionDate">input command name.</param>
+            <returns>all records whose execution date matches the incoming.</returns>
         </member>
         <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetRecords">
             <summary>
@@ -162,26 +131,19 @@
             <param name="id">input id of existing record.</param>
             <param name="inputData">input data.</param>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByFirstName(System.String)">
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByCommandName(System.String)">
             <summary>
-            Method find record by input first name.
+            Method find record by input command name.
             </summary>
-            <param name="firstName">input first name.</param>
-            <returns>all records whose first name matches the incoming.</returns>
+            <param name="commandName">input command name.</param>
+            <returns>all records whose command name matches the incoming.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByLastName(System.String)">
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByExecutionDate(System.DateTime)">
             <summary>
-            Method find record by input last name.
+            Method find record by input execution date.
             </summary>
-            <param name="lastName">input first name.</param>
-            <returns>all records whose last name matches the incoming.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByDateOfBirth(System.DateTime)">
-            <summary>
-            Method find record by input date of birth.
-            </summary>
-            <param name="dateOfBirth">input first name.</param>
-            <returns>all records whose date of birth matches the incoming.</returns>
+            <param name="executionDate">input command name.</param>
+            <returns>all records whose execution date matches the incoming.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.GetRecords">
             <summary>
@@ -208,59 +170,35 @@
             Id of record.
             </value>
         </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.FirstName">
+        <member name="P:FileCabinetApp.FileCabinetRecord.CommandName">
             <summary>
-            Gets or sets first name of person in record.
+            Gets or sets command name of command in record.
             </summary>
             <value>
-            first name of person in record.
+            command name of command in record.
             </value>
         </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.LastName">
+        <member name="P:FileCabinetApp.FileCabinetRecord.ExecutionDate">
             <summary>
-            Gets or sets last name of person in record.
+            Gets or sets execution date of command in record.
             </summary>
             <value>
-            last name of person in record..
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.DateOfBirth">
-            <summary>
-            Gets or sets date of birth of person in record.
-            </summary>
-            <value>
-            date of birth of person in record..
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.Gender">
-            <summary>
-            Gets or sets gender of person in record.
-            </summary>
-            <value>
-            gender of person in record..
+            execution date of command in record..
             </value>
         </member>
         <member name="P:FileCabinetApp.FileCabinetRecord.Experience">
             <summary>
-            Gets or sets experience of person in record.
+            Gets or sets experience of command in record.
             </summary>
             <value>
-            experience of person in record..
-            </value>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.Account">
-            <summary>
-            Gets or sets account of person in record.
-            </summary>
-            <value>
-            date of account of person in record..
+            experience of command in record..
             </value>
         </member>
         <member name="M:FileCabinetApp.FileCabinetRecord.ToString">
             <summary>
-            Overrided method return one record of person.
+            Overrided method return one record of command.
             </summary>
-            <returns>One record of person.</returns>
+            <returns>One record of command.</returns>
         </member>
     </members>
 </doc>

@@ -43,28 +43,20 @@ namespace FileCabinetApp.Service
             this.WriteLogInFile(nameof(this.service.EditRecord), GetInfoFileCabinetInputData(parameters));
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByCommandName(string commandName)
         {
-            var collection = this.service.FindByFirstName(firstName);
-            WriteLogInFile(nameof(this.service.FindByFirstName), firstName);
-            WriteLogReturnInFile(nameof(this.service.FindByFirstName), collection.ToString());
+            var collection = this.service.FindByCommandName(commandName);
+            WriteLogInFile(nameof(this.service.FindByCommandName), commandName);
+            WriteLogReturnInFile(nameof(this.service.FindByCommandName), collection.ToString());
             return collection;
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByExecutionDate(DateTime executionDate)
         {
-            var collection = this.service.FindByLastName(lastName);
-            WriteLogInFile(nameof(this.service.FindByLastName), lastName);
-            WriteLogReturnInFile(nameof(this.service.FindByLastName), collection.ToString());
-            return collection;
-        }
+            var collection = this.service.FindByExecutionDate(executionDate);
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
-        {
-            var collection = this.service.FindByDateOfBirth(dateOfBirth);
-
-            this.WriteLogInFile(nameof(this.service.FindByDateOfBirth),  dateOfBirth.ToString());
-            this.WriteLogReturnInFile(nameof(this.service.FindByDateOfBirth), collection.ToString());
+            this.WriteLogInFile(nameof(this.service.FindByExecutionDate),  executionDate.ToString());
+            this.WriteLogReturnInFile(nameof(this.service.FindByExecutionDate), collection.ToString());
             return collection;
         }
 
@@ -147,8 +139,7 @@ namespace FileCabinetApp.Service
         }
 
         private string GetInfoFileCabinetInputData(FileCabinetInputData parameters)
-            => $"FirstName = '{parameters.FirstName}', LastName = '{parameters.LastName}', " +
-                $"DateOfBirth = '{parameters.DateOfBirth}', Experience = '{parameters.Experience}', " +
-                $"Account = '{parameters.Account}', Gender = '{parameters.Gender}'.";
+            => $"CommandName = '{parameters.CommandName}', " +
+                $"ExecutionDate = '{parameters.ExecutionDate}', Experience = '{parameters.Experience}'";
     }
 }

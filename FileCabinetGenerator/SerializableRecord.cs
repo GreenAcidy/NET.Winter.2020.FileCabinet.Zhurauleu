@@ -13,27 +13,18 @@ namespace FileCabinetGenerator
         [XmlAttribute("Id")]
         public int Id { get; set; }
 
-        [XmlElement("FirstName")]
-        public string FirstName { get; set; }
-
-        [XmlElement("LastName")]
-        public string LastName { get; set; }
-
-        [XmlElement("Gender")]
-        public char Gender { get; set; }
+        [XmlElement("CommandName")]
+        public string CommandName { get; set; }
 
         [XmlElement("Experience")]
         public short Experience { get; set; }
 
-        [XmlElement("Account")]
-        public decimal Account { get; set; }
+        public DateTime executionDate;
 
-        public DateTime dateOfBirth;
-
-        [XmlElement("DateOfBirth")]
-        public string DateOfBirth
+        [XmlElement("ExecutionDate")]
+        public string ExecutionDate
         {
-            get => this.dateOfBirth.ToString("mm/dd/yyyy", CultureInfo.InvariantCulture);
+            get => this.executionDate.ToString("mm/dd/yyyy", CultureInfo.InvariantCulture);
         }
     }
 }

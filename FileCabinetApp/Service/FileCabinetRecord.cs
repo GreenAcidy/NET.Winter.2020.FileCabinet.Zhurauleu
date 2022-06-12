@@ -17,61 +17,37 @@ namespace FileCabinetApp
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets first name of person in record.
+        /// Gets or sets command name of command in record.
         /// </summary>
         /// <value>
-        /// first name of person in record.
+        /// command name of command in record.
         /// </value>
-        public string FirstName { get; set; }
+        public string CommandName { get; set; }
 
         /// <summary>
-        /// Gets or sets last name of person in record.
+        /// Gets or sets execution date of command in record.
         /// </summary>
         /// <value>
-        /// last name of person in record..
+        /// execution date of command in record..
         /// </value>
-        public string LastName { get; set; }
+        public DateTime ExecutionDate { get; set; }
 
         /// <summary>
-        /// Gets or sets date of birth of person in record.
+        /// Gets or sets experience of command in record.
         /// </summary>
         /// <value>
-        /// date of birth of person in record..
-        /// </value>
-        public DateTime DateOfBirth { get; set; }
-
-        /// <summary>
-        /// Gets or sets gender of person in record.
-        /// </summary>
-        /// <value>
-        /// gender of person in record..
-        /// </value>
-        public char Gender { get; set; }
-
-        /// <summary>
-        /// Gets or sets experience of person in record.
-        /// </summary>
-        /// <value>
-        /// experience of person in record..
+        /// experience of command in record..
         /// </value>
         public short Experience { get; set; }
 
         /// <summary>
-        /// Gets or sets account of person in record.
+        /// Overrided method return one record of command.
         /// </summary>
-        /// <value>
-        /// date of account of person in record..
-        /// </value>
-        public decimal Account { get; set; }
-
-        /// <summary>
-        /// Overrided method return one record of person.
-        /// </summary>
-        /// <returns>One record of person.</returns>
+        /// <returns>One record of command.</returns>
         public override string ToString()
         {
-            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                this.Id, this.FirstName, this.LastName, this.DateOfBirth, this.Gender, this.Experience, this.Account);
+            return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}",
+                this.Id, this.CommandName, this.ExecutionDate, this.Experience);
         }
     }
 }

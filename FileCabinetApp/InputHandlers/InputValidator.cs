@@ -57,35 +57,13 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, short>(isValid, input, experience);
         };
 
-        public static Func<string, Tuple<bool, string, decimal>> accountConverter = input =>
-        {
-            decimal account;
-            bool isValid = decimal.TryParse(input, out account);
-
-            return new Tuple<bool, string, decimal>(isValid, input, account);
-        };
-
-        public static Func<string, Tuple<bool, string, char>> genderConverter = input =>
-        {
-            char gender;
-            bool isValid = char.TryParse(input, out gender);
-
-            return new Tuple<bool, string, char>(isValid, input, gender);
-        };
-
-        public static Func<string, Tuple<bool, string>> firstNameValidator = input =>
+        public static Func<string, Tuple<bool, string>> commandNameValidator = input =>
         {
             bool isValid = !(string.IsNullOrWhiteSpace(input) || input.Length < 2 || input.Length > 60);
             return new Tuple<bool, string>(isValid, input);
         };
 
-        public static Func<string, Tuple<bool, string>> lastNameValidator = input =>
-        {
-            bool isValid = !(string.IsNullOrWhiteSpace(input) || input.Length < 2 || input.Length > 60);
-            return new Tuple<bool, string>(isValid, input);
-        };
-
-        public static Func<DateTime, Tuple<bool, string>> dateOfBirthValidator = date =>
+        public static Func<DateTime, Tuple<bool, string>> executionDateValidator = date =>
         {
             bool isValid = !(date < new DateTime(1950, 1, 1) || date > DateTime.Now);
             return new Tuple<bool, string>(isValid, date.ToString());
@@ -94,18 +72,6 @@ namespace FileCabinetApp.InputHandlers
         public static Func<short, Tuple<bool, string>> experienceValidator = input =>
         {
             bool isValid = input >= 0;
-            return new Tuple<bool, string>(isValid, input.ToString());
-        };
-
-        public static Func<decimal, Tuple<bool, string>> accountValidator = input =>
-        {
-            bool isValid = input >= 0;
-            return new Tuple<bool, string>(isValid, input.ToString());
-        };
-
-        public static Func<char, Tuple<bool, string>> genderValidator = input =>
-        {
-            bool isValid = input == 'm' || input == 'f' || input == 'M' || input == 'F';
             return new Tuple<bool, string>(isValid, input.ToString());
         };
     }

@@ -38,30 +38,21 @@ namespace FileCabinetApp.Service
             this.Information(nameof(this.service.EditRecord), this.stopwatch.ElapsedTicks);
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByCommandName(string commandName)
         {
             this.stopwatch.Restart();
-            var collection = this.service.FindByFirstName(firstName);
+            var collection = this.service.FindByCommandName(commandName);
             this.stopwatch.Stop();
-            this.Information(nameof(this.service.FindByFirstName), this.stopwatch.ElapsedTicks);
+            this.Information(nameof(this.service.FindByCommandName), this.stopwatch.ElapsedTicks);
             return collection;
         }
 
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByExecutionDate(DateTime executionDate)
         {
             this.stopwatch.Restart();
-            var collection = this.service.FindByLastName(lastName);
+            var collection = this.service.FindByExecutionDate(executionDate);
             this.stopwatch.Stop();
-            this.Information(nameof(this.service.FindByLastName), this.stopwatch.ElapsedTicks);
-            return collection;
-        }
-
-        public ReadOnlyCollection<FileCabinetRecord> FindByDateOfBirth(DateTime dateOfBirth)
-        {
-            this.stopwatch.Restart();
-            var collection = this.service.FindByDateOfBirth(dateOfBirth);
-            this.stopwatch.Stop();
-            this.Information(nameof(this.service.FindByDateOfBirth), this.stopwatch.ElapsedTicks);
+            this.Information(nameof(this.service.FindByExecutionDate), this.stopwatch.ElapsedTicks);
             return collection;
         }
 

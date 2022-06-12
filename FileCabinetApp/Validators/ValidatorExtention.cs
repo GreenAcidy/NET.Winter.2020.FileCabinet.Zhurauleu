@@ -19,12 +19,9 @@ namespace FileCabinetApp.Validators
             var validateParameters = setters.GetParameters();
 
             return builder.
-                        ValidateFirstName(validateParameters.FirstNameMinLength, validateParameters.FirstNameMaxLenght).
-                        ValidateLastName(validateParameters.LastNameMinLength, validateParameters.LastNameMaxLength).
-                        ValidateDateOfBirth(validateParameters.DateOfBirthFrom, validateParameters.DateOfBirthTo).
+                        ValidateCommandName(validateParameters.CommandNameMinLength, validateParameters.CommandNameMaxLenght).
+                        ValidateExecutionDate(validateParameters.ExecutionDateFrom, validateParameters.ExecutionDateTo).
                         ValidateExperience(validateParameters.ExperienceMinValue, validateParameters.ExperienceMaxValue).
-                        ValidateAccount(validateParameters.AccountMinValue).
-                        ValidateGender(validateParameters.Gender).
                         Create();
         }
     }

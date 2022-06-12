@@ -32,21 +32,15 @@ namespace FileCabinetApp.Configurations
         {
             var ruleCection = this.configuration.GetSection(this.validationRule);
 
-            this.validationParameters.FirstNameMaxLenght = ruleCection.GetSection("firstName").GetValue<int>("max");
-            this.validationParameters.FirstNameMinLength = ruleCection.GetSection("firstName").GetValue<int>("min");
+            this.validationParameters.CommandNameMaxLenght = ruleCection.GetSection("commandName").GetValue<int>("max");
+            this.validationParameters.CommandNameMinLength = ruleCection.GetSection("commandName").GetValue<int>("min");
 
-            this.validationParameters.LastNameMaxLength = ruleCection.GetSection("lastName").GetValue<int>("max");
-            this.validationParameters.LastNameMinLength = ruleCection.GetSection("lastName").GetValue<int>("min");
-
-            this.validationParameters.DateOfBirthFrom = ruleCection.GetSection("dateOfBirth").GetValue<DateTime>("from");
-            this.validationParameters.DateOfBirthTo = ruleCection.GetSection("dateOfBirth").GetValue<DateTime>("to");
+            this.validationParameters.ExecutionDateFrom = ruleCection.GetSection("executionDate").GetValue<DateTime>("from");
+            this.validationParameters.ExecutionDateTo = ruleCection.GetSection("executionDate").GetValue<DateTime>("to");
 
             this.validationParameters.ExperienceMaxValue = ruleCection.GetSection("experience").GetValue<short>("max");
             this.validationParameters.ExperienceMinValue = ruleCection.GetSection("experience").GetValue<short>("min");
 
-            this.validationParameters.AccountMinValue = ruleCection.GetSection("account").GetValue<int>("min");
-
-            this.validationParameters.Gender = ruleCection.GetSection("gender").GetValue<string>("genders");
         }
     }
 }

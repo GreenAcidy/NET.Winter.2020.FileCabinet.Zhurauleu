@@ -5,12 +5,12 @@ using System.Text;
 
 namespace FileCabinetApp.Validators
 {
-    public class DateOfBirthValidator : IRecordValidator
+    public class ExecutionDateValidator : IRecordValidator
     {
         private readonly DateTime from;
         private readonly DateTime to;
 
-        public DateOfBirthValidator(DateTime from, DateTime to)
+        public ExecutionDateValidator(DateTime from, DateTime to)
         {
             if (to <= from)
             {
@@ -28,9 +28,9 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(inputData)} cannot be null.");
             }
 
-            if (inputData.DateOfBirth < this.from || inputData.DateOfBirth > this.to)
+            if (inputData.ExecutionDate < this.from || inputData.ExecutionDate > this.to)
             {
-                throw new ArgumentException($"{nameof(inputData.DateOfBirth)} is incorrect.");
+                throw new ArgumentException($"{nameof(inputData.ExecutionDate)} is incorrect.");
             }
         }
     }
