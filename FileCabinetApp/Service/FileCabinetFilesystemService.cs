@@ -250,7 +250,8 @@ namespace FileCabinetApp.Service
             this.binWriter.Write(parameters.ExecutionDate.Month);
             this.binWriter.Write(parameters.ExecutionDate.Day);
             this.binWriter.Write(parameters.ExecutionDate.Year);
-            this.binWriter.Write(parameters.ExecutionDate.Ticks);
+            this.binWriter.Write(parameters.ExecutionDate.Hour);
+            this.binWriter.Write(parameters.ExecutionDate.Minute);
             this.binWriter.Write(parameters.Experience);
         }
 
