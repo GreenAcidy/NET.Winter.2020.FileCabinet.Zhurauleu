@@ -135,7 +135,7 @@ namespace FileCabinetApp
                 if (record.Id == id)
                 {
                     this.list.Remove(record);
-                    this.commandNameDictionary[record.CommandName.ToUpper()].Remove(record);
+                    this.commandNameDictionary[record.CommandName].Remove(record);
                     this.executionDateDictionary[record.ExecutionDate].Remove(record);
                     return true;
                 }
@@ -200,13 +200,13 @@ namespace FileCabinetApp
                     {
                         this.list.Add(record);
 
-                        if (this.commandNameDictionary.ContainsKey(record.CommandName.ToUpper()))
+                        if (this.commandNameDictionary.ContainsKey(record.CommandName))
                         {
-                            this.commandNameDictionary[record.CommandName.ToUpper()].Add(record);
+                            this.commandNameDictionary[record.CommandName].Add(record);
                         }
                         else
                         {
-                            this.commandNameDictionary.Add(record.CommandName.ToUpper(), new List<FileCabinetRecord> { record });
+                            this.commandNameDictionary.Add(record.CommandName, new List<FileCabinetRecord> { record });
                         }
 
                         if (this.executionDateDictionary.ContainsKey(record.ExecutionDate))
