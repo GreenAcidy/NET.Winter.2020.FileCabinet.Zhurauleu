@@ -15,9 +15,9 @@ namespace FileCabinetApp.Configurations
 
         public DateTime ExecutionDateTo { get; set; }
 
-        public short ExperienceMinValue { get; set; }
+        public short CodeMinValue { get; set; }
 
-        public short ExperienceMaxValue { get; set; }
+        public short CodeMaxValue { get; set; }
 
         public int AccountMinValue { get; set; }
 

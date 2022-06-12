@@ -5,12 +5,12 @@ using System.Text;
 
 namespace FileCabinetApp.Validators
 {
-    public class ExperienceValidator : IRecordValidator
+    public class CodeValidator : IRecordValidator
     {
         private readonly int min;
         private readonly int max;
 
-        public ExperienceValidator(int min, int max)
+        public CodeValidator(int min, int max)
         {
             if (max <= min)
             {
@@ -28,9 +28,9 @@ namespace FileCabinetApp.Validators
                 throw new ArgumentNullException($"{nameof(inputData)} cannot be null.");
             }
 
-            if (inputData.Experience < this.min || inputData.Experience > this.max)
+            if (inputData.Code < this.min || inputData.Code > this.max)
             {
-                throw new ArgumentException($"{nameof(inputData.Experience)} must be in range from {nameof(this.min)} to {nameof(this.max)}.");
+                throw new ArgumentException($"{nameof(inputData.Code)} must be in range from {nameof(this.min)} to {nameof(this.max)}.");
             }
         }
     }

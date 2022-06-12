@@ -9,11 +9,11 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetInputData
     {
-        public FileCabinetInputData(string commandname, DateTime date, short experience)
+        public FileCabinetInputData(string commandname, DateTime date, short code)
         {
             this.CommandName = commandname;
             this.ExecutionDate = date;
-            this.Experience = experience;
+            this.Code = code;
         }
 
         /// <summary>
@@ -33,12 +33,12 @@ namespace FileCabinetApp
         public DateTime ExecutionDate { get; set; }
 
         /// <summary>
-        /// Gets or sets experience of command.
+        /// Gets or sets code of command.
         /// </summary>
         /// <value>
-        /// experience of command.
+        /// code of command.
         /// </value>
-        public short Experience { get; set; }
+        public short Code { get; set; }
 
         /// <summary>
         /// Overrided method return one record.
@@ -47,7 +47,7 @@ namespace FileCabinetApp
         public override string ToString()
         {
             return $"#{this.CommandName}, {this.ExecutionDate.ToLongDateString()}, " +
-                   $"{this.Experience}";
+                   $"{this.Code}";
         }
     }
 }

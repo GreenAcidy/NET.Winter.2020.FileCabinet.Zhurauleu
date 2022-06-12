@@ -16,8 +16,8 @@ namespace FileCabinetApp
         [XmlElement("CommandName")]
         public string CommandName { get; set; }
 
-        [XmlElement("Experience")]
-        public short Experience { get; set; }
+        [XmlElement("Code")]
+        public short Code { get; set; }
 
         [XmlElement("ExecutionDate")]
         public DateTime ExecutionDate { get; set; }

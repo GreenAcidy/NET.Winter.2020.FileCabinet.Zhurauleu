@@ -24,7 +24,7 @@ namespace FileCabinetGenerator
             record.Id = recordId;
             record.CommandName = this.GenerateName(randomGenerator.Next(3, 60));
             record.ExecutionDate = GenerateExecutionDate();
-            record.Experience = Convert.ToInt16(randomGenerator.Next(DateTime.Now.Year - record.ExecutionDate.Year));
+            record.Code = Convert.ToInt16(randomGenerator.Next(DateTime.Now.Year - record.ExecutionDate.Year));
             
 
             return record;

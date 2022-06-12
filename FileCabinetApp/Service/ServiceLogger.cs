@@ -140,6 +140,6 @@ namespace FileCabinetApp.Service
 
         private string GetInfoFileCabinetInputData(FileCabinetInputData parameters)
             => $"CommandName = '{parameters.CommandName}', " +
-                $"ExecutionDate = '{parameters.ExecutionDate}', Experience = '{parameters.Experience}'";
+                $"ExecutionDate = '{parameters.ExecutionDate}', Code = '{parameters.Code}'";
     }
 }

@@ -16,7 +16,7 @@ namespace FileCabinetApp
     /// </summary>
     public static class Program
     {
-        private const string DeveloperName = "Kiryl Zhurauleu";
+        private const string DeveloperName = "Kiryl Zhurauliou";
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
         private static IFileCabinetService fileCabinetService;
         private static bool isRunning = true;

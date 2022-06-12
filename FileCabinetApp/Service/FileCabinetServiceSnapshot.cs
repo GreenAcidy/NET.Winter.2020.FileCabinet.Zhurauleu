@@ -49,7 +49,7 @@ namespace FileCabinetApp.Service
                 serializeRecord.Id = record.Id;
                 serializeRecord.CommandName = record.CommandName;
                 serializeRecord.ExecutionDate = record.ExecutionDate;
-                serializeRecord.Experience = record.Experience;
+                serializeRecord.Code = record.Code;
 
                 collection.Add(serializeRecord);
             }

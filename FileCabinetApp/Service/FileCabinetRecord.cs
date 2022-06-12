@@ -33,12 +33,12 @@ namespace FileCabinetApp
         public DateTime ExecutionDate { get; set; }
 
         /// <summary>
-        /// Gets or sets experience of command in record.
+        /// Gets or sets code of command in record.
         /// </summary>
         /// <value>
-        /// experience of command in record..
+        /// code of command in record..
         /// </value>
-        public short Experience { get; set; }
+        public short Code { get; set; }
 
         /// <summary>
         /// Overrided method return one record of command.
@@ -47,7 +47,7 @@ namespace FileCabinetApp
         public override string ToString()
         {
             return string.Format(new CultureInfo("en-US"), "#{0}, {1}, {2}, {3}",
-                this.Id, this.CommandName, this.ExecutionDate, this.Experience);
+                this.Id, this.CommandName, this.ExecutionDate, this.Code);
         }
     }
 }

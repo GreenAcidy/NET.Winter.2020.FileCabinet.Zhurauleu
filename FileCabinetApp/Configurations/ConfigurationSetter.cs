@@ -38,9 +38,8 @@ namespace FileCabinetApp.Configurations
             this.validationParameters.ExecutionDateFrom = ruleCection.GetSection("executionDate").GetValue<DateTime>("from");
             this.validationParameters.ExecutionDateTo = ruleCection.GetSection("executionDate").GetValue<DateTime>("to");
 
-            this.validationParameters.ExperienceMaxValue = ruleCection.GetSection("experience").GetValue<short>("max");
-            this.validationParameters.ExperienceMinValue = ruleCection.GetSection("experience").GetValue<short>("min");
-
+            this.validationParameters.CodeMaxValue = ruleCection.GetSection("code").GetValue<short>("max");
+            this.validationParameters.CodeMinValue = ruleCection.GetSection("code").GetValue<short>("min");
         }
     }
 }

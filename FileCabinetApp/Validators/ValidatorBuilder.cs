@@ -24,9 +24,9 @@ namespace FileCabinetApp.Validators
             return this;
         }
 
-        public ValidatorBuilder ValidateExperience(short min, short max)
+        public ValidatorBuilder ValidateCode(short min, short max)
         {
-            this.validators.Add(new ExperienceValidator(min, max));
+            this.validators.Add(new CodeValidator(min, max));
             return this;
         }
     }

@@ -49,12 +49,12 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string, DateTime>(isValid, input, date);
         };
 
-        public static Func<string, Tuple<bool, string, short>> experienceConverter = input =>
+        public static Func<string, Tuple<bool, string, short>> codeConverter = input =>
         {
-            short experience;
-            bool isValid = short.TryParse(input, out experience);
+            short code;
+            bool isValid = short.TryParse(input, out code);
 
-            return new Tuple<bool, string, short>(isValid, input, experience);
+            return new Tuple<bool, string, short>(isValid, input, code);
         };
 
         public static Func<string, Tuple<bool, string>> commandNameValidator = input =>
@@ -69,7 +69,7 @@ namespace FileCabinetApp.InputHandlers
             return new Tuple<bool, string>(isValid, date.ToString());
         };
 
-        public static Func<short, Tuple<bool, string>> experienceValidator = input =>
+        public static Func<short, Tuple<bool, string>> codeValidator = input =>
         {
             bool isValid = input >= 0;
             return new Tuple<bool, string>(isValid, input.ToString());

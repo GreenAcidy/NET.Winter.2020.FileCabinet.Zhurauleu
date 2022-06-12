@@ -50,7 +50,7 @@ namespace FileCabinetApp.Service
                 Id = int.Parse(data[0].Substring(1).Trim(), CultureInfo.InvariantCulture),
                 CommandName = data[1].Trim(),
                 ExecutionDate = DateTime.Parse(data[2].Trim(), CultureInfo.InvariantCulture),
-                Experience = short.Parse(data[3].Trim(), CultureInfo.InvariantCulture),
+                Code = short.Parse(data[3].Trim(), CultureInfo.InvariantCulture),
             };
 
         protected virtual void Dispose(bool disposing)

@@ -21,7 +21,7 @@ namespace FileCabinetApp.Validators
             return builder.
                         ValidateCommandName(validateParameters.CommandNameMinLength, validateParameters.CommandNameMaxLenght).
                         ValidateExecutionDate(validateParameters.ExecutionDateFrom, validateParameters.ExecutionDateTo).
-                        ValidateExperience(validateParameters.ExperienceMinValue, validateParameters.ExperienceMaxValue).
+                        ValidateCode(validateParameters.CodeMinValue, validateParameters.CodeMaxValue).
                         Create();
         }
     }

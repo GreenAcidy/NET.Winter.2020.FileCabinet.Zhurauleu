@@ -127,7 +127,7 @@ namespace FileCabinetApp.Service
 
             foreach (var record in collection)
             {
-                var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Experience);
+                var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Code);
 
                 this.WriteRecordToBinaryFile(this.cursor, data, record.Id);
                 this.cursor += RecordSize;
@@ -181,7 +181,7 @@ namespace FileCabinetApp.Service
                         throw new ArgumentOutOfRangeException($"{nameof(id)} must be positive.");
                     }
 
-                    var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Experience);
+                    var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Code);
 
                     if (this.records.ContainsKey(id))
                     {
@@ -252,7 +252,7 @@ namespace FileCabinetApp.Service
             this.binWriter.Write(parameters.ExecutionDate.Year);
             this.binWriter.Write(parameters.ExecutionDate.Hour);
             this.binWriter.Write(parameters.ExecutionDate.Minute);
-            this.binWriter.Write(parameters.Experience);
+            this.binWriter.Write(parameters.Code);
         }
 
         private FileCabinetRecord ReadRecordOutBinaryFile(long position, out bool removedKey)
@@ -266,7 +266,7 @@ namespace FileCabinetApp.Service
                 Id = this.binReader.ReadInt32(),
                 CommandName = Encoding.Unicode.GetString(this.binReader.ReadBytes(LengtOfString * 2)).Trim(),
                 ExecutionDate = DateTime.Parse($"{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}/{this.binReader.ReadInt32()}", CultureInfo.InvariantCulture),
-                Experience = this.binReader.ReadInt16(),
+                Code = this.binReader.ReadInt16(),
             };
 
             return record;

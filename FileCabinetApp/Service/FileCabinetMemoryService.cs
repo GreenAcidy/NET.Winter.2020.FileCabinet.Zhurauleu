@@ -55,7 +55,7 @@ namespace FileCabinetApp
                 Id = this.list.Count + 1,
                 CommandName = inputData.CommandName,
                 ExecutionDate = inputData.ExecutionDate,
-                Experience = inputData.Experience,
+                Code = inputData.Code,
             };
 
             this.list.Add(record);
@@ -86,7 +86,7 @@ namespace FileCabinetApp
                 Id = id,
                 CommandName = inputData.CommandName,
                 ExecutionDate = inputData.ExecutionDate,
-                Experience = inputData.Experience,
+                Code = inputData.Code,
             };
             this.list[id - 1] = record;
 
@@ -192,7 +192,7 @@ namespace FileCabinetApp
 
                     if (id <= this.list.Count)
                     {
-                        var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Experience);
+                        var data = new FileCabinetInputData(record.CommandName, record.ExecutionDate, record.Code);
                         this.EditRecord(id, data);
                         count++;
                     }

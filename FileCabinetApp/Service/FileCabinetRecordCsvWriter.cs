@@ -29,7 +29,7 @@ namespace FileCabinetApp.Service
 
         public void Write()
         {
-            this.writer.WriteLine("Id, Command Name, Execution Date, Experience");
+            this.writer.WriteLine("Id, Command Name, Execution Date, Code");
             foreach (var record in this.records)
             {
                 this.writer.WriteLine(record.ToString(), CultureInfo.InvariantCulture);

@@ -25,12 +25,12 @@
             execution date of command.
             </value>
         </member>
-        <member name="P:FileCabinetApp.FileCabinetInputData.Experience">
+        <member name="P:FileCabinetApp.FileCabinetInputData.Code">
             <summary>
-            Gets or sets experience of command.
+            Gets or sets code of command.
             </summary>
             <value>
-            experience of command.
+            code of command.
             </value>
         </member>
         <member name="M:FileCabinetApp.FileCabinetInputData.ToString">
@@ -186,12 +186,12 @@
             execution date of command in record..
             </value>
         </member>
-        <member name="P:FileCabinetApp.FileCabinetRecord.Experience">
+        <member name="P:FileCabinetApp.FileCabinetRecord.Code">
             <summary>
-            Gets or sets experience of command in record.
+            Gets or sets code of command in record.
             </summary>
             <value>
-            experience of command in record..
+            code of command in record..
             </value>
         </member>
         <member name="M:FileCabinetApp.FileCabinetRecord.ToString">

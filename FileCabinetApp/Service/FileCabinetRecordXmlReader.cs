@@ -47,7 +47,7 @@ namespace FileCabinetApp.Service
                 Id = record.Id,
                 CommandName = record.CommandName,
                 ExecutionDate = record.ExecutionDate,
-                Experience = record.Experience,
+                Code = record.Code,
             };
 
         public void Dispose()

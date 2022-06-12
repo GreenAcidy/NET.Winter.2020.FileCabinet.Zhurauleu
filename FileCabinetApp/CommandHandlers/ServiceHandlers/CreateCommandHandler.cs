@@ -39,10 +39,10 @@ namespace FileCabinetApp.CommandHandlers.ServiceHandlers
             Console.Write("Execution date (mm/dd/yyyy): ");
             var executionDate = InputValidator.ReadInput(InputValidator.dateConverter, InputValidator.executionDateValidator);
 
-            Console.Write("Experience: ");
-            var experience = InputValidator.ReadInput(InputValidator.experienceConverter, InputValidator.experienceValidator);
+            Console.Write("Code: ");
+            var code = InputValidator.ReadInput(InputValidator.codeConverter, InputValidator.codeValidator);
 
-            var index = this.fileCabinetService.CreateRecord(new FileCabinetInputData(commandName, executionDate, experience));
+            var index = this.fileCabinetService.CreateRecord(new FileCabinetInputData(commandName, executionDate, code));
             Console.WriteLine($"Record #{index} is created.");
         }
     }
