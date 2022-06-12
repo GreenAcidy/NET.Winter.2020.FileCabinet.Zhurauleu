@@ -40,7 +40,9 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
 
         private void HandleCommand(IEnumerable<(string, string)> commandPairs)
         {
-            foreach (var commandPair in commandPairs)
+            this.SetValidator("--storage");
+            this.SetStorage("-v");
+            /*foreach (var commandPair in commandPairs)
             {
                 switch (commandPair.Item1)
                 {
@@ -59,12 +61,13 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
                         this.decoratedService = new ServiceLogger(this.service);
                         break;
                 }
-            }
+            }*/
         }
 
         private void SetStorage(string storageType)
         {
-            if (string.Equals(storageType, FileServic, StringComparison.OrdinalIgnoreCase))
+            this.service = new FileCabinetMemoryService(this.validator);
+            /*if (string.Equals(storageType, FileServic, StringComparison.OrdinalIgnoreCase))
             {
                 FileStream fileStream = File.Open(fullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
                 this.service = new FileCabinetFilesystemService(this.validator, fileStream);
@@ -73,12 +76,13 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
             if (string.Equals(storageType, MemoryServic, StringComparison.OrdinalIgnoreCase))
             {
                 this.service = new FileCabinetMemoryService(this.validator);
-            }
+            }*/
         }
 
         private void SetValidator(string rule)
         {
-            if (string.Equals(rule, Default, StringComparison.OrdinalIgnoreCase))
+            this.validator = new ValidatorBuilder().Create(Default);
+            /*if (string.Equals(rule, Default, StringComparison.OrdinalIgnoreCase))
             {
                 this.validator = new ValidatorBuilder().Create(Default);
             }
@@ -86,7 +90,7 @@ namespace FileCabinetApp.CommandHandlers.CommandAgrsHandlers
             if (string.Equals(rule, Custom, StringComparison.OrdinalIgnoreCase))
             {
                 this.validator = new ValidatorBuilder().Create(Custom);
-            }
+            }*/
         }
 
         private IEnumerable<(string, string)> GetCurrentComandPairs(string[] args)
