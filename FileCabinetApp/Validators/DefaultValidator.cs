@@ -22,7 +22,7 @@ namespace FileCabinetApp.Validators
             this.ValidateFirstName(inputData.FirstName);
             this.ValidateLastName(inputData.LastName);
             this.ValidateDateOfBirth(inputData.DateOfBirth);
-            this.ValidateGender(inputData.Gender);
+            this.ValidateCode(inputData.Code);
             this.ValidateExperience(inputData.Experience);
             this.ValidateAccount(inputData.Account);
         }
@@ -76,14 +76,14 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        private void ValidateGender(char gender)
+        private void ValidateCode(char Code)
         {
-            if (char.IsWhiteSpace(gender))
+            if (char.IsWhiteSpace(Code))
             {
                 throw new ArgumentException("Must contain except space symbol M/F");
             }
 
-            if (!(gender == 'm' || gender == 'M' || gender == 'f' || gender == 'F'))
+            if (!(Code == 'm' || Code == 'M' || Code == 'f' || Code == 'F'))
             {
                 throw new ArgumentException("Must equal symbol 'M' or 'F'");
             }

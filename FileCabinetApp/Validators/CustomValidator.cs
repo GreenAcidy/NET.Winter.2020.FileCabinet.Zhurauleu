@@ -22,12 +22,12 @@ namespace FileCabinetApp.Validators
             this.ValidateFirstName(inputData.FirstName);
             this.ValidateLastName(inputData.LastName);
             this.ValidateDateOfBirth(inputData.DateOfBirth);
-            this.ValidateGender(inputData.Gender);
+            this.ValidateCode(inputData.Code);
             this.ValidateExperience(inputData.Experience);
             this.ValidateAccount(inputData.Account);
         }
 
-        private void ValidateFirstName(string name)
+        private void ValidateCommandName(string name)
         {
             if (name is null)
             {
@@ -47,27 +47,7 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        private void ValidateLastName(string name)
-        {
-            if (name is null)
-            {
-                throw new ArgumentNullException(nameof(name), "Must not be null!");
-            }
-
-            int lenth = name.Length;
-
-            if (lenth < 5 || lenth > 30)
-            {
-                throw new ArgumentException("Name must be shorter than 30 symbols and larger than 5 symbols");
-            }
-
-            if (string.IsNullOrEmpty(name.Trim()))
-            {
-                throw new ArgumentException("Must contain at least five symbols except space");
-            }
-        }
-
-        private void ValidateDateOfBirth(DateTime dateOfBirth)
+        private void ValidateExecutionDate(DateTime dateOfBirth)
         {
             DateTime date = new DateTime(1980, 01, 01);
             if (dateOfBirth > DateTime.Today || dateOfBirth < date)
@@ -76,32 +56,16 @@ namespace FileCabinetApp.Validators
             }
         }
 
-        private void ValidateGender(char gender)
+        private void ValidateCode(char Code)
         {
-            if (char.IsWhiteSpace(gender))
+            if (char.IsWhiteSpace(Code))
             {
                 throw new ArgumentException("Must contain except space symbol M/W");
             }
 
-            if (!(gender == 'm' || gender == 'M' || gender == 'W' || gender == 'w'))
+            if (!(Code == 'm' || Code == 'M' || Code == 'W' || Code == 'w'))
             {
                 throw new ArgumentException("Must equal symbol 'M' or 'W'");
-            }
-        }
-
-        private void ValidateExperience(short experience)
-        {
-            if (experience < 5)
-            {
-                throw new ArgumentException("Experience can not be less than 5 years");
-            }
-        }
-
-        private void ValidateAccount(decimal account)
-        {
-            if (account <= 0)
-            {
-                throw new ArgumentException("Account must be positive");
             }
         }
     }
